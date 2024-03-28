@@ -1,0 +1,7 @@
+{
+  "name": "06_BurgerQueenApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

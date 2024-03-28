@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <ion-grid>
+    <ion-row class="ion-align-items-center border-bottom" *ngFor="let pokemon of pokemonArray" (click)="goToDetail(pokemon)">
+      <ion-col size="3">
+        <ion-img [src]="pokemon.sprite"></ion-img>
+      </ion-col>
+      <ion-col size="4">
+        <ion-text class="ion-text-capitalize">{{ pokemon.name }}</ion-text>
+      </ion-col>
+      <ion-col size="2">
+        <ion-img [src]="'assets/img/' + pokemon.type1 + '.gif'"></ion-img>
+      </ion-col>
+      <ion-col size="2">
+        <ion-img *ngIf="pokemon.type2" [src]="'assets/img/' + pokemon.type2 + '.gif'"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll threshold="50px" (ionInfinite)="morePokemon($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
+
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

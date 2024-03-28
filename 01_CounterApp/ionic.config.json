@@ -1,0 +1,7 @@
+{
+  "name": "01_CounterApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

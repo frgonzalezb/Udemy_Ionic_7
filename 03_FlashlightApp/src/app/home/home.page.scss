@@ -1,0 +1,4 @@
+ion-toggle {
+  // zoom: 2; // Original, pero no soportado por Firefox
+  transform: scale(2); // Es más universal que zoom
+}

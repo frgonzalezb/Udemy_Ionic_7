@@ -1,0 +1,7 @@
+{
+  "name": "03_FlashlightApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
