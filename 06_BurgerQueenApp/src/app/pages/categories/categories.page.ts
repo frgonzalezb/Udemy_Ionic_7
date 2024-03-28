@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import Category from 'src/app/models/category';
@@ -18,6 +18,8 @@ export class CategoriesPage implements OnInit {
   constructor(
     private store: Store,
     private loadingController: LoadingController,
+    private navController: NavController,
+    private navParams: NavParams,
     private _translate: TranslateService
   ) {
     this.categories = [];
@@ -55,6 +57,11 @@ export class CategoriesPage implements OnInit {
     } finally {
       loading.dismiss();
     }
+  }
+
+  goToProducts(category: Category) {
+    this.navParams.data['idCategory'] = category._id;
+    this.navController.navigateForward('product-list');
   }
 
 }

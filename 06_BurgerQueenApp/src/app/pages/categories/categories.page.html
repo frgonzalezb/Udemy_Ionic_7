@@ -3,7 +3,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let category of categories">
-        <ion-card class="list ion-text-center">
+        <ion-card class="list ion-text-center" (click)="goToProducts(category)">
           <ion-img [src]="'assets/img/products/' + category.img"></ion-img>
           <ion-card-header>
             <ion-card-title>{{ category.name | translate }}</ion-card-title>
