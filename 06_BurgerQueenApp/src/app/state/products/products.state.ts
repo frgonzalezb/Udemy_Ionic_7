@@ -5,8 +5,8 @@ import Product from 'src/app/models/product';
 import { GetProductById, GetProductsByCategory } from './products.actions';
 
 export class ProductsStateModel {
-  public products: Product[];
-  public product: Product;
+  public products!: Product[];
+  public product!: Product | null;
 }
 
 const defaults = {
@@ -31,16 +31,23 @@ export class ProductsState {
     return state.product;
   }
 
-  constructor(private _products: ProductsService) {
-
-  }
+  constructor(private _products: ProductsService) {}
 
   @Action(GetProductsByCategory)
-  getProductsByCategory(
+  async getProductsByCategory(
     { getState, setState }: StateContext<ProductsStateModel>,
     { payload }: GetProductsByCategory
     ) {
-    
+    const res = await this._products.getProductsByCategory(payload.idCategory)
+      .then((products: Product[]) => {
+        const state = getState();
+        setState({
+          ...state,
+          products
+        })
+      }
+    );
+    return res;
   }
 
   @Action(GetProductById)
