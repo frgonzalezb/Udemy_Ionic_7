@@ -3,8 +3,8 @@ import { LoadingController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import Category from 'src/app/models/category';
-import { GetCategories } from 'src/app/state/categories.actions';
-import { CategoriesState } from 'src/app/state/categories.state';
+import { GetCategories } from 'src/app/state/categories/categories.actions';
+import { CategoriesState } from 'src/app/state/categories/categories.state';
 
 @Component({
   selector: 'app-categories',
