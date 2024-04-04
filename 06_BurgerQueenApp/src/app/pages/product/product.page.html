@@ -38,9 +38,17 @@
         <ion-card-header>
           <ion-card-title class="ion-text-center">
             {{ block.name | translate }}
+            <ion-text *ngIf="block.options.length === 1">
+              ({{ block.options[0].price + ' €' }})
+            </ion-text>
           </ion-card-title>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content class="ion-text-center" *ngIf="block.options.length === 1">
+          <ion-checkbox [(ngModel)]="block.options[0].activate" name="check" labelPlacement="end">
+            {{ (block.options[0].activate ? block.options[0].price : '0') + ' €' }}
+          </ion-checkbox>
+        </ion-card-content>
+        <ion-card-content *ngIf="block.options.length > 1">
 
         </ion-card-content>
       </ion-col>
