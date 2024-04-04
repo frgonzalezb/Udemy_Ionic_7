@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from '@ionic/angular';
+import { LoadingController, NavController, NavParams } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import Product from 'src/app/models/product';
 import { GetProductsByCategory } from 'src/app/state/products/products.actions';
@@ -18,15 +19,24 @@ export class ProductListPage implements OnInit {
   constructor(
     private navParams: NavParams,
     private navController: NavController,
-    private store: Store
+    private store: Store,
+    private loadingController: LoadingController,
+    private _translate: TranslateService
   ) {
     this.idCategory = this.navParams.data['idCategory'];
     console.log(this.idCategory); // dbg
     this.products = [];
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.idCategory) {
+
+      const loading = await this.loadingController.create({
+        message: this._translate.instant('label.loading'),
+      });
+
+      await loading.present();
+
       this.store.dispatch(new GetProductsByCategory({
         idCategory: this.idCategory
       })).subscribe({
@@ -34,7 +44,13 @@ export class ProductListPage implements OnInit {
           this.products = this.store.selectSnapshot(
             ProductsState.products
           );
-          console.log(this.products);
+          console.log(this.products); // dbg
+        },
+        error: (e) => {
+          console.error(e); // dbg
+        },
+        complete: () => {
+          loading.dismiss();
         }
       });
     } else {
