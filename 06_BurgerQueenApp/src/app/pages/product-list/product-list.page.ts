@@ -59,8 +59,12 @@ export class ProductListPage implements OnInit {
   }
 
   gotToProduct(product: Product) {
-    this.navParams.data['product'] = product;
-    this.navController.navigateForward('product');
+    if (product) {
+      this.navParams.data['product'] = product;
+      this.navController.navigateForward('product');
+    } else {
+      console.error('Product is undefined');
+    }
   }
 
 }

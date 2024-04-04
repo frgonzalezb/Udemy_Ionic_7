@@ -15,4 +15,36 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-grid *ngIf="product.extras">
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none">
+          <ion-label>{{ 'label.price' | translate }}:</ion-label>
+          <ion-text>{{ product.price }} €</ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let extra of product.extras">
+      <ion-col *ngIf="extra.label" size="12" class="ion-text-center block-title">
+        <ion-text>{{ extra.label | translate }}</ion-text>
+      </ion-col>
+
+      <ion-col [size]="extra.blocks?.length === 1 ? 12 : 6" *ngFor="let block of extra.blocks">
+        <ion-card class="list ion-text-center">
+          <ion-img [src]="'assets/img/products/' + block.img"></ion-img>
+        </ion-card>
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">
+            {{ block.name | translate }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
