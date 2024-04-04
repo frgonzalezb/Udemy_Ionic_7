@@ -4,7 +4,7 @@
     <ion-row>
       <ion-col size="6" *ngFor="let product of products">
 
-        <ion-card class="list ion-text-center">
+        <ion-card class="list ion-text-center" (click)="gotToProduct(product)">
           <ion-img [src]="'assets/img/products/' + product.img"></ion-img>
           <ion-card-header>
             <ion-card-title>{{ product.name | translate }}</ion-card-title>
