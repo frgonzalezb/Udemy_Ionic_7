@@ -32,25 +32,35 @@
       </ion-col>
 
       <ion-col [size]="extra.blocks?.length === 1 ? 12 : 6" *ngFor="let block of extra.blocks">
-        <ion-card class="list ion-text-center">
+        <ion-card class="list product ion-text-center">
           <ion-img [src]="'assets/img/products/' + block.img"></ion-img>
-        </ion-card>
-        <ion-card-header>
-          <ion-card-title class="ion-text-center">
-            {{ block.name | translate }}
-            <ion-text *ngIf="block.options.length === 1">
-              ({{ block.options[0].price + ' €' }})
-            </ion-text>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="ion-text-center" *ngIf="block.options.length === 1">
-          <ion-checkbox [(ngModel)]="block.options[0].activate" name="check" labelPlacement="end">
-            {{ (block.options[0].activate ? block.options[0].price : '0') + ' €' }}
-          </ion-checkbox>
-        </ion-card-content>
-        <ion-card-content *ngIf="block.options.length > 1">
 
-        </ion-card-content>
+          <ion-card-header>
+            <ion-card-title>
+              {{ block.name | translate }}
+              <ion-text *ngIf="block.options.length === 1">
+                ({{ block.options[0].price + ' €' }})
+              </ion-text>
+            </ion-card-title>
+          </ion-card-header>
+          
+          <ion-card-content *ngIf="block.options.length === 1">
+            <ion-checkbox [(ngModel)]="block.options[0].activate" name="check" labelPlacement="end">
+              {{ (block.options[0].activate ? block.options[0].price : '0') + ' €' }}
+            </ion-checkbox>
+          </ion-card-content>
+          
+          <ion-card-content *ngIf="block.options.length > 1">
+            <ion-radio-group [value]="block.options[0].name" (ionChange)="changeMultipleOption($event, block.options)">
+              <ion-item lines="none" *ngFor="let option of block.options">
+                <ion-radio labelPlacement="start" [value]="option.name">
+                  {{ (option.name ? option.name : 'ERROR!! Option name not found' | translate) + ' (+' + option.price + ' €)' }}
+                </ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-card-content>
+        </ion-card>
+        
       </ion-col>
     </ion-row>
   </ion-grid>
