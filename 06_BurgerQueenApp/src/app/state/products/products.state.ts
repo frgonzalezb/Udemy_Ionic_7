@@ -44,7 +44,7 @@ export class ProductsState {
         setState({
           ...state,
           products
-        })
+        });
       }
     );
     return res;
@@ -55,7 +55,15 @@ export class ProductsState {
     { getState, setState }: StateContext<ProductsStateModel>,
     { payload }: GetProductById
     ) {
-    
+    return this._products.getProductById(payload.id)
+      .then((product: Product) => {
+      const state = getState();
+        setState({
+          ...state,
+          product
+        });
+      }
+    );
   }
 
 }
