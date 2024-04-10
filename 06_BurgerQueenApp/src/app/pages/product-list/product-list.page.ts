@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { GetProductsByCategory } from 'src/app/state/products/products.actions';
 import { ProductsState } from 'src/app/state/products/products.state';
+import { Observable, of } from 'rxjs';
 import Product from 'src/app/models/product';
 
 @Component({
@@ -12,6 +13,9 @@ import Product from 'src/app/models/product';
   styleUrls: ['./product-list.page.scss'],
 })
 export class ProductListPage implements OnInit {
+
+  @Select(ProductsState.products)
+  private products$: Observable<Product[]> = of([]);
 
   public products: Product[];
   private idCategory: string;
@@ -39,17 +43,18 @@ export class ProductListPage implements OnInit {
 
       this.store.dispatch(new GetProductsByCategory({
         idCategory: this.idCategory
-      })).subscribe({
+      }));
+
+      this.products$.subscribe({
         next: () => {
           this.products = this.store.selectSnapshot(
             ProductsState.products
           );
           console.log(this.products); // dbg
+          loading.dismiss();
         },
         error: (e) => {
           console.error(e); // dbg
-        },
-        complete: () => {
           loading.dismiss();
         }
       });
@@ -65,6 +70,13 @@ export class ProductListPage implements OnInit {
     } else {
       console.error('Product is undefined');
     }
+  }
+
+  refreshProducts($event: any) {
+    this.store.dispatch(new GetProductsByCategory({
+      idCategory: this.idCategory
+    }));
+    $event.target.complete();
   }
 
 }
