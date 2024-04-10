@@ -1,7 +1,30 @@
+<ion-menu side="end" contentId="content" menuId="content">
+  <!-- header -->
+  <ion-header>
+    <ion-title>
+      <ion-item lines="none">
+        <ion-label>{{ 'label.menu' | translate }}</ion-label>
+      </ion-item>
+    </ion-title>
+  </ion-header>
+  <!-- /header -->
+  <!-- content -->
+  <ion-content>
+
+  </ion-content>
+  <!-- /content -->
+</ion-menu>
+
 <ion-header translucent="">
   <ion-toolbar>
+    
     <ion-title class="ion-text-center">
       <ion-img src="assets/img/logo_app.jpg" class="logo"></ion-img>
     </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
