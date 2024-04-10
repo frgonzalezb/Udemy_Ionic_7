@@ -7,7 +7,6 @@ import Category from 'src/app/models/category';
 import { GetCategories } from 'src/app/state/categories/categories.actions';
 import { CategoriesState } from 'src/app/state/categories/categories.state';
 
-
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.page.html',
