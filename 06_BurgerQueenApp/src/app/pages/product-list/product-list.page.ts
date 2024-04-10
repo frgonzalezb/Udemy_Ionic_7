@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoadingController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { GetProductsByCategory } from 'src/app/state/products/products.actions';
 import { ProductsState } from 'src/app/state/products/products.state';
-import { Observable, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import Product from 'src/app/models/product';
 
 @Component({
@@ -20,6 +20,8 @@ export class ProductListPage {
   public products: Product[];
   private idCategory: string = '';
 
+  private subscription!: Subscription;
+
   constructor(
     private navParams: NavParams,
     private navController: NavController,
@@ -31,6 +33,7 @@ export class ProductListPage {
   }
 
   async ionViewWillEnter() {
+    this.subscription = new Subscription();
     this.idCategory = this.navParams.data['idCategory'];
     console.log(this.idCategory); // dbg
 
@@ -46,7 +49,7 @@ export class ProductListPage {
         idCategory: this.idCategory
       }));
 
-      this.products$.subscribe({
+      const sub = this.products$.subscribe({
         next: () => {
           this.products = this.store.selectSnapshot(
             ProductsState.products
@@ -59,6 +62,7 @@ export class ProductListPage {
           loading.dismiss();
         }
       });
+      this.subscription.add(sub);
     } else {
       this.navController.navigateForward('categories');
     }
@@ -78,6 +82,12 @@ export class ProductListPage {
       idCategory: this.idCategory
     }));
     $event.target.complete();
+  }
+
+  ionViewWillLeave() {
+    /* Unsubscribes all subs when leaving the page. */;
+    this.subscription.unsubscribe();
+    console.log('Subscriptions for product-list have been terminated!');
   }
 
 }

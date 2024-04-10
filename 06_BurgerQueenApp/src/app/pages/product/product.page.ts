@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams } from '@ionic/angular';
 import { Store } from '@ngxs/store';
-import Product from 'src/app/models/product';
-import ProductExtraOption from 'src/app/models/product-extra-option';
 import { GetProductById } from 'src/app/state/products/products.actions';
 import { ProductsState } from 'src/app/state/products/products.state';
+import Product from 'src/app/models/product';
+import ProductExtraOption from 'src/app/models/product-extra-option';
 
 @Component({
   selector: 'app-product',
