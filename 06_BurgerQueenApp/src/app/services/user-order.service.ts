@@ -17,9 +17,7 @@ export class UserOrderService {
   async initOrder() {
     const order = await Preferences.get({ key: KEY_ORDER });
     if (!order.value) {
-      this.order = new Order();
-      this.order.products = [];
-      this.saveOrder();
+      this.clearOrder();
     } else {
       this.order = JSON.parse(order.value);
     }
@@ -27,5 +25,15 @@ export class UserOrderService {
 
   async saveOrder() {
     await Preferences.set({ key: KEY_ORDER, value: JSON.stringify(this.order) });
+  }
+
+  async resetOrder() {
+    this.order.products = [];
+    await this.saveOrder();
+  }
+
+  async clearOrder() {
+    this.order = new Order();
+    await this.resetOrder();
   }
 }
