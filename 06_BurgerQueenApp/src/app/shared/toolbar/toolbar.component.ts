@@ -4,6 +4,7 @@ import { EventType, Router, RoutesRecognized } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter } from 'rxjs';
+import { UserOrderService } from 'src/app/services/user-order.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -18,7 +19,8 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    public _userOrder: UserOrderService
   ) {
     this.showBack = false;
   }

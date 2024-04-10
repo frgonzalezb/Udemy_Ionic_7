@@ -63,4 +63,17 @@ export class UserOrderService {
     );
   }
 
+  hasUser() {
+    return this.order && this.order.user;
+  }
+
+  countProducts() {
+    if (this.order && this.order.products.length > 0) {
+      return this.order.products.reduce(
+        (acumulator: number, value: ProductQuantity) => value.quantity + acumulator, 0
+      );
+    }
+    return 0;
+  }
+
 }
