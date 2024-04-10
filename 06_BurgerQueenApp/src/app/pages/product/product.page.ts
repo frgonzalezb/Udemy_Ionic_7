@@ -5,6 +5,9 @@ import { GetProductById } from 'src/app/state/products/products.actions';
 import { ProductsState } from 'src/app/state/products/products.state';
 import Product from 'src/app/models/product';
 import ProductExtraOption from 'src/app/models/product-extra-option';
+import { UserOrderService } from 'src/app/services/user-order.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product',
@@ -19,7 +22,10 @@ export class ProductPage {
   constructor(
       private navController: NavController,
       private navParams: NavParams,
-      private store: Store
+      private store: Store,
+      private _userOrder: UserOrderService,
+      private _toast: ToastService,
+      private _translate: TranslateService
       ) {
   }
 
@@ -37,9 +43,17 @@ export class ProductPage {
   }
 
   calculateTotal() {
-    let total = this.product?.price || 0;
+    if (!this.product) {
+      console.error('Product is of null-type!'); // dbg
+      return;
+    }
+    if (!this.product.price) {
+      console.error('This product has no price!'); // dbg
+      return;
+    }
+
+    let total = this.product.price;
     console.log('calculateTotal', total); // dbg
-    
 
     this.product?.extras?.forEach(extra => {
       extra.blocks?.forEach(block => {
@@ -63,21 +77,40 @@ export class ProductPage {
   }
 
   getProduct($event: any) {
-    if (this.product && this.product._id) { // Check if this.product and this.product._id are defined
-      this.store.dispatch(new GetProductById({ id: this.product._id }))
-        .subscribe({
-          next: () => {
-            this.product = this.store.selectSnapshot(ProductsState.product);
-            this.calculateTotal();
-          },
-          complete: () => {
-            $event.target.complete();
-          }
-        });
-    } else {
-      console.error('Product or product ID is undefined');
-      $event.target.complete(); // Complete the event to prevent potential infinite loading
+    if (!this.product) {
+      console.error('Product is undefined!'); // dbg
+      return
     }
+    if (!this.product._id) {
+      console.error('Product ID is undefined!'); // dbg
+      return
+    }
+
+    this.store.dispatch(new GetProductById({ id: this.product._id }))
+      .subscribe({
+        next: () => {
+          this.product = this.store.selectSnapshot(ProductsState.product);
+          this.calculateTotal();
+        },
+        complete: () => {
+          $event.target.complete();
+        }
+      });
+  }
+
+  addProductOrder() {
+    if (!this.product) {
+      console.error('Product is of null-type!'); // dbg
+      return;
+    }
+    console.log(this._userOrder.getProducts()); // dbg
+    
+    this._userOrder.addProduct(this.product);
+    this._toast.showToast(
+      this._translate.instant('label.product.add.success')
+    );
+
+    this.navController.navigateRoot('categories');
   }
 
 }

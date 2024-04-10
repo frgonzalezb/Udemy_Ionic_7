@@ -40,6 +40,10 @@ export class UserOrderService {
     await this.resetOrder();
   }
 
+  getProducts() {
+    return this.order.products;
+  }
+
   async addProduct(product: Product) {
     const productFound = this.searchProduct(product);
     if (productFound) {
