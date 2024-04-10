@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import Order from '../models/order';
 import { Preferences } from '@capacitor/preferences';
 import { KEY_ORDER } from '../constants/constants';
+import Product from '../models/product';
+import ProductQuantity from '../models/product-quantity';
+import { isEqual } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +39,24 @@ export class UserOrderService {
     this.order = new Order();
     await this.resetOrder();
   }
+
+  async addProduct(product: Product) {
+    const productFound = this.searchProduct(product);
+    if (productFound) {
+      productFound.quantity++;
+    } else {
+      this.order.products.push({
+        product,
+        quantity: 1
+      });
+    }
+    await this.saveOrder();
+  }
+
+  private searchProduct(product: Product) {
+    return this.order.products.find(
+      (p: ProductQuantity) => isEqual(p.product, product)
+    );
+  }
+
 }
