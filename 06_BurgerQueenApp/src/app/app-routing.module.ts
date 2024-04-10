@@ -9,19 +9,23 @@ const routes: Routes = [
   },
   {
     path: 'categories',
-    loadChildren: () => import('./pages/categories/categories.module').then( m => m.CategoriesPageModule)
+    loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesPageModule),
+    data: { showBack: false }
   },
   {
     path: 'product-list',
-    loadChildren: () => import('./pages/product-list/product-list.module').then( m => m.ProductListPageModule)
+    loadChildren: () => import('./pages/product-list/product-list.module').then(m => m.ProductListPageModule),
+    data: { showBack: true }
   },
   {
     path: 'product',
-    loadChildren: () => import('./pages/product/product.module').then( m => m.ProductPageModule)
+    loadChildren: () => import('./pages/product/product.module').then(m => m.ProductPageModule),
+    data: { showBack: true }
   },
   {
     path: 'payment',
-    loadChildren: () => import('./pages/payment/payment.module').then( m => m.PaymentPageModule)
+    loadChildren: () => import('./pages/payment/payment.module').then(m => m.PaymentPageModule),
+    data: { showBack: false }
   },
 ];
 

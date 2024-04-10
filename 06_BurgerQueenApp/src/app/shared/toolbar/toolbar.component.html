@@ -17,6 +17,10 @@
 
 <ion-header translucent="">
   <ion-toolbar>
+
+    <ion-buttons slot="start" class="backButton" (click)="goBack()">
+      <ion-icon *ngIf="showBack" name="arrow-back-outline" color="light"></ion-icon>
+    </ion-buttons>
     
     <ion-title class="ion-text-center">
       <ion-img src="assets/img/logo_app.jpg" class="logo"></ion-img>
