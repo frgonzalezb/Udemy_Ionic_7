@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
-import Product from 'src/app/models/product';
 import { GetProductsByCategory } from 'src/app/state/products/products.actions';
 import { ProductsState } from 'src/app/state/products/products.state';
+import Product from 'src/app/models/product';
 
 @Component({
   selector: 'app-product-list',

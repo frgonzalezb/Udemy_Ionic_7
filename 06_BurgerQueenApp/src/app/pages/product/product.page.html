@@ -1,4 +1,8 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="product">
+
+  <ion-refresher slot="fixed" (ionRefresh)="getProduct($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   
   <ion-grid *ngIf="!product.extras">
     <ion-row>
@@ -21,7 +25,7 @@
       <ion-col>
         <ion-item lines="none">
           <ion-label>{{ 'label.price' | translate }}:</ion-label>
-          <ion-text>{{ product.price }} €</ion-text>
+          <ion-text>{{ total }} €</ion-text>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -45,7 +49,7 @@
           </ion-card-header>
           
           <ion-card-content *ngIf="block.options.length === 1">
-            <ion-checkbox [(ngModel)]="block.options[0].activate" name="check" labelPlacement="end">
+            <ion-checkbox (ionChange)="calculateTotal()" [(ngModel)]="block.options[0].activate" name="check" labelPlacement="end">
               {{ (block.options[0].activate ? block.options[0].price : '0') + ' €' }}
             </ion-checkbox>
           </ion-card-content>
