@@ -2,20 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
-import Category from 'src/app/models/category';
+import { Observable } from 'rxjs';
 import { GetCategories } from 'src/app/state/categories/categories.actions';
 import { CategoriesState } from 'src/app/state/categories/categories.state';
+import Category from 'src/app/models/category';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.page.html',
   styleUrls: ['./categories.page.scss'],
 })
-export class CategoriesPage implements OnInit {
+export class CategoriesPage {
 
   @Select(CategoriesState.categories)
-  private categories$: Observable<Category[]> = of([]);
+  private categories$!: Observable<Category[]>;
 
   public categories: Category[];
 
@@ -29,38 +29,30 @@ export class CategoriesPage implements OnInit {
     this.categories = [];
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.loadData();
   }
 
-  async showLoading() {
+  async loadData() {
     const loading = await this.loadingController.create({
       message: this._translate.instant('label.loading'),
       duration: 3000,
     });
 
-    loading.present();
+    await loading.present();
 
-    return loading;
-  }
+    this.store.dispatch(new GetCategories());
 
-  async loadData() {
-    const loading = await this.showLoading();
-
-    try {
-      this.store.dispatch(new GetCategories());
-
-      this.categories$.subscribe({
-        next: () => {
-          this.categories = this.store.selectSnapshot(CategoriesState.categories);
-          console.log(this.categories); // dbg
-          loading.dismiss();
-        }
-      });
-    } catch (error) {
-      console.error(error); // dbg
-      loading.dismiss();
-    }
+    this.categories$.subscribe({
+      next: () => {
+        this.categories = this.store.selectSnapshot(CategoriesState.categories);
+        console.log(this.categories); // dbg
+        loading.dismiss();
+      }, error: (error) => {
+        console.error(error); // dbg
+        loading.dismiss();
+      }
+    });
   }
 
   goToProducts(category: Category) {

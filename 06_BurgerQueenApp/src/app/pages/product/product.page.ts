@@ -11,9 +11,9 @@ import { ProductsState } from 'src/app/state/products/products.state';
   templateUrl: './product.page.html',
   styleUrls: ['./product.page.scss'],
 })
-export class ProductPage implements OnInit {
+export class ProductPage {
 
-  public product: Product | null;
+  public product!: Product | null;
   public total: number = 0;
 
   constructor(
@@ -21,11 +21,12 @@ export class ProductPage implements OnInit {
       private navParams: NavParams,
       private store: Store
       ) {
-    this.product = this.navParams.data['product'];
-    console.log(this.product); // dbg
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.product = this.navParams.data['product'];
+    console.log(this.product); // dbg
+    
     if (this.product && this.product.extras) {
       this.total = this.product.price;
     }

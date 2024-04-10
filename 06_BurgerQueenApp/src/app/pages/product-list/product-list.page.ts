@@ -12,13 +12,13 @@ import Product from 'src/app/models/product';
   templateUrl: './product-list.page.html',
   styleUrls: ['./product-list.page.scss'],
 })
-export class ProductListPage implements OnInit {
+export class ProductListPage {
 
   @Select(ProductsState.products)
-  private products$: Observable<Product[]> = of([]);
+  private products$!: Observable<Product[]>;
 
   public products: Product[];
-  private idCategory: string;
+  private idCategory: string = '';
 
   constructor(
     private navParams: NavParams,
@@ -27,12 +27,13 @@ export class ProductListPage implements OnInit {
     private loadingController: LoadingController,
     private _translate: TranslateService
   ) {
-    this.idCategory = this.navParams.data['idCategory'];
-    console.log(this.idCategory); // dbg
     this.products = [];
   }
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
+    this.idCategory = this.navParams.data['idCategory'];
+    console.log(this.idCategory); // dbg
+
     if (this.idCategory) {
 
       const loading = await this.loadingController.create({
