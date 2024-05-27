@@ -26,7 +26,8 @@
 
     <app-login
       *ngIf="showUserInfo"
-      (back)="back()">
+      (back)="back()"
+      (doLogin)="back()">
     </app-login>
 
   </ion-content>
