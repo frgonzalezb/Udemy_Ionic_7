@@ -24,7 +24,10 @@
       </ion-item>
     </ion-list>
 
-    <app-login *ngIf="showUserInfo"></app-login>
+    <app-login
+      *ngIf="showUserInfo"
+      (back)="back()">
+    </app-login>
 
   </ion-content>
   <!-- /content -->

@@ -52,4 +52,8 @@ export class ToolbarComponent implements OnInit {
     this.showUserInfo = true;
   }
 
+  back() {
+    this.showUserInfo = false;
+  }
+
 }

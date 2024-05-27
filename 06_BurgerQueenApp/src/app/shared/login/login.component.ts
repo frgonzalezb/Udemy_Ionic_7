@@ -29,4 +29,16 @@ export class LoginComponent {
     this.doLogin = new EventEmitter<boolean>();
   }
 
+  login() {
+
+  }
+
+  exit() {
+    this.back.emit(true);
+  }
+
+  createNewAccount() {
+    this.newAccount.emit(true);
+  }
+
 }

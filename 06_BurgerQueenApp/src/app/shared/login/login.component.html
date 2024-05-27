@@ -1,3 +1,52 @@
-<p>
-  login works!
-</p>
+<form (ngSubmit)="login()">
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input
+            [label]="'label.email' | translate"
+            [(ngModel)]="user.email"
+            type="email"
+            name="email"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input
+            [label]="'label.password' | translate"
+            [(ngModel)]="user.password"
+            type="password"
+            name="password"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col *ngIf="showback">
+        <ion-button
+          type="submit"
+          expand="block"
+          (click)="exit()">{{ 'label.back' | translate }}</ion-button>
+      </ion-col>
+      <ion-col *ngIf="showback">
+        <ion-button
+          type="submit"
+          expand="block"
+          (click)="login()">{{ 'label.login' | translate }}</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <a href="" (click)="createNewAccount()">{{ 'label.new.account' | translate }}</a>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</form>
