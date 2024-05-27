@@ -15,6 +15,7 @@ import { NgxsModule } from '@ngxs/store';
 import { CategoriesState } from './state/categories/categories.state';
 import { ProductsState } from './state/products/products.state';
 import { AuthState } from './state/auth/auth.state';
+import { LoginComponent } from './shared/login/login.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -44,7 +45,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       AuthState
     ]),
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

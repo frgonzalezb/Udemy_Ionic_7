@@ -5,17 +5,19 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter } from 'rxjs';
 import { UserOrderService } from 'src/app/services/user-order.service';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TranslateModule]
+  imports: [IonicModule, CommonModule, TranslateModule, LoginComponent]
 })
 export class ToolbarComponent implements OnInit {
 
   public showBack: boolean;
+  public showUserInfo: boolean;
 
   constructor(
     private router: Router,
@@ -23,6 +25,7 @@ export class ToolbarComponent implements OnInit {
     public _userOrder: UserOrderService
   ) {
     this.showBack = false;
+    this.showUserInfo = false;
   }
 
   ngOnInit() {
@@ -38,6 +41,15 @@ export class ToolbarComponent implements OnInit {
 
   goBack() {
     this.navCtrl.back();
+  }
+
+  logout() {
+    // this._userOrder.logout();
+    // this.showUserInfo = false;
+  }
+
+  showUserInfoPanel() {
+    this.showUserInfo = true;
   }
 
 }

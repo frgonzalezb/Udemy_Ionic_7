@@ -10,8 +10,8 @@
   <!-- /header -->
   <!-- content -->
   <ion-content>
-    <ion-list>
-      <ion-item>
+    <ion-list *ngIf="!showUserInfo">
+      <ion-item (click)="_userOrder.hasUser() ? logout() : showUserInfoPanel()">
         <ion-icon name="people-outline" slot="start"></ion-icon>
         <ion-label>
           {{ _userOrder.hasUser() ? 'label.logout' : 'label.start.session' | translate }}
@@ -23,6 +23,9 @@
         <ion-badge slot="end">{{ _userOrder.countProducts() }}</ion-badge>
       </ion-item>
     </ion-list>
+
+    <app-login *ngIf="showUserInfo"></app-login>
+
   </ion-content>
   <!-- /content -->
 </ion-menu>
