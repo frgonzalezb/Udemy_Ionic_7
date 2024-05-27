@@ -14,7 +14,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { NgxsModule } from '@ngxs/store';
 import { CategoriesState } from './state/categories/categories.state';
 import { ProductsState } from './state/products/products.state';
-import { AuthState } from './state/auth/state/auth.state';
+import { AuthState } from './state/auth/auth.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
