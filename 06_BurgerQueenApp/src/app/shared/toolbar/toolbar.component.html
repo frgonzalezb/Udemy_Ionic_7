@@ -25,10 +25,15 @@
     </ion-list>
 
     <app-login
-      *ngIf="showUserInfo"
+      *ngIf="showUserInfo && !showCreateAccount"
       (back)="back()"
-      (doLogin)="back()">
+      (doLogin)="back()"
+      (newAccount)="createNewAccount()">
     </app-login>
+
+    <app-create-account *ngIf="showUserInfo && showCreateAccount">
+
+    </app-create-account>
 
   </ion-content>
   <!-- /content -->

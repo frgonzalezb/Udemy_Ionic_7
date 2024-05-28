@@ -5,6 +5,7 @@ import { KEY_ORDER } from '../constants/constants';
 import Product from '../models/product';
 import ProductQuantity from '../models/product-quantity';
 import { isEqual } from 'lodash-es';
+import User from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,14 @@ export class UserOrderService {
 
   hasUser() {
     return this.order && this.order.user;
+  }
+
+  async saveUser(user: User) {
+    // using type casting to overcome delete optional field from object
+    const userWithoutPassword = { ...user };
+    delete (userWithoutPassword as { password?: string }).password;
+    this.order.user = user;
+    await this.saveOrder();
   }
 
   countProducts() {

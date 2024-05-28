@@ -8,6 +8,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { Login } from 'src/app/state/auth/auth.actions';
 import { AuthState } from 'src/app/state/auth/auth.state';
 import User from 'src/app/models/user';
+import { GetUser } from 'src/app/state/users/users.actions';
 
 @Component({
   selector: 'app-login',
@@ -40,12 +41,13 @@ export class LoginComponent {
   login() {
     this.store.dispatch(new Login({
       email: this.user.email,
-      password: this.user.password
+      password: this.user.password ? this.user.password : ''
     })).subscribe({
       next: () => {
         const success = this.store.selectSnapshot(AuthState.success);
         if (success) {
           this._toast.showToast(this._translate.instant('label.login.success'));
+          this.store.dispatch(new GetUser({ email: this.user.email }));
           this.doLogin.emit(true);
         } else {
           this._toast.showToast(this._translate.instant('label.login.error'));
