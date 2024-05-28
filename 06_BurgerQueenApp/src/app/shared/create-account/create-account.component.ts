@@ -25,4 +25,12 @@ export class CreateAccountComponent {
     this.user = new User();
   }
 
+  createAccount() {
+
+  }
+
+  exit() {
+    this.back.emit(true);
+  }
+
 }

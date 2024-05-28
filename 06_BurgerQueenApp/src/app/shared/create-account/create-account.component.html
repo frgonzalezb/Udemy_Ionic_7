@@ -1,3 +1,60 @@
-<p>
-  create-account works!
-</p>
+<form (ngSubmit)="createAccount()">
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input
+            [label]="'label.email' | translate"
+            [(ngModel)]="user.email"
+            type="email"
+            name="email">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input
+            [label]="'label.password' | translate"
+            [(ngModel)]="user.password"
+            type="password"
+            name="password">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input
+            [label]="'label.address' | translate"
+            [(ngModel)]="user.address"
+            type="address"
+            name="address">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button
+          type="button"
+          expand="block"
+          (click)="exit()">{{ 'label.back' | translate }}</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button
+          type="submit"
+          expand="block">{{ 'label.create.account' | translate }}</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</form>

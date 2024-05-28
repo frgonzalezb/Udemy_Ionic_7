@@ -81,4 +81,8 @@ export class ToolbarComponent implements OnInit {
     this.showCreateAccount = true;
   }
 
+  showLogin() {
+    this.showCreateAccount = false;
+  }
+
 }

@@ -17,6 +17,7 @@ import { ProductsState } from './state/products/products.state';
 import { AuthState } from './state/auth/auth.state';
 import { LoginComponent } from './shared/login/login.component';
 import { UsersState } from './state/users/users.state';
+import { CreateAccountComponent } from './shared/create-account/create-account.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ]),
     ToolbarComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    CreateAccountComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -31,8 +31,9 @@
       (newAccount)="createNewAccount()">
     </app-login>
 
-    <app-create-account *ngIf="showUserInfo && showCreateAccount">
-
+    <app-create-account
+      *ngIf="showUserInfo && showCreateAccount"
+      (back)="showLogin()">
     </app-create-account>
 
   </ion-content>
