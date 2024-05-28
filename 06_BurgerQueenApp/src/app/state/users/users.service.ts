@@ -34,4 +34,27 @@ export class UsersService {
       return null;
     });
   }
+
+  async createUser(user: User) {
+    return CapacitorHttp.post({
+      url: environment.urlApi + 'users/',
+      params: {},
+      data: {
+        ...user
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then((response: HttpResponse) => {
+      if (response.status == 201) {
+        const data = response.data as boolean;
+        return data;
+      }
+      return false;
+    }).catch(error => {
+      console.error(error);
+      return false;
+    });
+  }
+
 }

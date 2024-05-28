@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { GetUser } from './users.actions';
+import { CreateUser, GetUser } from './users.actions';
 import { UsersService } from './users.service';
-import User from 'src/app/models/user';
 import { UserOrderService } from 'src/app/services/user-order.service';
 
 export class UsersStateModel {
@@ -33,5 +32,13 @@ export class UsersState {
     if (user) {
       await this._userOrder.saveUser(user);
     }
+  }
+
+  @Action(CreateUser)
+  async createUser({ setState }: StateContext<UsersStateModel>, { payload }: CreateUser) {
+    const success = await this._users.createUser(payload.user);
+    setState({
+      success
+    });
   }
 }

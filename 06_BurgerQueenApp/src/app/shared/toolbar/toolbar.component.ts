@@ -48,7 +48,6 @@ export class ToolbarComponent implements OnInit {
       filter((event) => event.type === EventType.RoutesRecognized)
     ).subscribe({
       next: (event: any) => {
-        console.log(event.state.root.firstChild?.data); // dbg
         this.showBack = event.state.root.firstChild?.data['showBack'];
       }
     });
