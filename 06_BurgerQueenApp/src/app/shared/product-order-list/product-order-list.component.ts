@@ -15,7 +15,7 @@ import { UserOrderService } from 'src/app/services/user-order.service';
 export class ProductOrderListComponent {
 
   constructor(
-    public userOrder: UserOrderService
+    public _userOrder: UserOrderService
   ) { }
 
 }

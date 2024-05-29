@@ -1,3 +1,25 @@
-<p>
-  product-order-list works!
-</p>
+<ion-grid>
+  <ion-row class="ion-text-center ion-margin">
+    <ion-col *ngIf="_userOrder.countProducts() === 0">
+      <ion-text>{{ 'label.no.products' | translate }}</ion-text>
+    </ion-col>
+    <ion-col *ngIf="_userOrder.countProducts() > 0">
+
+      <ion-list>
+        <ng-container *ngFor="let quantityProduct of _userOrder.getProducts()">
+          <ion-item>
+            <ion-label class="ion-text-wrap">{{ 'quantityProduct.product.name' | translate }}</ion-label>
+          </ion-item>
+          <ion-card>
+            <ion-card-content>
+              <ion-item lines="none">
+                <ion-label>{{ 'label.quantity' | translate }}</ion-label>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ng-container>
+      </ion-list>
+
+    </ion-col>
+  </ion-row>
+</ion-grid>
