@@ -10,6 +10,7 @@ import { KEY_TOKEN } from 'src/app/constants/constants';
 import { Preferences } from '@capacitor/preferences';
 import { ToastService } from 'src/app/services/toast.service';
 import { CreateAccountComponent } from '../create-account/create-account.component';
+import { ProductOrderListComponent } from '../product-order-list/product-order-list.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -21,7 +22,8 @@ import { CreateAccountComponent } from '../create-account/create-account.compone
     CommonModule,
     TranslateModule,
     LoginComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    ProductOrderListComponent
   ]
 })
 export class ToolbarComponent implements OnInit {
@@ -29,6 +31,7 @@ export class ToolbarComponent implements OnInit {
   public showBack: boolean;
   public showUserInfo: boolean;
   public showCreateAccount: boolean;
+  public showOrder: boolean;
 
   constructor(
     private router: Router,
@@ -41,6 +44,7 @@ export class ToolbarComponent implements OnInit {
     this.showBack = false;
     this.showUserInfo = false;
     this.showCreateAccount = false;
+    this.showOrder = false;
   }
 
   ngOnInit() {
@@ -74,6 +78,7 @@ export class ToolbarComponent implements OnInit {
   back() {
     this.showUserInfo = false;
     this.showCreateAccount = false;
+    this.showOrder = false;
   }
 
   createNewAccount() {
@@ -82,6 +87,14 @@ export class ToolbarComponent implements OnInit {
 
   showLogin() {
     this.showCreateAccount = false;
+  }
+
+  goToPay() {
+
+  }
+
+  seeOrder() {
+    this.showOrder = true;
   }
 
 }

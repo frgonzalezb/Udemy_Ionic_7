@@ -1,23 +1,26 @@
 <ion-menu side="end" contentId="content" menuId="content">
   <!-- header -->
   <ion-header>
-    <ion-title>
-      <ion-item lines="none">
-        <ion-label>{{ 'label.menu' | translate }}</ion-label>
-      </ion-item>
-    </ion-title>
+    <ion-item lines="none">
+      <ion-icon
+        name="arrow-back-outline"
+        *ngIf="showUserInfo || showOrder" 
+        (click)="back()">
+      </ion-icon>
+      <ion-title>{{ 'label.menu' | translate }}</ion-title>
+    </ion-item>
   </ion-header>
   <!-- /header -->
   <!-- content -->
   <ion-content>
-    <ion-list *ngIf="!showUserInfo">
+    <ion-list *ngIf="!showUserInfo && !showOrder">
       <ion-item (click)="_userOrder.hasUser() ? logout() : showUserInfoPanel()">
         <ion-icon name="people-outline" slot="start"></ion-icon>
         <ion-label>
           {{ _userOrder.hasUser() ? 'label.logout' : 'label.start.session' | translate }}
         </ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item (click)="seeOrder()">
         <ion-icon name="cart-outline" slot="start"></ion-icon>
         <ion-label>{{ 'label.see.order' | translate }}</ion-label>
         <ion-badge slot="end">{{ _userOrder.countProducts() }}</ion-badge>
@@ -36,6 +39,19 @@
       (back)="showLogin()"
       (doCreateAccount)="back()">
     </app-create-account>
+
+    <ng-container *ngIf="showOrder">
+      <app-product-order-list></app-product-order-list>
+
+      <ion-button
+        expand="block"
+        [disabled]="_userOrder.countProducts() === 0"
+        (click)="goToPay()">
+        {{ 'label.pay.order' | translate }}
+      </ion-button>
+    </ng-container>
+
+    
 
   </ion-content>
   <!-- /content -->
