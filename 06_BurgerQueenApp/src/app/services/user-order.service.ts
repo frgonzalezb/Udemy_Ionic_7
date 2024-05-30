@@ -85,6 +85,46 @@ export class UserOrderService {
     await this.saveOrder();
   }
 
+  getProductPrice(product: Product) {
+    if (!product) {
+      console.error('Product is null!'); // dbg
+      return;
+    }
+    if (!product.price) {
+      console.error('This product has no price!'); // dbg
+      return;
+    }
+
+    let total = product.price;
+    console.log('calculateTotal', total); // dbg
+
+    if (product.extras) {
+      product?.extras?.forEach(extra => {
+        extra.blocks?.forEach(block => {
+          if (block.options.length == 1 && block.options[0].activate) {
+            total += block.options[0].price;
+          } else if (block.options.length > 1) {
+            const option = block.options.find(op => op.activate);
+            if (option) {
+              total += option?.price;
+            }
+            
+          }
+        });
+      });
+    }
+    return +total.toFixed(2);
+  }
+
+  getTotalPrice(ProductQuantity: ProductQuantity) {
+    const productPrice = this.getProductPrice(ProductQuantity.product);
+    if (productPrice === undefined) {
+      return 0;
+    }
+    const total = productPrice * ProductQuantity.quantity;
+    return +total.toFixed(2);
+  }
+
   private searchProduct(product: Product) {
     return this.order.products.find(
       (p: ProductQuantity) => isEqual(p.product, product)

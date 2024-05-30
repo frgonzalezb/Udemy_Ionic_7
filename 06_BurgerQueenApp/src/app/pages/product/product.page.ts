@@ -47,28 +47,12 @@ export class ProductPage {
       console.error('Product is of null-type!'); // dbg
       return;
     }
-    if (!this.product.price) {
-      console.error('This product has no price!'); // dbg
-      return;
+    const price = this._userOrder.getProductPrice(this.product);
+    if (price === undefined) {
+      this.total = 0;
+    } else {
+      this.total = price
     }
-
-    let total = this.product.price;
-    console.log('calculateTotal', total); // dbg
-
-    this.product?.extras?.forEach(extra => {
-      extra.blocks?.forEach(block => {
-        if (block.options.length == 1 && block.options[0].activate) {
-          total += block.options[0].price;
-        } else if (block.options.length > 1) {
-          const option = block.options.find(op => op.activate);
-          if (option) {
-            total += option?.price;
-          }
-          
-        }
-      });
-    });
-    this.total = +total.toFixed(2);
   }
 
   changeMultipleOption($event: any, options: ProductExtraOption[]) {
