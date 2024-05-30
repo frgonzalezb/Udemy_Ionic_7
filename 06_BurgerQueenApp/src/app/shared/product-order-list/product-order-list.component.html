@@ -14,6 +14,9 @@
             <ion-card-content>
               <ion-item lines="none">
                 <ion-label>{{ 'label.quantity' | translate }}</ion-label>
+                <ion-icon name="remove-circle-outline" (click)="_userOrder.decreaseProductQuantity(quantityProduct.product)"></ion-icon>
+                <ion-text class="ion-padding">{{ quantityProduct.quantity }}</ion-text>
+                <ion-icon name="add-circle-outline" (click)="_userOrder.increaseProductQuantity(quantityProduct.product)"></ion-icon>
               </ion-item>
             </ion-card-content>
           </ion-card>

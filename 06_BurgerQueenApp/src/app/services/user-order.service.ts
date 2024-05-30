@@ -4,7 +4,7 @@ import { Preferences } from '@capacitor/preferences';
 import { KEY_ORDER } from '../constants/constants';
 import Product from '../models/product';
 import ProductQuantity from '../models/product-quantity';
-import { isEqual } from 'lodash-es';
+import { isEqual, remove } from 'lodash-es';
 import User from '../models/user';
 
 @Injectable({
@@ -55,6 +55,33 @@ export class UserOrderService {
         quantity: 1
       });
     }
+    await this.saveOrder();
+  }
+
+  async increaseProductQuantity(product: Product) {
+    /* Increases some product quantity in the order cart by 1. */
+    const productFound = this.searchProduct(product);
+    if (productFound) {
+      productFound.quantity++;
+    }
+    await this.saveOrder();
+  }
+
+  async decreaseProductQuantity(product: Product) {
+    /* Reduces some product quantity in the order cart by 1. */
+    const productFound = this.searchProduct(product);
+    if (productFound) {
+      productFound.quantity--;
+      if (productFound.quantity === 0) {
+        this.removeProduct(product);
+      }
+    }
+    await this.saveOrder();
+  }
+
+  async removeProduct(product: Product) {
+    /* Removes a product from the order cart. */
+    remove(this.order.products, p => isEqual(p.product, product));
     await this.saveOrder();
   }
 
