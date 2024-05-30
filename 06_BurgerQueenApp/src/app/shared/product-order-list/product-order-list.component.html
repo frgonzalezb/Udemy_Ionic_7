@@ -10,6 +10,11 @@
           <ion-item>
             <ion-label class="ion-text-wrap">{{ quantityProduct.product.name | translate }}</ion-label>
           </ion-item>
+          <ion-item *ngIf="quantityProduct.product.extras">
+            <ul>
+              <li *ngFor="let extra of quantityProduct.product.extras | selectedExtras">{{ extra }}</li>
+            </ul>
+          </ion-item>
           <ion-card>
             <ion-card-content>
               <ion-item lines="none">
