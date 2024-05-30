@@ -29,4 +29,12 @@
 
     </ion-col>
   </ion-row>
+
+  <ion-row *ngIf="_userOrder.countProducts() > 0">
+    <ion-col>
+      <ion-item lines="none">
+        <ion-label>{{ ('label.total.order' | translate) + _userOrder.getTotalOrder() + ' €' }}</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
 </ion-grid>

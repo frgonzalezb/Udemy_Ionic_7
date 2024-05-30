@@ -125,6 +125,14 @@ export class UserOrderService {
     return +total.toFixed(2);
   }
 
+  getTotalOrder() {
+    let total = 0;
+    for (let productQuantity of this.order.products) {
+      total += this.getTotalPrice(productQuantity);
+    }
+    return total;
+  }
+
   private searchProduct(product: Product) {
     return this.order.products.find(
       (p: ProductQuantity) => isEqual(p.product, product)
