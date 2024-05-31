@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { UserOrderService } from 'src/app/services/user-order.service';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.page.html',
   styleUrls: ['./payment.page.scss'],
 })
-export class PaymentPage implements OnInit {
+export class PaymentPage {
 
-  constructor() { }
+  public showNewAccount: boolean;
 
-  ngOnInit() {
+  constructor(
+    public _userOrder: UserOrderService
+  ) {
+    this.showNewAccount = false;
+  }
+
+  newAccount() {
+    this.showNewAccount = true;
+  }
+
+  showLogin() {
+    this.showNewAccount = false;
   }
 
 }

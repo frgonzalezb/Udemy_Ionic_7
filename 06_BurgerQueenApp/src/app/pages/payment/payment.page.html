@@ -1,13 +1,19 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>payment</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">payment</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
+  <ion-grid>
+    <ion-row *ngIf="!_userOrder.hasUser()">
+      <ion-col>
+        <app-login
+          *ngIf="!showNewAccount"
+          [showback]="false"
+          (newAccount)="newAccount()">
+        </app-login>
+        <app-create-account
+          *ngIf="!showNewAccount"
+          (back)="showLogin()">
+        </app-create-account>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
