@@ -90,7 +90,9 @@ export class ToolbarComponent implements OnInit {
   }
 
   goToPay() {
-
+    this.back();
+    this.menuCtrl.close('content');
+    this.navCtrl.navigateForward('pay');
   }
 
   seeOrder() {
