@@ -9,11 +9,18 @@ import { UserOrderService } from 'src/app/services/user-order.service';
 export class PaymentPage {
 
   public showNewAccount: boolean;
+  public step: number;
 
   constructor(
     public _userOrder: UserOrderService
   ) {
     this.showNewAccount = false;
+    this.step = 1;
+  }
+
+  ionViewWillEnter() {
+    this.showNewAccount = false;
+    this.step = 1;
   }
 
   newAccount() {
@@ -22,6 +29,14 @@ export class PaymentPage {
 
   showLogin() {
     this.showNewAccount = false;
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
+  nextStep() {
+    this.step++;
   }
 
 }

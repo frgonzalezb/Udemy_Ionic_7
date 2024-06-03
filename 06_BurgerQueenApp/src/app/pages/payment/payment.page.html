@@ -14,6 +14,57 @@
         </app-create-account>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="_userOrder.hasUser()">
+      <ion-col>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ 'label.order' | translate }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="step === 1">
+            <ion-button (click)="nextStep()">
+              {{ 'label.next' | translate }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ 'label.address' | translate }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="step === 2">
+            <ion-button (click)="prevStep()">
+              {{ 'label.previous' | translate }}
+            </ion-button>
+            <ion-button (click)="nextStep()">
+              {{ 'label.next' | translate }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ 'label.payment.gateway' | translate }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="step === 3">
+            <ion-button (click)="prevStep()">
+              {{ 'label.previous' | translate }}
+            </ion-button>
+            <ion-button (click)="nextStep()">
+              {{ 'label.next' | translate }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+          </ion-card-header>
+          <ion-card-content *ngIf="step === 4">
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
 </ion-content>
