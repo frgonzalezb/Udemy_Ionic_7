@@ -23,6 +23,7 @@
             <ion-card-title>{{ 'label.order' | translate }}</ion-card-title>
           </ion-card-header>
           <ion-card-content *ngIf="step === 1">
+            <app-product-order-list></app-product-order-list>
             <ion-button (click)="nextStep()">
               {{ 'label.next' | translate }}
             </ion-button>
@@ -54,13 +55,6 @@
             <ion-button (click)="nextStep()">
               {{ 'label.next' | translate }}
             </ion-button>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card>
-          <ion-card-header>
-          </ion-card-header>
-          <ion-card-content *ngIf="step === 4">
           </ion-card-content>
         </ion-card>
 
