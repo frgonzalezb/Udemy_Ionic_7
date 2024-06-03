@@ -11,6 +11,9 @@ export class PaymentPage {
 
   public showNewAccount: boolean;
   public step: number;
+  public address?: string;
+  public addressOption: string;
+  public showNewAddress: boolean;
 
   constructor(
     public _userOrder: UserOrderService,
@@ -18,11 +21,16 @@ export class PaymentPage {
   ) {
     this.showNewAccount = false;
     this.step = 1;
+    this.addressOption = 'address-default';
+    this.showNewAddress = false;
   }
 
   ionViewWillEnter() {
     this.showNewAccount = false;
     this.step = 1;
+    this.addressOption = 'address-default';
+    this.showNewAddress = false;
+    this.changeAddress();
   }
 
   newAccount() {
@@ -43,6 +51,19 @@ export class PaymentPage {
 
   goBackHome() {
     this.navController.navigateForward('categories');
+  }
+
+  changeAddress() {
+    switch(this.addressOption) {
+      case 'address-default':
+        this.showNewAddress = false;
+        this.address = this._userOrder.getUser().address;
+        break;
+      case 'choose-address':
+        this.showNewAddress = true;
+        this.address = '';
+        break;
+    }
   }
 
 }

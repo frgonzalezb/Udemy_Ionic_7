@@ -143,6 +143,10 @@ export class UserOrderService {
     return this.order && this.order.user;
   }
 
+  getUser() {
+    return this.order.user
+  }
+
   async saveUser(user: User) {
     // using type casting to overcome delete optional field from object
     const userWithoutPassword = { ...user };
