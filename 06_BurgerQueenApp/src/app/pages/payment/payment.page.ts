@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { UserOrderService } from 'src/app/services/user-order.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class PaymentPage {
   public step: number;
 
   constructor(
-    public _userOrder: UserOrderService
+    public _userOrder: UserOrderService,
+    private navController: NavController
   ) {
     this.showNewAccount = false;
     this.step = 1;
@@ -37,6 +39,10 @@ export class PaymentPage {
 
   nextStep() {
     this.step++;
+  }
+
+  goBackHome() {
+    this.navController.navigateForward('categories');
   }
 
 }
