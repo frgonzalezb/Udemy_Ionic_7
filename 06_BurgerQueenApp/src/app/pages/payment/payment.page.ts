@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { Stripe } from '@capacitor-community/stripe';
+import { PaymentSheetEventsEnum, Stripe } from '@capacitor-community/stripe';
 import { NavController } from '@ionic/angular';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subscription } from 'rxjs';
 import CreatePaymentAttempt from 'src/app/models/create-payment-attempt';
+import Payment from 'src/app/models/payment';
 import { UserOrderService } from 'src/app/services/user-order.service';
 import { CreatePaymentSheet } from 'src/app/state/stripe/stripe.actions';
+import { StripeState } from 'src/app/state/stripe/stripe.state';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,11 +17,14 @@ import { environment } from 'src/environments/environment';
 })
 export class PaymentPage {
 
+  @Select(StripeState.getPayment) payment$!: Observable<Payment | null>;
+
   public showNewAccount: boolean;
   public step: number;
   public address?: string;
   public addressOption: string;
   public showNewAddress: boolean;
+  private subscription: Subscription;
 
   constructor(
     public _userOrder: UserOrderService,
@@ -27,6 +33,7 @@ export class PaymentPage {
   ) {
     this.showNewAccount = false;
     this.step = 1;
+    this.subscription = new Subscription();
     this.addressOption = 'address-default';
     this.showNewAddress = false;
   }
@@ -34,10 +41,12 @@ export class PaymentPage {
   ionViewWillEnter() {
     this.showNewAccount = false;
     this.step = 1;
+    this.subscription = new Subscription();
     this.addressOption = 'address-default';
     this.showNewAddress = false;
     this.changeAddress();
     Stripe.initialize({ publishableKey: environment.publicKey });
+    this.detectChangesInPayment();
   }
 
   newAccount() {
@@ -88,6 +97,29 @@ export class PaymentPage {
     };
 
     this.store.dispatch(new CreatePaymentSheet({ paymentAttempt }));
+  }
+
+  detectChangesInPayment() {
+    const sub = this.payment$.subscribe({
+      next: () => {
+        const payment = this.store.selectSnapshot(StripeState.getPayment);
+        if (payment) {
+          // abrir la ventana modal de pago
+          Stripe.createPaymentSheet(payment);
+          Stripe.presentPaymentSheet().then((result) => {
+            console.log(result); // dbg
+            if (result.paymentResult == PaymentSheetEventsEnum.Completed) {
+              // el pago se ha realizado con éxito!!
+            }
+          });
+        }
+      }
+    });
+    this.subscription.add(sub);
+  }
+
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
 
 }
