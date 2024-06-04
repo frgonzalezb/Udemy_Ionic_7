@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { Stripe } from '@capacitor-community/stripe';
 import { NavController } from '@ionic/angular';
 import { UserOrderService } from 'src/app/services/user-order.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-payment',
@@ -31,6 +33,7 @@ export class PaymentPage {
     this.addressOption = 'address-default';
     this.showNewAddress = false;
     this.changeAddress();
+    Stripe.initialize({ publishableKey: environment.publicKey });
   }
 
   newAccount() {
