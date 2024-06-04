@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Stripe } from '@capacitor-community/stripe';
 import { NavController } from '@ionic/angular';
+import { Store } from '@ngxs/store';
+import CreatePaymentAttempt from 'src/app/models/create-payment-attempt';
 import { UserOrderService } from 'src/app/services/user-order.service';
+import { CreatePaymentSheet } from 'src/app/state/stripe/stripe.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,7 +22,8 @@ export class PaymentPage {
 
   constructor(
     public _userOrder: UserOrderService,
-    private navController: NavController
+    private navController: NavController,
+    private store: Store
   ) {
     this.showNewAccount = false;
     this.step = 1;
@@ -67,6 +71,23 @@ export class PaymentPage {
         this.address = '';
         break;
     }
+  }
+
+  payWithStripe() {
+    /*
+    customer_id es de prueba, naturalmente el manejo de esto debería ser
+    más apropiado en el mundo real (nada de hardcoding)
+    */
+    const total = this._userOrder.getTotalOrder() * 100;
+
+    const paymentAttempt: CreatePaymentAttempt = {
+      secretKey: environment.secretKey,
+      amount: +total.toFixed(0),
+      currency: 'EUR',
+      customer_id: 'cus_QEYFPzE4ku88hN'
+    };
+
+    this.store.dispatch(new CreatePaymentSheet({ paymentAttempt }));
   }
 
 }

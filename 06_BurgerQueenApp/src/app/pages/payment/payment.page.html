@@ -24,7 +24,7 @@
           </ion-card-header>
           <ion-card-content *ngIf="step === 1">
             <app-product-order-list></app-product-order-list>
-            <ion-button (click)="nextStep()">
+            <ion-button [disabled]="_userOrder.countProducts() === 0" (click)="nextStep()">
               {{ 'label.next' | translate }}
             </ion-button>
           </ion-card-content>
@@ -67,6 +67,7 @@
             <ion-card-title>{{ 'label.payment.gateway' | translate }}</ion-card-title>
           </ion-card-header>
           <ion-card-content *ngIf="step === 3">
+            <ion-button color="tertiary" expand="block" (click)="payWithStripe()">{{ 'label.pay.stripe' | translate }}</ion-button>
             <ion-button (click)="prevStep()">
               {{ 'label.previous' | translate }}
             </ion-button>
