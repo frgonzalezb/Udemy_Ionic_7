@@ -20,6 +20,7 @@ import { UsersState } from './state/users/users.state';
 import { CreateAccountComponent } from './shared/create-account/create-account.component';
 import { ProductOrderListComponent } from './shared/product-order-list/product-order-list.component';
 import { StripeState } from './state/stripe/stripe.state';
+import { OrdersState } from './state/orders/orders.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       ProductsState,
       AuthState,
       UsersState,
-      StripeState
+      StripeState,
+      OrdersState
     ]),
     ToolbarComponent,
     FooterComponent,
