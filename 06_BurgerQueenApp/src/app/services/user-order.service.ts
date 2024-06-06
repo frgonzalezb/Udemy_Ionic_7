@@ -164,4 +164,8 @@ export class UserOrderService {
     return 0;
   }
 
+  getOrder() {
+    return this.order;
+  }
+
 }

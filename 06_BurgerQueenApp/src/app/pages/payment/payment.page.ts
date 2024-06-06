@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { PaymentSheetEventsEnum, Stripe } from '@capacitor-community/stripe';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import CreatePaymentAttempt from 'src/app/models/create-payment-attempt';
 import Payment from 'src/app/models/payment';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserOrderService } from 'src/app/services/user-order.service';
+import { CreateOrder } from 'src/app/state/orders/orders.actions';
+import { OrdersState } from 'src/app/state/orders/orders.state';
 import { CreatePaymentSheet } from 'src/app/state/stripe/stripe.actions';
 import { StripeState } from 'src/app/state/stripe/stripe.state';
 import { environment } from 'src/environments/environment';
@@ -29,7 +33,9 @@ export class PaymentPage {
   constructor(
     public _userOrder: UserOrderService,
     private navController: NavController,
-    private store: Store
+    private store: Store,
+    private _toast: ToastService,
+    private _translate: TranslateService
   ) {
     this.showNewAccount = false;
     this.step = 1;
@@ -99,6 +105,26 @@ export class PaymentPage {
     this.store.dispatch(new CreatePaymentSheet({ paymentAttempt }));
   }
 
+  createOrder() {
+    const order = this._userOrder.getOrder();
+    order.address = this.address;
+    this.store.dispatch(new CreateOrder({ order })).subscribe({
+      next: () => {
+        const success = this.store.selectSnapshot(OrdersState.success);
+        if (success) {
+          this._toast.showToast(this._translate.instant('label.pay.success', {'address': this.address}));
+          this._userOrder.resetOrder();
+          this.goBackHome();
+        } else {
+          this._toast.showToast(this._translate.instant('label.pay.fail'));
+        }
+      }, error: (e) => {
+        console.error(e);
+        this._toast.showToast(this._translate.instant('label.pay.fail'));
+      }
+    });
+  }
+
   detectChangesInPayment() {
     const sub = this.payment$.subscribe({
       next: () => {
@@ -110,6 +136,10 @@ export class PaymentPage {
             console.log(result); // dbg
             if (result.paymentResult == PaymentSheetEventsEnum.Completed) {
               // el pago se ha realizado con éxito!!
+              this.createOrder();
+            } else if (result.paymentResult == PaymentSheetEventsEnum.Failed) {
+              // el pago ha fallado
+              this._toast.showToast(this._translate.instant('label.pay.fail'));
             }
           });
         }
