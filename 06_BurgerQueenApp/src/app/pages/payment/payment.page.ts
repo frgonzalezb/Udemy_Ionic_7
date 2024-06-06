@@ -10,7 +10,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { UserOrderService } from 'src/app/services/user-order.service';
 import { CreateOrder } from 'src/app/state/orders/orders.actions';
 import { OrdersState } from 'src/app/state/orders/orders.state';
-import { CreatePaymentSheet } from 'src/app/state/stripe/stripe.actions';
+import { ClearPayment, CreatePaymentSheet } from 'src/app/state/stripe/stripe.actions';
 import { StripeState } from 'src/app/state/stripe/stripe.state';
 import { environment } from 'src/environments/environment';
 
@@ -149,6 +149,8 @@ export class PaymentPage {
   }
 
   ionViewWillLeave() {
+    // debemos limpiar el objeto payment$ del store al terminar la compra
+    this.store.dispatch(new ClearPayment());
     this.subscription.unsubscribe();
   }
 

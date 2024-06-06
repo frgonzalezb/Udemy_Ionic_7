@@ -5,3 +5,7 @@ export class CreatePaymentSheet {
   static readonly type = '[Stripe] Create payment sheet';
   constructor(public payload: { paymentAttempt: CreatePaymentAttempt }) { }
 }
+
+export class ClearPayment {
+  static readonly type = '[Stripe] Clear payment';
+}
