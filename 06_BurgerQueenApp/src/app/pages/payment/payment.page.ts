@@ -131,7 +131,10 @@ export class PaymentPage {
         const payment = this.store.selectSnapshot(StripeState.getPayment);
         if (payment) {
           // abrir la ventana modal de pago
-          Stripe.createPaymentSheet(payment);
+          Stripe.createPaymentSheet({
+            ...payment,
+            merchantDisplayName: 'DDR',
+          });
           Stripe.presentPaymentSheet().then((result) => {
             console.log(result); // dbg
             if (result.paymentResult == PaymentSheetEventsEnum.Completed) {
