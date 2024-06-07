@@ -9,9 +9,12 @@ const config: CapacitorConfig = {
   },
   "plugins": {
     "CapacitorHttp": {
-      "enabled": true
+      "enabled": false
     }
   }
 };
+
+/* NOTA: Se ha desactivado el plugin CapacitorHttp para que no se
+produzcan conflictos con la traducción. */
 
 export default config;

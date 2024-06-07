@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Device } from '@capacitor/device';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import config from 'capacitor.config';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,11 @@ export class AppComponent {
         this._translate.use(language.value.slice(0, 2));
       }
 
+      // Activar aquí el CapacitorHttp
+      if (config.plugins && config.plugins.CapacitorHttp) {
+        config.plugins.CapacitorHttp.enabled = true;
+      }
+      
       this.load = true;
     });
   }
