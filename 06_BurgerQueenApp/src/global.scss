@@ -35,6 +35,12 @@ ion-toolbar {
     --background: #2764a5;
 }
 
+// arreglar texto en iOS
+ion-card.list.ios {
+    padding: 0;
+    margin: 0;
+}
+
 ion-card.list ion-img {
     width: 200px;
     height: 150px;
