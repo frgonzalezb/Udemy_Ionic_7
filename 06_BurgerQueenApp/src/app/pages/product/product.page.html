@@ -56,7 +56,7 @@
           
           <ion-card-content *ngIf="block.options.length > 1">
             <ion-radio-group [value]="block.options[0].name" (ionChange)="changeMultipleOption($event, block.options)">
-              <ion-item lines="none" *ngFor="let option of block.options">
+              <ion-item lines="none" *ngFor="let option of block.options" class="ion-no-padding">
                 <ion-radio labelPlacement="start" [value]="option.name">
                   {{ (option.name ? option.name : 'ERROR!! Option name not found' | translate) + ' (+' + option.price + ' €)' }}
                 </ion-radio>
