@@ -22,7 +22,6 @@ export class AppComponent {
       const language = await Device.getLanguageCode();
       if (language.value) {
         this._translate.use(language.value.slice(0, 2));
-        // this._translate.setDefaultLang(language.value);
       }
     });
   }
