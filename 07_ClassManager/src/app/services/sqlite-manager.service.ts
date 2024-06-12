@@ -4,6 +4,7 @@ import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
 import { Device } from '@capacitor/device';
 import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SqliteManagerService {
 
+  public dbReady: BehaviorSubject<boolean>;
   private isWeb: boolean;
   private dbName: string;
   private DB_NAME_KEY: string = 'db_name';
@@ -22,6 +24,7 @@ export class SqliteManagerService {
   ) {
     this.isWeb = false;
     this.dbName = '';
+    this.dbReady = new BehaviorSubject(false);
   }
 
   async initDB() {
@@ -56,11 +59,14 @@ export class SqliteManagerService {
       const dbName = await this.getDBName();
       await CapacitorSQLite.createConnection({ database: dbName });
       await CapacitorSQLite.open({ database: dbName });
+      this.dbReady.next(true);
     }
   }
 
   downloadDatabase() {
-    this.http.get(environment.db).subscribe(async (jsonExport: JsonSQLite) => {
+    this.http.get(environment.db).subscribe(async (jsonExport: any) => {
+        // jsonExport debería ser de tipo JsonSQLite, pero TS no deja
+        // usarlo y su sistema de validación de tipos custom es una shit
         const jsonString = JSON.stringify(jsonExport);
         const isValid = await CapacitorSQLite.isJsonValid({ jsonstring: jsonString });
 
@@ -73,7 +79,9 @@ export class SqliteManagerService {
 
           await Preferences.set({ key: this.DB_SETUP_KEY, value: '1' });
           await Preferences.set({ key: this.DB_NAME_KEY, value: this.dbName });
-      }
+
+          this.dbReady.next(true);
+        }
     });
   }
 

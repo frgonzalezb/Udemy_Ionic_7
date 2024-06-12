@@ -1,13 +1,18 @@
 /*
-NOTA: Es importante que `schemas: [CUSTOM_ELEMENTS_SCHEMA]` exista para
-que la etiqueta `<jeep-sqlite>` funcione.
+NOTAS:
+
+Es importante que `schemas: [CUSTOM_ELEMENTS_SCHEMA]` exista para que la
+etiqueta `<jeep-sqlite>` funcione.
 Ver https://github.com/ionic-team/jeep-sqlite
+
+Como HttpClientModule está deprecado, hay que usar `provideHttpClient()`
+en `providers`.
 */
 
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -39,7 +44,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [provideHttpClient(),
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
