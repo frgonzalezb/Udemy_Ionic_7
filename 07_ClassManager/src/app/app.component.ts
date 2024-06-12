@@ -9,10 +9,14 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  public isWeb: boolean;
+
   constructor(
     private platform: Platform,
     private _translate: TranslateService
   ) {
+    this.isWeb = false;
     this._translate.setDefaultLang('es');
     this.initApp();
   }
@@ -20,6 +24,8 @@ export class AppComponent {
   initApp() {
     this.platform.ready().then(async () => {
       const language = await Device.getLanguageCode();
+      const info = await Device.getInfo();
+      this.isWeb = info.platform === 'web';
       if (language.value) {
         this._translate.use(language.value.slice(0, 2));
       }
