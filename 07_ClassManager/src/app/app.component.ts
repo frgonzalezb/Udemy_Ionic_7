@@ -10,13 +10,12 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
 
-  public isWeb: boolean;
+  public isWeb!: boolean;
 
   constructor(
     private platform: Platform,
     private _translate: TranslateService
   ) {
-    this.isWeb = false;
     this._translate.setDefaultLang('es');
     this.initApp();
   }
