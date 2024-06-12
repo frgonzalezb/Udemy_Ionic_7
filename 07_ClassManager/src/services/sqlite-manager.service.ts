@@ -1,20 +1,28 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorSQLite } from '@capacitor-community/sqlite';
+import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
 import { Device } from '@capacitor/device';
 import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SqliteManagerService {
 
-  public isWeb!: boolean;
+  private isWeb: boolean;
+  private dbName: string;
+  private DB_NAME_KEY: string = 'db_name';
   private DB_SETUP_KEY: string = 'first_db_setup';
 
   constructor(
-    private alertCtrl: AlertController
-  ) { }
+    private alertCtrl: AlertController,
+    private http: HttpClient
+  ) {
+    this.isWeb = false;
+    this.dbName = '';
+  }
 
   async initDB() {
     const info = await Device.getInfo();
@@ -39,11 +47,31 @@ export class SqliteManagerService {
 
   async setupDB() {
     const dbSetupDone = await Preferences.get({ key: this.DB_SETUP_KEY });
+
     if (!dbSetupDone.value) {
       // descargar la DB
+      this.downloadDatabase();
     } else {
       // recuperar la DB
     }
+  }
+
+  downloadDatabase() {
+    this.http.get(environment.db).subscribe(async (jsonExport: JsonSQLite) => {
+        const jsonString = JSON.stringify(jsonExport);
+        const isValid = await CapacitorSQLite.isJsonValid({ jsonstring: jsonString });
+
+        if (isValid.result) {
+          this.dbName = jsonExport.database;
+
+          await CapacitorSQLite.importFromJson({ jsonstring: jsonString });
+          await CapacitorSQLite.createConnection({ database: this.dbName });
+          await CapacitorSQLite.open({ database: this.dbName });
+
+          await Preferences.set({ key: this.DB_SETUP_KEY, value: '1' });
+          await Preferences.set({ key: this.DB_NAME_KEY, value: this.dbName });
+      }
+    });
   }
 
 }
