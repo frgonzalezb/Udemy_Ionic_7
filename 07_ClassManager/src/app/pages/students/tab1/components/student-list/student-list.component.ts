@@ -27,8 +27,14 @@ export class StudentListComponent implements OnInit {
     this.showForm = true;
   }
 
-  getStudents() {
-    this._sqlite.getStudents().then((students) => {
+  filterList($event: any) {
+    console.log($event.detail.value); // dbg
+    this.getStudents($event.detail.value);
+    
+  }
+
+  getStudents(search?: string) {
+    this._sqlite.getStudents(search).then((students) => {
       if (!students) {
         return null;
       }
