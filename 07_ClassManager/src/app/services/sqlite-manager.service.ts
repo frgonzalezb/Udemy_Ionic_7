@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
+import { CapacitorSQLite, JsonSQLite, capSQLiteValues } from '@capacitor-community/sqlite';
 import { Device } from '@capacitor/device';
 import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import Student from '../models/student';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,28 @@ export class SqliteManagerService {
       }
     }
     return this.dbName;
+  }
+
+  async getStudents() {
+    let sql = 'SELECT * FROM students WHERE active = 1';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql
+    }).then((response: capSQLiteValues) => {
+      let students: Student[] = [];
+      if (!response || !response.values) {
+        return null;
+      }
+      for (let index = 0; index < response.values.length; index++) {
+        const row = response.values[index];
+        let student = row as Student;
+        students.push(student);
+      }
+      return Promise.resolve(students);
+    }).catch((error) => {
+      return Promise.reject(error);
+    });
   }
 
 }

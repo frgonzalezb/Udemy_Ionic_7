@@ -16,7 +16,7 @@
 <ng-container *ngIf="data && data.length > 0">
   <ion-row *ngFor="let datum of data">
     <ion-col>
-      <ng-template *ngTemplateOutlet="templateData; content: { item: datum }"></ng-template>
+      <ng-template *ngTemplateOutlet="templateData; context: { item: datum }"></ng-template>
     </ion-col>
   </ion-row>
 </ng-container>

@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-data-list',
   templateUrl: './data-list.component.html',
   styleUrls: ['./data-list.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TranslateModule],
-  providers: [TranslateService],
+  imports: [IonicModule, CommonModule, TranslateModule]
 })
 export class DataListComponent {
 

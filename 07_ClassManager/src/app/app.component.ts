@@ -39,7 +39,7 @@ export class AppComponent {
 
       this._sqlite.initDB();
       this._sqlite.dbReady.subscribe(isReady => {
-        this.load = true;
+        this.load = isReady;
       });
     });
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import Student from 'src/app/models/student';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
+import Student from 'src/app/models/student';
 
 @Component({
   selector: 'app-student-list',
@@ -20,12 +20,22 @@ export class StudentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.students = [];
-    this.showForm = false;
+    this.getStudents();
   }
 
   onShowForm() {
     this.showForm = true;
+  }
+
+  getStudents() {
+    this._sqlite.getStudents().then((students) => {
+      if (!students) {
+        return null;
+      }
+      this.students = students;
+      console.log(this.students); // dbg
+      return students;
+    });
   }
 
 }
