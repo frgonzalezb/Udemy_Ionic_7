@@ -10,6 +10,7 @@ import Student from 'src/app/models/student';
 export class StudentListComponent implements OnInit {
 
   public students: Student[];
+  public studentSelected!: Student;
   public showForm: boolean;
 
   constructor(
@@ -25,6 +26,10 @@ export class StudentListComponent implements OnInit {
 
   onShowForm() {
     this.showForm = true;
+  }
+
+  onCloseForm() {
+    this.showForm = false;
   }
 
   filterList($event: any) {

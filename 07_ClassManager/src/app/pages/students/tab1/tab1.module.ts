@@ -8,6 +8,7 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { StudentListComponent } from './components/student-list/student-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
+import { StudentFormComponent } from './components/student-form/student-form.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { DataListComponent } from 'src/app/shared/data-list/data-list.component'
   ],
   declarations: [
     Tab1Page,
-    StudentListComponent
+    StudentListComponent,
+    StudentFormComponent
   ]
 })
 export class Tab1PageModule {}
