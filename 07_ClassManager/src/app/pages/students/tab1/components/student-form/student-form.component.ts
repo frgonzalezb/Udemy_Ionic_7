@@ -36,4 +36,8 @@ export class StudentFormComponent implements OnInit {
     this.closeForm.emit(true);
   }
 
+  createOrUpdateStudent() {
+
+  }
+
 }
