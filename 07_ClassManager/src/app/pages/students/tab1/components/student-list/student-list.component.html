@@ -10,7 +10,13 @@
       <!-- /searchbar -->
       <ion-row>
         <ion-col>
-          <app-data-list [data]="students" emptyText="label.no.students" addText="label.add.student" (add)="onShowForm()"></app-data-list>
+          <app-data-list [data]="students" emptyText="label.no.students" addText="label.add.student" (add)="onShowForm()">
+            <ng-template #templateData let-item="item">
+              <ion-item>
+                <ion-label>{{ item.name + ' ' + item.surname }}</ion-label>
+              </ion-item>
+            </ng-template>
+          </app-data-list>
         </ion-col>
       </ion-row>
     </ion-col>
