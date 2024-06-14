@@ -30,6 +30,7 @@ export class StudentListComponent implements OnInit {
 
   onCloseForm() {
     this.showForm = false;
+    this.getStudents();
   }
 
   filterList($event: any) {

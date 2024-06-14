@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import Student from 'src/app/models/student';
+import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class StudentFormComponent implements OnInit {
 
   constructor(
     private _sqlite: SqliteManagerService,
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _alert: AlertService
   ) {
     this.update = false;
     this.closeForm = new EventEmitter<boolean>();
@@ -37,7 +39,17 @@ export class StudentFormComponent implements OnInit {
   }
 
   createOrUpdateStudent() {
+    if (this.update) {
 
+    } else {
+      this._sqlite.createStudent(this.student).then(() => {
+        this._alert.alertMessage(
+          this._translate.instant('label.success'),
+          this._translate.instant('label.success.message.add.student')
+        );
+        this.onCloseForm();
+      });
+    }
   }
 
 }
