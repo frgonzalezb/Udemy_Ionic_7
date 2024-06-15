@@ -50,4 +50,12 @@ export class StudentListComponent implements OnInit {
     });
   }
 
+  updateStudent(student: Student) {
+    // TODO!!
+  }
+
+  confirmStudentDeletion(student: Student) {
+    // TODO!!
+  }
+
 }
