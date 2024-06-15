@@ -10,13 +10,14 @@ import Student from 'src/app/models/student';
 export class StudentListComponent implements OnInit {
 
   public students: Student[];
-  public studentSelected!: Student;
+  public studentSelected: Student | null;
   public showForm: boolean;
 
   constructor(
     private _sqlite: SqliteManagerService
   ) {
     this.students = [];
+    this.studentSelected = null;
     this.showForm = false;
   }
 
@@ -30,6 +31,7 @@ export class StudentListComponent implements OnInit {
 
   onCloseForm() {
     this.showForm = false;
+    this.studentSelected = null;
     this.getStudents();
   }
 
@@ -51,7 +53,8 @@ export class StudentListComponent implements OnInit {
   }
 
   updateStudent(student: Student) {
-    // TODO!!
+    this.studentSelected = student;
+    this.onShowForm();
   }
 
   confirmStudentDeletion(student: Student) {

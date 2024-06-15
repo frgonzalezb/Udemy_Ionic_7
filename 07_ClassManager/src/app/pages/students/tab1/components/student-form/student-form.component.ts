@@ -40,12 +40,32 @@ export class StudentFormComponent implements OnInit {
 
   createOrUpdateStudent() {
     if (this.update) {
-
+      this._sqlite.updateStudent(this.student).then(() => {
+        this._alert.alertMessage(
+          this._translate.instant('label.success'),
+          this._translate.instant('label.success.message.edit.student')
+        );
+        this.onCloseForm();
+      }).catch((error) => {
+        console.error(error); // dbg
+        this._alert.alertMessage(
+          this._translate.instant('label.error'),
+          this._translate.instant('label.error.message.edit.student')
+        );
+        this.onCloseForm();
+      });
     } else {
       this._sqlite.createStudent(this.student).then(() => {
         this._alert.alertMessage(
           this._translate.instant('label.success'),
           this._translate.instant('label.success.message.add.student')
+        );
+        this.onCloseForm();
+      }).catch((error) => {
+        console.error(error); // dbg
+        this._alert.alertMessage(
+          this._translate.instant('label.error'),
+          this._translate.instant('label.error.message.add.student')
         );
         this.onCloseForm();
       });
