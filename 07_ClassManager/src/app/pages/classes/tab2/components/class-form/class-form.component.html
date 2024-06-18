@@ -1,3 +1,55 @@
-<p>
-  class-form works!
-</p>
+<form (ngSubmit)="createOrUpdateClass()">
+  <!-- start -->
+  <ion-item>
+    <ion-label>{{ 'label.class.date.start' | translate }}</ion-label>
+    <ion-datetime-button slot="end" displayFormat="DD MMM YYYY HH:mm" datetime="date_start"></ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="date_start" name="date_start" [(ngModel)]="classObj.date_start"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+  <!-- /start -->
+  <!-- end -->
+  <ion-item>
+    <ion-label>{{ 'label.class.date.end' | translate }}</ion-label>
+    <ion-datetime-button slot="end" displayFormat="DD MMM YYYY HH:mm" datetime="date_end"></ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="date_end" name="date_end" [(ngModel)]="classObj.date_end"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+  <!-- /end -->
+
+  <ion-item>
+    <ion-select [label]="'label.form.class.student' | translate" [(ngModel)]="classObj.student" name="student">
+      <ion-select-option *ngFor="let student of students" [value]="student.id">
+        {{ student.name + ' ' + student.surname }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-range min="0" max="100" name="price" [(ngModel)]="classObj.price" [label]="'label.form.class.price' | translate"></ion-range>
+    <ion-text>{{ classObj.price + ' €' }}</ion-text>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+
+      <ion-col>
+        <ion-button expand="block" type="button" (click)="onCloseForm()">
+          {{ 'label.back' | translate }}
+        </ion-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-button expand="block" type="submit">
+          {{ (update ? 'label.edit.class' : 'label.add.class') | translate }}
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</form>

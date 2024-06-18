@@ -31,6 +31,7 @@ export class ClassFormComponent implements OnInit {
   ngOnInit() {
     if (!this.classObj) {
       this.classObj = new Class();
+      this.classObj.price = 0;
     } else {
       this.update = true;
     }
@@ -44,6 +45,10 @@ export class ClassFormComponent implements OnInit {
 
   onCloseForm() {
     this.closeForm.emit(true);
+  }
+
+  createOrUpdateClass() {
+
   }
 
 }
