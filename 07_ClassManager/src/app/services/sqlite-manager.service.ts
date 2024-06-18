@@ -7,6 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import Student from '../models/student';
+import Class from '../models/class';
 
 @Injectable({
   providedIn: 'root'
@@ -189,6 +190,29 @@ export class SqliteManagerService {
         CapacitorSQLite.saveToStore({ database: dbName });
       }
       return changes;
+    });
+  }
+
+  async getClasses() {
+    let sql = 'SELECT * FROM class WHERE active = 1';
+    sql += ' ORDER BY date_start, date_end';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql
+    }).then((response: capSQLiteValues) => {
+      let classes: Class[] = [];
+      if (!response || !response.values) {
+        return null;
+      }
+      for (let index = 0; index < response.values.length; index++) {
+        const row = response.values[index];
+        let classInstance = row as Class;
+        classes.push(classInstance);
+      }
+      return Promise.resolve(classes);
+    }).catch((error) => {
+      return Promise.reject(error);
     });
   }
 
