@@ -1,0 +1,18 @@
+<ion-grid>
+  <ion-row>
+    <ion-col *ngIf="!showForm">
+      <ion-row>
+        <ion-col>
+          <app-data-list
+            [data]="classes"
+            emptyText="label.no.classes"
+            addText="label.add.class"
+            (add)="onShowForm()"></app-data-list>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col *ngIf="showForm">
+      <!-- TODO -->
+    </ion-col>
+  </ion-row>
+</ion-grid>
