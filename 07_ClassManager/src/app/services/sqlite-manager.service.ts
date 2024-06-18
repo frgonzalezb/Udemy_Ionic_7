@@ -207,8 +207,8 @@ export class SqliteManagerService {
       }
       for (let index = 0; index < response.values.length; index++) {
         const row = response.values[index];
-        let classInstance = row as Class;
-        classes.push(classInstance);
+        let classObj = row as Class;
+        classes.push(classObj);
       }
       return Promise.resolve(classes);
     }).catch((error) => {
