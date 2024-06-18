@@ -1,5 +1,6 @@
 <ion-grid>
   <ion-row>
+
     <ion-col *ngIf="!showForm">
       <ion-row>
         <ion-col>
@@ -7,10 +8,23 @@
             [data]="classes"
             emptyText="label.no.classes"
             addText="label.add.class"
-            (add)="onShowForm()"></app-data-list>
+            (add)="onShowForm()">
+          
+            <ng-template #templateData let-item="item">
+              <ion-item>
+                <ion-label class="ion-text-wrap">
+                  {{ item.student?.name + ' ' + item.student?.surname }} -- 
+                  {{ (item.date_start | date: 'dd MMM yyyy (HH:mm') + ' - ' + (item.date_end | date: 'HH:mm)') }} --
+                  {{ item.price + ' €' }}
+                </ion-label>
+              </ion-item>
+            </ng-template>
+
+          </app-data-list>
         </ion-col>
       </ion-row>
     </ion-col>
+
     <ion-col *ngIf="showForm">
       <!-- TODO -->
     </ion-col>
