@@ -170,4 +170,26 @@ export class SqliteManagerService {
     });
   }
 
+  async deleteStudent(student: Student) {
+    // NOTA: Se aplica soft delete, no hard delete
+    let sql = 'UPDATE students SET active = 0 WHERE id = ?';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            student.id
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    });
+  }
+
 }
