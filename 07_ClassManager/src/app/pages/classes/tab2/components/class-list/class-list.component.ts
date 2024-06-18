@@ -11,12 +11,14 @@ import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 export class ClassListComponent implements OnInit {
 
   public classes: Class[];
+  public classSelected: Class | null;
   public showForm: boolean;
 
   constructor(
     private _sqlite: SqliteManagerService
   ) {
     this.classes = [];
+    this.classSelected = null;
     this.showForm = false;
   }
 
@@ -26,6 +28,10 @@ export class ClassListComponent implements OnInit {
 
   onShowForm() {
     this.showForm = true;
+  }
+
+  onCloseForm() {
+    this.showForm = false;
   }
 
   getClasses() {

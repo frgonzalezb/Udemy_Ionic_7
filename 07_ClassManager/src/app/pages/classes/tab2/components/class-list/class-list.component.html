@@ -26,7 +26,11 @@
     </ion-col>
 
     <ion-col *ngIf="showForm">
-      <!-- TODO -->
+      <ion-row>
+        <ion-col>
+          <app-class-form [classObj]="classSelected!" (closeForm)="onCloseForm()"></app-class-form>
+        </ion-col>
+      </ion-row>
     </ion-col>
   </ion-row>
 </ion-grid>
