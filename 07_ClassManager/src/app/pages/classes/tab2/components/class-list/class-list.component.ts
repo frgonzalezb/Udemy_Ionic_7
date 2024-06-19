@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import Class from 'src/app/models/class';
 import Student from 'src/app/models/student';
+import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 
 @Component({
@@ -15,7 +17,9 @@ export class ClassListComponent implements OnInit {
   public showForm: boolean;
 
   constructor(
-    private _sqlite: SqliteManagerService
+    private _sqlite: SqliteManagerService,
+    private _alert: AlertService,
+    private _translate: TranslateService
   ) {
     this.classes = [];
     this.classSelected = null;
@@ -64,7 +68,30 @@ export class ClassListComponent implements OnInit {
   }
 
   deleteClassConfirm(item: Class) {
-    // TODO
+    const self = this;
+    this._alert.alertConfirm(
+      this._translate.instant('label.confirm'),
+      this._translate.instant('label.confirm.message.class'),
+      function() {
+        self.deleteStudent(item);
+      }
+    )
+  }
+
+  deleteStudent(classObj: Class){
+    this._sqlite.deleteClass(classObj).then(() => {
+      this._alert.alertMessage(
+        this._translate.instant('label.success'),
+        this._translate.instant('label.success.message.remove.class')
+      );
+      this.getClasses();
+    }).catch(error => {
+      console.error(error); // dbg
+      this._alert.alertMessage(
+        this._translate.instant('label.error'),
+        this._translate.instant('label.error.message.remove.class')
+      );
+    })
   }
 
 }

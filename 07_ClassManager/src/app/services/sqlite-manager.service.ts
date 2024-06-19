@@ -267,4 +267,26 @@ export class SqliteManagerService {
     });
   }
 
+  async deleteClass(classObj: Class) {
+    // NOTA: Se aplica soft delete, no hard delete
+    let sql = 'UPDATE class SET active = 0 WHERE id = ?';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            classObj.id
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    });
+  }
+
 }
