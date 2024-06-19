@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import Filter from 'src/app/models/filter';
+import Student from 'src/app/models/student';
+import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 
 @Component({
   selector: 'app-content-filter',
@@ -10,10 +13,24 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [IonicModule, CommonModule, TranslateModule],
 })
-export class ContentFilterComponent  implements OnInit {
+export class ContentFilterComponent implements OnInit {
 
-  constructor() { }
+  @Input() filter!: Filter;
 
-  ngOnInit() {}
+  public students: Student[];
+
+  constructor(
+    private _sqlite: SqliteManagerService
+  ) {
+    this.students = [];
+  }
+
+  ngOnInit() {
+    this._sqlite.getStudents().then(students => {
+      if (students) {
+        this.students = students;
+      }
+    });
+  }
 
 }

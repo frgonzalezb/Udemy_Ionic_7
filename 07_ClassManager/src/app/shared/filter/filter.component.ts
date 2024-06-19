@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule, PopoverController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentFilterComponent } from './content-filter/content-filter.component';
+import Filter from 'src/app/models/filter';
 
 @Component({
   selector: 'app-filter',
@@ -17,6 +18,8 @@ import { ContentFilterComponent } from './content-filter/content-filter.componen
   ],
 })
 export class FilterComponent implements OnInit {
+
+  @Input() filter!: Filter;
 
   public showFilter: boolean;
 
@@ -45,7 +48,9 @@ export class FilterComponent implements OnInit {
       component: ContentFilterComponent,
       backdropDismiss: true,
       event,
-      componentProps: {}
+      componentProps: {
+        filter: this.filter
+      }
     });
     /*
     Nótese que el parámetro "event" permite que el popover sea ubicado
