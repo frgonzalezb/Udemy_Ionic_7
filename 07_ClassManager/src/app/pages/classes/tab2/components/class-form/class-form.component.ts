@@ -34,6 +34,7 @@ export class ClassFormComponent implements OnInit {
       this.classObj = new Class();
       this.classObj.price = 0;
     } else {
+      console.log(this.classObj); // dbg
       this.update = true;
     }
 
@@ -49,13 +50,25 @@ export class ClassFormComponent implements OnInit {
   }
 
   createOrUpdateClass() {
-    this.classObj.date_start = moment(this.classObj.date_start).format('YYYY-MM-DD HH:mm');
-    this.classObj.date_end = moment(this.classObj.date_end).format('YYYY-MM-DD HH:mm');
+    this.classObj.date_start = moment(this.classObj.date_start).format('YYYY-MM-DDTHH:mm');
+    this.classObj.date_end = moment(this.classObj.date_end).format('YYYY-MM-DDTHH:mm');
     
     if (this.update) {
-      // this._sqlite.updateClass(this.classObj).then(() => {
-      //   this.onCloseForm();
-      // });
+      console.log('update this.classObj',this.classObj); // dbg
+      
+      this._sqlite.updateClass(this.classObj).then(() => {
+        this._alert.alertMessage(
+          this._translate.instant('label.success'),
+          this._translate.instant('label.success.message.edit.class'),
+        );
+        this.onCloseForm();
+      }).catch(error => {
+        console.error(error); // dbg
+        this._alert.alertMessage(
+          this._translate.instant('label.error'),
+          this._translate.instant('label.error.message.edit.class'),
+        );
+      });
     } else {
       this._sqlite.createClass(this.classObj).then(() => {
         this._alert.alertMessage(
@@ -68,7 +81,7 @@ export class ClassFormComponent implements OnInit {
         this._alert.alertMessage(
           this._translate.instant('label.error'),
           this._translate.instant('label.error.message.add.class'),
-        )
+        );
       });
     }
   }

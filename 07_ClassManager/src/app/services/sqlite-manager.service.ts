@@ -241,7 +241,30 @@ export class SqliteManagerService {
   }
 
   async updateClass(classObj: Class) {
-    // TODO
+    console.log(classObj); // dbg
+    
+    let sql = 'UPDATE class SET date_start = ?, date_end = ?, id_student = ?, price = ? WHERE id = ?';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            classObj.date_start,
+            classObj.date_end,
+            classObj.id_student,
+            classObj.price,
+            classObj.id
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    });
   }
 
 }

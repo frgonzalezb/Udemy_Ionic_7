@@ -32,6 +32,7 @@ export class ClassListComponent implements OnInit {
 
   onCloseForm() {
     this.showForm = false;
+    this.classSelected = null;
     this.getClasses();
   }
 
@@ -58,7 +59,8 @@ export class ClassListComponent implements OnInit {
   }
 
   updateClass(item: Class) {
-    // TODO
+    this.classSelected = item;
+    this.showForm = true;
   }
 
   deleteClassConfirm(item: Class) {
