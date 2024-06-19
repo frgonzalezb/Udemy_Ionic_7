@@ -9,6 +9,7 @@ import { ClassListComponent } from './components/class-list/class-list.component
 import { TranslateModule } from '@ngx-translate/core';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { ClassFormComponent } from './components/class-form/class-form.component';
+import { FilterComponent } from 'src/app/shared/filter/filter.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ClassFormComponent } from './components/class-form/class-form.component
     Tab2PageRoutingModule,
     TranslateModule.forChild(),
     DataListComponent,
+    FilterComponent
   ],
   declarations: [
     Tab2Page,
