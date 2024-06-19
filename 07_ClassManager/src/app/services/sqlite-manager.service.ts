@@ -66,7 +66,7 @@ export class SqliteManagerService {
   }
 
   downloadDatabase() {
-    this.http.get(environment.db).subscribe(async (jsonExport: any) => {
+    this.http.get(environment.db).subscribe(async (jsonExport: JsonSQLite | any) => {
         // jsonExport debería ser de tipo JsonSQLite, pero TS no deja
         // usarlo y su sistema de validación de tipos custom es una shit
         const jsonString = JSON.stringify(jsonExport);
@@ -214,6 +214,34 @@ export class SqliteManagerService {
     }).catch((error) => {
       return Promise.reject(error);
     });
+  }
+
+  async createClass(classObj: Class) {
+    let sql = 'INSERT INTO class (date_start, date_end, id_student, price) VALUES (?, ?, ?, ?)';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            classObj.date_start,
+            classObj.date_end,
+            classObj.student,
+            classObj.price
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    });
+  }
+
+  async updateClass(classObj: Class) {
+    // TODO
   }
 
 }

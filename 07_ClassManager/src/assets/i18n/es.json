@@ -10,6 +10,7 @@
     "label.edit.student": "Editar estudiante",
     "label.back": "Volver",
     "label.success": "¡Éxito!",
+    "label.error": "Error",
     "label.success.message.add.student": "¡Estudiante añadido!",
     "label.error.message.add.student": "Error al añadir el estudiante",
     "label.success.message.edit.student": "¡Estudiante modificado!",

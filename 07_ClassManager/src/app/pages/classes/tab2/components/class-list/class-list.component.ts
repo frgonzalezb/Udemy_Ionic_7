@@ -32,6 +32,7 @@ export class ClassListComponent implements OnInit {
 
   onCloseForm() {
     this.showForm = false;
+    this.getClasses();
   }
 
   getClasses() {
@@ -43,7 +44,6 @@ export class ClassListComponent implements OnInit {
         this.classes = results[0];
         let students = results[1];
         this.associateStudentsToClasses(students);
-        console.log(this.classes); // dbg
       }
     });
   }

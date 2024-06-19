@@ -24,7 +24,7 @@
 
   <ion-item>
     <ion-select [label]="'label.form.class.student' | translate" [(ngModel)]="classObj.student" name="student">
-      <ion-select-option *ngFor="let student of students" [value]="student.id">
+      <ion-select-option [value]="student.id" *ngFor="let student of students">
         {{ student.name + ' ' + student.surname }}
       </ion-select-option>
     </ion-select>

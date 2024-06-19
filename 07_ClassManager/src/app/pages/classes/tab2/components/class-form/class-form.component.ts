@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import Class from 'src/app/models/class';
 import Student from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
@@ -48,7 +49,27 @@ export class ClassFormComponent implements OnInit {
   }
 
   createOrUpdateClass() {
-
+    this.classObj.date_start = moment(this.classObj.date_start).format('YYYY-MM-DD HH:mm');
+    this.classObj.date_end = moment(this.classObj.date_end).format('YYYY-MM-DD HH:mm');
+    
+    if (this.update) {
+      // this._sqlite.updateClass(this.classObj).then(() => {
+      //   this.onCloseForm();
+      // });
+    } else {
+      this._sqlite.createClass(this.classObj).then(() => {
+        this._alert.alertMessage(
+          this._translate.instant('label.success'),
+          this._translate.instant('label.success.message.add.class'),
+        );
+        this.onCloseForm();
+      }).catch(error => {
+        console.error(error); // dbg
+        this._alert.alertMessage(
+          this._translate.instant('label.error'),
+          this._translate.instant('label.error.message.add.class'),
+        )
+      });
+    }
   }
-
 }
