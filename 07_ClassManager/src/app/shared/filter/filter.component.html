@@ -1,3 +1,7 @@
-<p>
-  filter works!
-</p>
+<ion-row>
+  <ion-col>
+    <ion-button expand="block" (click)="showOrHideFilter($event)">
+      {{ (showFilter ? 'label.hide.filters' : 'label.show.filters') | translate }}
+    </ion-button>
+  </ion-col>
+</ion-row>

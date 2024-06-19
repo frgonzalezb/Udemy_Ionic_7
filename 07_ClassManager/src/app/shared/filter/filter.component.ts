@@ -18,12 +18,26 @@ import { ContentFilterComponent } from './content-filter/content-filter.componen
 })
 export class FilterComponent implements OnInit {
 
+  public showFilter: boolean;
+
   constructor(
     private popoverCtrl: PopoverController
-  ) { }
+  ) {
+    this.showFilter = false;
+  }
 
   ngOnInit() {
     this.createPopover(null);
+  }
+
+  showOrHideFilter($event: any) {
+    this.showFilter = !this.showFilter;
+
+    if (this.showFilter) {
+      this.createPopover($event);
+    } else {
+      this.popoverCtrl.dismiss();
+    }
   }
 
   async createPopover(event: any) {
@@ -33,9 +47,17 @@ export class FilterComponent implements OnInit {
       event,
       componentProps: {}
     });
+    /*
+    Nótese que el parámetro "event" permite que el popover sea ubicado
+    cercanamente a la posición del elemento que lo llama (en este caso,
+    el botón). En caso de no estar "event" en el objeto popover, el
+    popover se colocará en el centro como posición por defecto. Por lo
+    que "event" es opcional realmente, pero se utiliza aquí para mostrar
+    su uso (y para seguir el ejemplo del curso). :P
+    */
 
     popover.onDidDismiss().then((event) => {
-      
+      this.showFilter = false;
     });
 
     return await popover.present();
