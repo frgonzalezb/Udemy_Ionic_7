@@ -57,4 +57,12 @@ export class ClassListComponent implements OnInit {
     })
   }
 
+  updateClass(item: Class) {
+    // TODO
+  }
+
+  deleteClassConfirm(item: Class) {
+    // TODO
+  }
+
 }
