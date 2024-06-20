@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import Filter from 'src/app/models/filter';
@@ -11,7 +12,7 @@ import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
   templateUrl: './content-filter.component.html',
   styleUrls: ['./content-filter.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TranslateModule],
+  imports: [IonicModule, CommonModule, FormsModule, TranslateModule],
 })
 export class ContentFilterComponent implements OnInit {
 
@@ -31,6 +32,14 @@ export class ContentFilterComponent implements OnInit {
         this.students = students;
       }
     });
+  }
+
+  filterData() {
+    // TODO
+  }
+
+  resetFilter() {
+    // TODO
   }
 
 }

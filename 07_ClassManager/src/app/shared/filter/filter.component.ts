@@ -48,17 +48,23 @@ export class FilterComponent implements OnInit {
       component: ContentFilterComponent,
       backdropDismiss: true,
       event,
+      cssClass: 'custom-popover-content',
       componentProps: {
         filter: this.filter
       }
     });
     /*
+    1.
     Nótese que el parámetro "event" permite que el popover sea ubicado
     cercanamente a la posición del elemento que lo llama (en este caso,
     el botón). En caso de no estar "event" en el objeto popover, el
     popover se colocará en el centro como posición por defecto. Por lo
     que "event" es opcional realmente, pero se utiliza aquí para mostrar
     su uso (y para seguir el ejemplo del curso). :P
+
+    2.
+    En caso de usar "cssClass", conviene definir la clase de CSS en
+    global.scss
     */
 
     popover.onDidDismiss().then((event) => {
