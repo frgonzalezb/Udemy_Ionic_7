@@ -45,7 +45,7 @@ export class ClassListComponent implements OnInit {
 
   getClasses() {
     Promise.all([
-      this._sqlite.getClasses(),
+      this._sqlite.getClasses(this.filter),
       this._sqlite.getStudents()
     ]).then(results => {
       if (results[0] && results[1]) {

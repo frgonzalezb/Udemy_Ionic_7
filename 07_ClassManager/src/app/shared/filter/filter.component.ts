@@ -4,6 +4,7 @@ import { IonicModule, PopoverController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentFilterComponent } from './content-filter/content-filter.component';
 import Filter from 'src/app/models/filter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-filter',
@@ -33,6 +34,12 @@ export class FilterComponent implements OnInit {
 
   ngOnInit() {
     this.createPopover(null);
+    if (!this.filter.date_start) {
+      this.filter.date_start = moment().format('YYYY-MM-DDTHH:mm');
+    }
+    if (!this.filter.date_end) {
+      this.filter.date_start = moment().format('YYYY-MM-DDTHH:mm');
+    }
   }
 
   showOrHideFilter($event: any) {
@@ -73,7 +80,10 @@ export class FilterComponent implements OnInit {
       console.log(event.data); // dbg
       
       this.showFilter = false;
-      this.filterData.emit(event.data);
+      
+      if (event.data) {
+        this.filterData.emit(event.data);
+      }
     });
 
     return await popover.present();
