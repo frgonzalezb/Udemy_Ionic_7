@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IonicModule, PopoverController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentFilterComponent } from './content-filter/content-filter.component';
@@ -20,6 +20,7 @@ import Filter from 'src/app/models/filter';
 export class FilterComponent implements OnInit {
 
   @Input() filter!: Filter;
+  @Output() filterData: EventEmitter<Filter>;
 
   public showFilter: boolean;
 
@@ -27,6 +28,7 @@ export class FilterComponent implements OnInit {
     private popoverCtrl: PopoverController
   ) {
     this.showFilter = false;
+    this.filterData = new EventEmitter<Filter>();
   }
 
   ngOnInit() {
@@ -68,7 +70,10 @@ export class FilterComponent implements OnInit {
     */
 
     popover.onDidDismiss().then((event) => {
+      console.log(event.data); // dbg
+      
       this.showFilter = false;
+      this.filterData.emit(event.data);
     });
 
     return await popover.present();

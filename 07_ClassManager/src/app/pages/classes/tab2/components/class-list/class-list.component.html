@@ -3,7 +3,7 @@
 
     <ion-col *ngIf="!showForm">
 
-      <app-filter [filter]="filter"></app-filter>
+      <app-filter [filter]="filter" (filterData)="filterData($event)"></app-filter>
 
       <ion-row>
         <ion-col>
