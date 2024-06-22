@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import Class from 'src/app/models/class';
 import Payment from 'src/app/models/payment';
+import Student from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 
@@ -36,8 +38,20 @@ export class PaymentListComponent implements OnInit {
       }
       let classes = data[1];
       let students = data[2];
-      console.log(this.payments);
-      
+      if (classes && students) {
+        this.associateObjects(classes, students);
+      }
+      console.log(this.payments); // dbg
+    });
+  }
+
+  associateObjects(classes: Class[], students: Student[]) {
+    this.payments.forEach(p => {
+      p.class = classes.find(c => c.id === p.id_class);
+      if (p.class) {
+        p.class.student = students.find(s => s.id === p.class?.id_student);
+      }
+      // payment.student = students.find(s => s.id === payment.id_student);
     });
   }
 
