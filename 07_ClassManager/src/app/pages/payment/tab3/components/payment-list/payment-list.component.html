@@ -19,6 +19,17 @@
             [data]="payments"
             [emptyText]="'label.no.payment' | translate"
             [showAdd]="false">
+
+            <ng-template #templateData let-item="item">
+
+              <ion-item>
+                <ion-label class="ion-text-wrap">
+                  {{ item.class?.student?.name + ' ' + item.class?.student?.surname }} - 
+                  {{ (item.date ? item.date : item.class.date_start) | date: 'dd MMM yyyy HH:mm' }} - 
+                  {{ (item.paid ? 'label.paid' : 'label.no.paid') | translate }}
+                </ion-label>
+              </ion-item>
+            </ng-template>
           </app-data-list>
         </ion-col>
       </ion-row>
