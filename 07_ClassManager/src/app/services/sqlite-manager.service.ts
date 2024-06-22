@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import Student from '../models/student';
 import Class from '../models/class';
 import Filter from '../models/filter';
+import Payment from '../models/payment';
 
 @Injectable({
   providedIn: 'root'
@@ -194,7 +195,7 @@ export class SqliteManagerService {
     });
   }
 
-  async getClasses(filter: Filter) {
+  async getClasses(filter: Filter | null) {
     let sql = 'SELECT * FROM class WHERE active = 1';
 
     if (filter) {
@@ -300,6 +301,34 @@ export class SqliteManagerService {
         CapacitorSQLite.saveToStore({ database: dbName });
       }
       return changes;
+    });
+  }
+
+  async getPayments() {
+    /*
+    NOTA: Los pagos están estrechamente relacionados con las clases. Es decir,
+    si una clase no está activa, el pago tampoco debería salir.
+    */
+    let sql = 'SELECT p.* FROM payment p, class c WHERE p.id_class = c.id AND c.active = 1';
+    sql += ' ORDER BY p.date';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: [] // para testear en android
+    }).then((response: capSQLiteValues) => {
+      let payments: Payment[] = [];
+      if (!response || !response.values) {
+        return null;
+      }
+      for (let index = 0; index < response.values.length; index++) {
+        const row = response.values[index];
+        let paymentObj = row as Payment;
+        payments.push(paymentObj);
+      }
+      return Promise.resolve(payments);
+    }).catch((error) => {
+      return Promise.reject(error);
     });
   }
 
