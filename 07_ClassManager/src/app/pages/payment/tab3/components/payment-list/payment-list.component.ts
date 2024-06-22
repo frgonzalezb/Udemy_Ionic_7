@@ -60,6 +60,8 @@ export class PaymentListComponent implements OnInit {
   }
 
   calculateTotal() {
+    /* NOTA: El método del profe era algo más esotérico para mi gusto,
+    así que decidí hacerlo de esta manera. */
     this.total = 0;
     this.payments.forEach(p => {
       this.total += p.paid;
