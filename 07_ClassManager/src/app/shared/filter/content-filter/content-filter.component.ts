@@ -40,7 +40,8 @@ export class ContentFilterComponent implements OnInit {
   }
 
   resetFilter() {
-    // TODO
+    this.filter = new Filter();
+    this.popoverCtrl.dismiss(this.filter);
   }
 
 }
