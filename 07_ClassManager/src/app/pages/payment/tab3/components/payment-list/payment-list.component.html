@@ -4,6 +4,17 @@
 
       <ion-row>
         <ion-col>
+          <ion-item>
+            <ion-label>
+              {{ 'label.total' | translate }}
+            </ion-label>
+            <ion-text>{{ total }}</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
           <app-data-list
             [data]="payments"
             [emptyText]="'label.no.payment' | translate"

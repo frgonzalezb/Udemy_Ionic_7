@@ -14,6 +14,7 @@ import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 export class PaymentListComponent implements OnInit {
 
   public payments: Payment[];
+  public total: number;
 
   constructor(
     private _alert: AlertService,
@@ -21,6 +22,7 @@ export class PaymentListComponent implements OnInit {
     private _translate: TranslateService
   ) {
     this.payments = [];
+    this.total = 0;
   }
 
   ngOnInit() {
@@ -42,6 +44,9 @@ export class PaymentListComponent implements OnInit {
         this.associateObjects(classes, students);
       }
       console.log(this.payments); // dbg
+      this.calculateTotal();
+      console.log(this.total); // dbg
+      
     });
   }
 
@@ -51,7 +56,13 @@ export class PaymentListComponent implements OnInit {
       if (p.class) {
         p.class.student = students.find(s => s.id === p.class?.id_student);
       }
-      // payment.student = students.find(s => s.id === payment.id_student);
+    });
+  }
+
+  calculateTotal() {
+    this.total = 0;
+    this.payments.forEach(p => {
+      this.total += p.paid;
     });
   }
 
