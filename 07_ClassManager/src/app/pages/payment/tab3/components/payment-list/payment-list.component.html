@@ -21,8 +21,7 @@
             [showAdd]="false">
 
             <ng-template #templateData let-item="item">
-
-              <ion-item>
+              <ion-item [ngClass]="{ 'no-paid': !item.paid, 'paid': item.paid }">
                 <ion-label class="ion-text-wrap">
                   {{ item.class?.student?.name + ' ' + item.class?.student?.surname }} - 
                   {{ (item.date ? item.date : item.class.date_start) | date: 'dd MMM yyyy HH:mm' }} - 
