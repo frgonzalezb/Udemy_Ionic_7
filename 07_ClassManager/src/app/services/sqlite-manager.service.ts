@@ -304,12 +304,49 @@ export class SqliteManagerService {
     });
   }
 
-  async getPayments() {
+  async getPayments(filter?: Filter) {
     /*
     NOTA: Los pagos están estrechamente relacionados con las clases. Es decir,
     si una clase no está activa, el pago tampoco debería salir.
     */
     let sql = 'SELECT p.* FROM payment p, class c WHERE p.id_class = c.id AND c.active = 1';
+    
+    if (filter && filter.paid !== undefined) {
+      if (filter.paid) {
+        sql += ' AND p.paid = 1';
+      } else {
+        sql += ' AND p.paid = 0';
+      }
+
+      if (filter.date_start) {
+        /*
+        Solo en el caso de que la clase esté pagada, se debe filtrar
+        por la fecha de pago; en caso contrario, por la fecha de la
+        clase. Recordar que un pago, mientras no sea pagado, no posee
+        fecha de pago.
+        */
+        if (filter.paid) {
+          sql += ` AND p.date >= '${filter.date_start}'`;
+        } else {
+          sql += ` AND c.date_start >= '${filter.date_start}'`;
+        }
+      }
+
+      if (filter.date_end) {
+        // Mismo caso que con filter.date_start
+        if (filter.paid) {
+          sql += ` AND p.date <= '${filter.date_end}'`;
+        } else {
+          sql += ` AND c.date_end <= '${filter.date_end}'`;
+        }
+      }
+
+      if (filter.id_student) {
+        // NOTA: Se refiere al estudiante de la clase, no del pago
+        sql += ` AND c.id_student = ${filter.id_student}`;
+      }
+    }
+
     sql += ' ORDER BY p.date';
     const dbName = await this.getDBName();
     return CapacitorSQLite.query({

@@ -26,6 +26,7 @@ export class PaymentListComponent implements OnInit {
     this.payments = [];
     this.total = 0;
     this.filter = new Filter();
+    this.filter.paid = undefined;
   }
 
   ngOnInit() {
@@ -34,7 +35,7 @@ export class PaymentListComponent implements OnInit {
 
   getPayments() {
     Promise.all([
-      this._sqlite.getPayments(),
+      this._sqlite.getPayments(this.filter),
       this._sqlite.getClasses(null),
       this._sqlite.getStudents()
     ]).then(data => {
@@ -72,7 +73,8 @@ export class PaymentListComponent implements OnInit {
   }
 
   filterData($event: Filter) {
-    // TODO
+    this.filter = $event;
+    this.getPayments();
   }
 
 }

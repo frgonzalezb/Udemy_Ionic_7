@@ -42,6 +42,9 @@ export class FilterComponent implements OnInit {
     if (!this.filter.date_end) {
       this.filter.date_start = moment().format('YYYY-MM-DDTHH:mm');
     }
+    if (this.filter.paid === undefined) {
+      this.filter.paid = false;
+    }
   }
 
   showOrHideFilter($event: any) {
