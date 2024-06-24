@@ -30,8 +30,8 @@ export class ClassFormComponent implements OnInit {
     private _translate: TranslateService,
     private _alert: AlertService
   ) {
-    this.closeForm = new EventEmitter<boolean>();
     this.update = false;
+    this.closeForm = new EventEmitter<boolean>();
   }
 
   ngOnInit() {
@@ -44,6 +44,17 @@ export class ClassFormComponent implements OnInit {
     } else {
       console.log(this.classObj); // dbg
       this.update = true;
+      this._sqlite.getPaymentByClass(this.classObj.id).then(payment => {
+        if (payment) {
+          this.payment = payment;
+          this.paid = this.payment.paid == 1;
+          this.alreadyPaid = this.payment.paid == 1;
+        } else {
+          this.payment = new Payment();
+          this.alreadyPaid = false;
+          this.paid = false;
+        }
+      });
     }
 
     this._sqlite.getStudents().then(students => {

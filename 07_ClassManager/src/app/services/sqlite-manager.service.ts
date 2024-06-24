@@ -392,4 +392,29 @@ export class SqliteManagerService {
     });
   }
 
+  async getPaymentByClass(idClass: number) {
+    let sql = 'SELECT * FROM payment WHERE id_class = ?';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: [
+        idClass
+      ]
+    }).then((response: capSQLiteValues) => {
+      let payment: Payment = new Payment();
+      if (!response || !response.values) {
+        return null;
+      }
+      for (let index = 0; index < response.values.length; index++) {
+        const row = response.values[index];
+        payment = row as Payment;
+      }
+      return Promise.resolve(payment);
+    }).catch((error) => {
+      console.error(error); // dbg
+      return Promise.reject(error);
+    });
+  }
+
 }
