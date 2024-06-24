@@ -36,9 +36,8 @@
   </ion-item>
   <!-- payment -->
   <ion-item>
-    <ion-toogle [(ngModel)]="paid" name="paid">
-      {{ 'label.is.paid' | translate }}
-    </ion-toogle>
+    <ion-label>{{ 'label.is.paid' | translate }}</ion-label>
+    <ion-toggle [(ngModel)]="paid" name="paid" slot="end"></ion-toggle>
   </ion-item>
 
   <ion-item *ngIf="paid">

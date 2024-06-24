@@ -389,7 +389,7 @@ export class SqliteManagerService {
         CapacitorSQLite.saveToStore({ database: dbName });
       }
       return changes;
-    });;
+    });
   }
 
 }
