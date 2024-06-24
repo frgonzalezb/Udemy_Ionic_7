@@ -21,6 +21,8 @@ import * as moment from 'moment';
 export class FilterComponent implements OnInit {
 
   @Input() filter!: Filter;
+  @Input() payment: boolean = false;
+
   @Output() filterData: EventEmitter<Filter>;
 
   public showFilter: boolean;
@@ -59,7 +61,8 @@ export class FilterComponent implements OnInit {
       event,
       cssClass: 'custom-popover-content',
       componentProps: {
-        filter: this.filter
+        filter: this.filter,
+        payment: this.payment
       }
     });
     /*

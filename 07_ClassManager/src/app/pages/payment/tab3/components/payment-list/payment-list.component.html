@@ -2,6 +2,12 @@
   <ion-row>
     <ion-col>
 
+      <app-filter
+        [filter]="filter"
+        [payment]="true"
+        (filterData)="filterData($event)">
+      </app-filter>
+
       <ion-row>
         <ion-col>
           <ion-item>

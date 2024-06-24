@@ -8,16 +8,18 @@ import { Tab3PageRoutingModule } from './tab3-routing.module';
 import { PaymentListComponent } from './components/payment-list/payment-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
+import { FilterComponent } from "../../../shared/filter/filter.component";
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    Tab3PageRoutingModule,
-    TranslateModule.forChild(),
-    DataListComponent
-  ],
-  declarations: [Tab3Page, PaymentListComponent]
+    declarations: [Tab3Page, PaymentListComponent],
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        Tab3PageRoutingModule,
+        TranslateModule.forChild(),
+        DataListComponent,
+        FilterComponent
+    ]
 })
 export class Tab3PageModule {}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import Class from 'src/app/models/class';
+import Filter from 'src/app/models/filter';
 import Payment from 'src/app/models/payment';
 import Student from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
@@ -15,6 +16,7 @@ export class PaymentListComponent implements OnInit {
 
   public payments: Payment[];
   public total: number;
+  public filter: Filter;
 
   constructor(
     private _alert: AlertService,
@@ -23,6 +25,7 @@ export class PaymentListComponent implements OnInit {
   ) {
     this.payments = [];
     this.total = 0;
+    this.filter = new Filter();
   }
 
   ngOnInit() {
@@ -66,6 +69,10 @@ export class PaymentListComponent implements OnInit {
     this.payments.forEach(p => {
       this.total += p.paid;
     });
+  }
+
+  filterData($event: Filter) {
+    // TODO
   }
 
 }
