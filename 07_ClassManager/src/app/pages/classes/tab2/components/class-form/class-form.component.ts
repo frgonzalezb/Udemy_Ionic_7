@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { capSQLiteChanges } from '@capacitor-community/sqlite';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import Class from 'src/app/models/class';
+import Payment from 'src/app/models/payment';
 import Student from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
@@ -19,20 +21,26 @@ export class ClassFormComponent implements OnInit {
 
   public update: boolean;
   public students!: Student[];
+  public payment!: Payment;
+  public paid!: boolean;
+  public alreadyPaid!: boolean;
 
   constructor(
     private _sqlite: SqliteManagerService,
     private _translate: TranslateService,
     private _alert: AlertService
   ) {
-    this.update = false;
     this.closeForm = new EventEmitter<boolean>();
+    this.update = false;
   }
 
   ngOnInit() {
     if (!this.classObj) {
       this.classObj = new Class();
       this.classObj.price = 0;
+      this.payment = new Payment();
+      this.paid = false;
+      this.alreadyPaid = false;
     } else {
       console.log(this.classObj); // dbg
       this.update = true;
