@@ -369,4 +369,27 @@ export class SqliteManagerService {
     });
   }
 
+  async createPayment(payment: Payment) {
+    let sql = 'INSERT INTO payment (date, id_class, paid) VALUES (?, ?, ?)';
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            payment.date,
+            payment.id_class,
+            payment.paid
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    });;
+  }
+
 }

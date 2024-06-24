@@ -78,7 +78,20 @@ export class ClassFormComponent implements OnInit {
         );
       });
     } else {
-      this._sqlite.createClass(this.classObj).then(() => {
+      this._sqlite.createClass(this.classObj).then((changes: capSQLiteChanges) => {
+        if (changes && changes.changes && changes.changes.lastId) {
+          const idClass = changes.changes.lastId;
+          this.payment.id_class = idClass;
+
+          if (this.paid) {
+            this.payment.date = moment(this.payment.date).format('YYYY-MM-DDTHH:mm');
+            this.payment.paid = 1;
+          } else {
+            this.payment.paid = 0;
+          }
+
+          this._sqlite.createPayment(this.payment).then(() => {});
+        }
         this._alert.alertMessage(
           this._translate.instant('label.success'),
           this._translate.instant('label.success.message.add.class'),
