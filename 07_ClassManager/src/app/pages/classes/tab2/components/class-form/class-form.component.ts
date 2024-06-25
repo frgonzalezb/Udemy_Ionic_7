@@ -76,6 +76,13 @@ export class ClassFormComponent implements OnInit {
       console.log('update this.classObj',this.classObj); // dbg
       
       this._sqlite.updateClass(this.classObj).then(() => {
+        if (this.paid) {
+          this.payment.paid = 1;
+          this.payment.date = moment(this.payment.date).format('YYYY-MM-DDTHH:mm');
+          this._sqlite.updatePayment(this.payment);
+        } else {
+          this.payment.paid = 0;
+        }
         this._alert.alertMessage(
           this._translate.instant('label.success'),
           this._translate.instant('label.success.message.edit.class'),

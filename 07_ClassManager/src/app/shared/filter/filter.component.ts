@@ -40,7 +40,7 @@ export class FilterComponent implements OnInit {
       this.filter.date_start = moment().format('YYYY-MM-DDTHH:mm');
     }
     if (!this.filter.date_end) {
-      this.filter.date_start = moment().format('YYYY-MM-DDTHH:mm');
+      this.filter.date_end = moment().format('YYYY-MM-DDTHH:mm');
     }
     if (this.filter.paid === undefined) {
       this.filter.paid = false;
