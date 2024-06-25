@@ -109,7 +109,8 @@ export class SqliteManagerService {
     const dbName = await this.getDBName();
     return CapacitorSQLite.query({
       database: dbName,
-      statement: sql
+      statement: sql,
+      values: []
     }).then((response: capSQLiteValues) => {
       let students: Student[] = [];
       if (!response || !response.values) {
@@ -216,7 +217,8 @@ export class SqliteManagerService {
     const dbName = await this.getDBName();
     return CapacitorSQLite.query({
       database: dbName,
-      statement: sql
+      statement: sql,
+      values: []
     }).then((response: capSQLiteValues) => {
       let classes: Class[] = [];
       if (!response || !response.values) {
