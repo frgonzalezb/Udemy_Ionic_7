@@ -47,7 +47,9 @@ export class SqliteManagerService {
       }
     } else if (info.platform === 'web') {
       this.isWeb = true;
-      await sqlite.initWebStore();
+      await sqlite.initWebStore().then(() => {
+        console.log('web store initialized');
+      });
     }
     this.setupDB();
   }

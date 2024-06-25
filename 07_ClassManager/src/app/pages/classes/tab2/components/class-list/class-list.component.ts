@@ -40,6 +40,7 @@ export class ClassListComponent implements OnInit {
   onCloseForm() {
     this.showForm = false;
     this.classSelected = null;
+    this.filter = new Filter();
     this.getClasses();
   }
 
