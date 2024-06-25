@@ -112,6 +112,10 @@ export class ClassListComponent implements OnInit {
     })
   }
 
+  payClass(classObj: Class) {
+
+  }
+
   filterData($event: Filter) {
     this.filter = $event;
     console.log(this.filter); // dbg
