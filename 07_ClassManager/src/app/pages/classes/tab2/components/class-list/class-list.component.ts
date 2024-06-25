@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import Class from 'src/app/models/class';
 import Filter from 'src/app/models/filter';
+import Payment from 'src/app/models/payment';
 import Student from 'src/app/models/student';
 import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
@@ -47,12 +48,15 @@ export class ClassListComponent implements OnInit {
   getClasses() {
     Promise.all([
       this._sqlite.getClasses(this.filter),
-      this._sqlite.getStudents()
+      this._sqlite.getStudents(),
+      this._sqlite.getPayments()
     ]).then(results => {
-      if (results[0] && results[1]) {
+      if (results[0] && results[1] && results[2]) {
         this.classes = results[0];
         let students = results[1];
+        let payments = results[2];
         this.associateStudentsToClasses(students);
+        this.getUnpaidClasses(payments);
       }
     });
   }
@@ -64,6 +68,16 @@ export class ClassListComponent implements OnInit {
         c.student = student;
       }
     })
+  }
+
+  private getUnpaidClasses(payments: Payment[]) {
+    // Suena mejor este nombre que needPayClasses, imho
+    payments.forEach(p => {
+      let classFound = this.classes.find(c => c.id === p.id_class);
+      if (classFound && !p.paid) {
+        classFound.needToPay = true;
+      }
+    });
   }
 
   updateClass(item: Class) {

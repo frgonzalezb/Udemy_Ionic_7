@@ -8,6 +8,7 @@ class Class {
   price!: number;
   active!: number;  // SQLite usa 1 y 0 para true y false, respectivamente
   student?: Student;
+  needToPay?: boolean;
 }
 
 export default Class;
