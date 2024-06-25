@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import Class from 'src/app/models/class';
 import Filter from 'src/app/models/filter';
 import Payment from 'src/app/models/payment';
@@ -113,7 +114,24 @@ export class ClassListComponent implements OnInit {
   }
 
   payClass(classObj: Class) {
-
+    this._sqlite.getPaymentByClass(classObj.id).then(payment => {
+      if (payment) {
+        payment.date = moment().format('YYYY-MM-DDTHH:mm');
+        payment.paid = 1;
+        this._sqlite.updatePayment(payment).then(() => {
+          this._alert.alertMessage(
+            this._translate.instant('label.success'),
+            this._translate.instant('label.success.message.paid.class')
+          );
+          this.filter = new Filter();
+          this.getClasses();
+        }).catch(error => {
+          console.error(error); // dbg
+        });
+      }
+    }).catch(error => {
+      console.error(error); // dbg
+    });
   }
 
   filterData($event: Filter) {
