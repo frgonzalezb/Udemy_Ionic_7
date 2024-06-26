@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Login, Logout } from './auth.actions';
+import { CheckUserIsLoggedIn, Login, Logout } from './auth.actions';
 import { AuthService } from './auth.service';
+import { onAuthStateChanged } from '@angular/fire/auth';
 
 export class AuthStateModel {
   public isLogged!: boolean;
@@ -59,5 +60,20 @@ export class AuthState {
         isLogged: true
       });
     }
+  }
+
+  @Action(CheckUserIsLoggedIn)
+  async checkUserIsLoggedIn({ setState }: StateContext<AuthStateModel>) {
+    onAuthStateChanged(this._auth.getAuth(), user => {
+      if (user) {
+        setState({
+          isLogged: true
+        });
+      } else {
+        setState({
+          isLogged: false
+        });
+      }
+    });
   }
 }

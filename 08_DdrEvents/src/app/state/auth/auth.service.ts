@@ -20,4 +20,8 @@ export class AuthService {
     return signOut(this.auth);
   }
 
+  getAuth() {
+    return this.auth;
+  }
+
 }

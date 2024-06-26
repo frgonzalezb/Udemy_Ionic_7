@@ -12,3 +12,7 @@ De cualquier manera, he seguido el modelo del curso para evitar confusiones.
 export class Logout {
   static readonly type = '[Auth] Logout';
 }
+
+export class CheckUserIsLoggedIn {
+  static readonly type = '[Auth] Check user is logged in';
+}
