@@ -18,6 +18,7 @@ export class SqliteManagerService {
 
   public dbReady: BehaviorSubject<boolean>;
   private isWeb: boolean;
+  private isIOS: boolean;
   private dbName: string;
   private DB_NAME_KEY: string = 'db_name';
   private DB_SETUP_KEY: string = 'first_db_setup';
@@ -27,6 +28,7 @@ export class SqliteManagerService {
     private http: HttpClient
   ) {
     this.isWeb = false;
+    this.isIOS = false;
     this.dbName = '';
     this.dbReady = new BehaviorSubject(false);
   }
@@ -47,9 +49,9 @@ export class SqliteManagerService {
       }
     } else if (info.platform === 'web') {
       this.isWeb = true;
-      await sqlite.initWebStore().then(() => {
-        console.log('web store initialized');
-      });
+      await sqlite.initWebStore();
+    } else if (info.platform === 'ios') {
+      this.isIOS = true;
     }
     this.setupDB();
   }
@@ -115,6 +117,10 @@ export class SqliteManagerService {
       let students: Student[] = [];
       if (!response || !response.values) {
         return null;
+      }
+      if (this.isIOS && response.values?.length && response.values?.length > 0) {
+        // Para solucionar problema de undefined con iOS
+        response.values?.shift();
       }
       for (let index = 0; index < response.values.length; index++) {
         const row = response.values[index];
@@ -223,6 +229,10 @@ export class SqliteManagerService {
       let classes: Class[] = [];
       if (!response || !response.values) {
         return null;
+      }
+      if (this.isIOS && response.values?.length && response.values?.length > 0) {
+        // Para solucionar problema de undefined con iOS
+        response.values?.shift();
       }
       for (let index = 0; index < response.values.length; index++) {
         const row = response.values[index];
@@ -362,6 +372,10 @@ export class SqliteManagerService {
       if (!response || !response.values) {
         return null;
       }
+      if (this.isIOS && response.values?.length && response.values?.length > 0) {
+        // Para solucionar problema de undefined con iOS
+        response.values?.shift();
+      }
       for (let index = 0; index < response.values.length; index++) {
         const row = response.values[index];
         let paymentObj = row as Payment;
@@ -409,6 +423,10 @@ export class SqliteManagerService {
       let payment: Payment = new Payment();
       if (!response || !response.values) {
         return null;
+      }
+      if (this.isIOS && response.values?.length && response.values?.length > 0) {
+        // Para solucionar problema de undefined con iOS
+        response.values?.shift();
       }
       for (let index = 0; index < response.values.length; index++) {
         const row = response.values[index];
