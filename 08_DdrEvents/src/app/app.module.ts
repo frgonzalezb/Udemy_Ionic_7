@@ -13,6 +13,7 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { NgxsModule } from '@ngxs/store';
+import { AuthState } from './state/auth/auth.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -32,7 +33,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    NgxsModule.forRoot([])
+    NgxsModule.forRoot([
+      AuthState
+    ])
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
