@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import Class from 'src/app/models/class';
 import Filter from 'src/app/models/filter';
 import Payment from 'src/app/models/payment';
 import Student from 'src/app/models/student';
-import { AlertService } from 'src/app/services/alert.service';
 import { SqliteManagerService } from 'src/app/services/sqlite-manager.service';
 
 @Component({
@@ -19,9 +17,7 @@ export class PaymentListComponent implements OnInit {
   public filter: Filter;
 
   constructor(
-    private _alert: AlertService,
     private _sqlite: SqliteManagerService,
-    private _translate: TranslateService
   ) {
     this.payments = [];
     this.total = 0;
@@ -47,10 +43,7 @@ export class PaymentListComponent implements OnInit {
       if (classes && students) {
         this.associateObjects(classes, students);
       }
-      console.log(this.payments); // dbg
       this.calculateTotal();
-      console.log(this.total); // dbg
-      
     });
   }
 

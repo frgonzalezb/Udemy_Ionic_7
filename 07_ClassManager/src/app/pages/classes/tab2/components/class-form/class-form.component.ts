@@ -42,7 +42,6 @@ export class ClassFormComponent implements OnInit {
       this.paid = false;
       this.alreadyPaid = false;
     } else {
-      console.log(this.classObj); // dbg
       this.update = true;
       this._sqlite.getPaymentByClass(this.classObj.id).then(payment => {
         if (payment) {
@@ -72,9 +71,7 @@ export class ClassFormComponent implements OnInit {
     this.classObj.date_start = moment(this.classObj.date_start).format('YYYY-MM-DDTHH:mm');
     this.classObj.date_end = moment(this.classObj.date_end).format('YYYY-MM-DDTHH:mm');
     
-    if (this.update) {
-      console.log('update this.classObj',this.classObj); // dbg
-      
+    if (this.update) { 
       this._sqlite.updateClass(this.classObj).then(() => {
         if (this.paid) {
           this.payment.paid = 1;
@@ -89,7 +86,6 @@ export class ClassFormComponent implements OnInit {
         );
         this.onCloseForm();
       }).catch(error => {
-        console.error(error); // dbg
         this._alert.alertMessage(
           this._translate.instant('label.error'),
           this._translate.instant('label.error.message.edit.class'),
@@ -116,7 +112,6 @@ export class ClassFormComponent implements OnInit {
         );
         this.onCloseForm();
       }).catch(error => {
-        console.error(error); // dbg
         this._alert.alertMessage(
           this._translate.instant('label.error'),
           this._translate.instant('label.error.message.add.class'),

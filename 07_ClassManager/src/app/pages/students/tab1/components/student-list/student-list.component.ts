@@ -40,7 +40,6 @@ export class StudentListComponent implements OnInit {
   }
 
   filterList($event: any) {
-    console.log($event.detail.value); // dbg
     this.getStudents($event.detail.value);
     
   }
@@ -51,7 +50,6 @@ export class StudentListComponent implements OnInit {
         return null;
       }
       this.students = students;
-      console.log(this.students); // dbg
       return students;
     });
   }
@@ -62,7 +60,6 @@ export class StudentListComponent implements OnInit {
   }
 
   deleteStudent(student: Student) {
-    // TODO
     this._sqlite.deleteStudent(student).then(() => {
       this._alert.alertMessage(
         this._translate.instant('label.success'),
@@ -70,7 +67,6 @@ export class StudentListComponent implements OnInit {
       );
       this.getStudents();
     }).catch((error) => {
-      console.error(error); // dbg
       this._alert.alertMessage(
         this._translate.instant('label.error'),
         this._translate.instant('label.error.message.remove.student')

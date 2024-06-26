@@ -105,7 +105,6 @@ export class ClassListComponent implements OnInit {
       );
       this.getClasses();
     }).catch(error => {
-      console.error(error); // dbg
       this._alert.alertMessage(
         this._translate.instant('label.error'),
         this._translate.instant('label.error.message.remove.class')
@@ -136,7 +135,6 @@ export class ClassListComponent implements OnInit {
 
   filterData($event: Filter) {
     this.filter = $event;
-    console.log(this.filter); // dbg
     this.getClasses();
   }
 

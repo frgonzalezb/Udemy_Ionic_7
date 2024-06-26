@@ -83,10 +83,7 @@ export class FilterComponent implements OnInit {
     */
 
     popover.onDidDismiss().then((event) => {
-      console.log(event.data); // dbg
-      
       this.showFilter = false;
-      
       if (event.data) {
         this.filterData.emit(event.data);
       }
