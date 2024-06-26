@@ -6,6 +6,7 @@
     "label.password": "Password",
     "label.login": "Login",
     "label.login.success": "Logued succesly",
+    "label.login.credentials.error": "Wrong email or password",
     "label.login.error": "There was an error logging in",
     "label.title.event": "Title",
     "label.start.event": "Date start",

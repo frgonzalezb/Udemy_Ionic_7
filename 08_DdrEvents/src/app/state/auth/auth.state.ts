@@ -5,11 +5,11 @@ import { AuthService } from './auth.service';
 import { onAuthStateChanged } from '@angular/fire/auth';
 
 export class AuthStateModel {
-  public isLogged!: boolean;
+  public isLoggedIn!: boolean;
 }
 
 const defaults = {
-  isLogged: false
+  isLoggedIn: false
 };
 
 @State<AuthStateModel>({
@@ -20,8 +20,8 @@ const defaults = {
 export class AuthState {
 
   @Selector()
-  static isLogged(state: AuthStateModel) {
-    return state.isLogged;
+  static isLoggedIn(state: AuthStateModel) {
+    return state.isLoggedIn;
   }
 
   constructor(private _auth: AuthService) { }
@@ -32,17 +32,17 @@ export class AuthState {
       const response = await this._auth.login(payload.email, payload.password);
       if (response) {
         setState({
-          isLogged: true
+          isLoggedIn: true
         });
       } else {
         setState({
-          isLogged: false
+          isLoggedIn: false
         });
       }
     } catch (error) {
       console.error(error); // dbg
       setState({
-        isLogged: false
+        isLoggedIn: false
       });
     }
   }
@@ -52,12 +52,12 @@ export class AuthState {
     try {
       await this._auth.logout();
       setState({
-        isLogged: false
+        isLoggedIn: false
       });
     } catch (error) {
       console.error(error); // dbg
       setState({
-        isLogged: true
+        isLoggedIn: true
       });
     }
   }
@@ -67,11 +67,11 @@ export class AuthState {
     onAuthStateChanged(this._auth.getAuth(), user => {
       if (user) {
         setState({
-          isLogged: true
+          isLoggedIn: true
         });
       } else {
         setState({
-          isLogged: false
+          isLoggedIn: false
         });
       }
     });
