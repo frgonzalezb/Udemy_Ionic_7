@@ -1,0 +1,7 @@
+{
+  "name": "08_DdrEvents",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
