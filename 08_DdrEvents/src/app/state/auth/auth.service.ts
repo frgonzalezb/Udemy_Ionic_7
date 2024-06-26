@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   logout() {
-
+    return signOut(this.auth);
   }
 
 }

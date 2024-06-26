@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Login } from './auth.actions';
+import { Login, Logout } from './auth.actions';
 import { AuthService } from './auth.service';
 
 export class AuthStateModel {
@@ -26,13 +26,38 @@ export class AuthState {
   constructor(private _auth: AuthService) { }
 
   @Action(Login)
-  login({ setState }: StateContext<AuthStateModel>, { payload }: Login) {
-    return this._auth.login(payload.email, payload.password).then(response => {
+  async login({ setState }: StateContext<AuthStateModel>, { payload }: Login) {
+    try {
+      const response = await this._auth.login(payload.email, payload.password);
       if (response) {
         setState({
           isLogged: true
         });
+      } else {
+        setState({
+          isLogged: false
+        });
       }
-    });
+    } catch (error) {
+      console.error(error); // dbg
+      setState({
+        isLogged: false
+      });
+    }
+  }
+
+  @Action(Logout)
+  async logout({ setState }: StateContext<AuthStateModel>) {
+    try {
+      await this._auth.logout();
+      setState({
+        isLogged: false
+      });
+    } catch (error) {
+      console.error(error); // dbg
+      setState({
+        isLogged: true
+      });
+    }
   }
 }
