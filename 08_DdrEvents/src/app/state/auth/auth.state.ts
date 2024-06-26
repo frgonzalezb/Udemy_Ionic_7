@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { AuthAction } from './auth.actions';
+import { Login } from './auth.actions';
 import { AuthService } from './auth.service';
 
 export class AuthStateModel {
-  public isLogged: boolean = false;
+  public isLogged!: boolean;
 }
 
 const defaults = {
@@ -25,8 +25,14 @@ export class AuthState {
 
   constructor(private _auth: AuthService) { }
 
-  @Action(AuthAction)
-  add({ getState, setState }: StateContext<AuthStateModel>, { payload }: AuthAction) {
-
+  @Action(Login)
+  login({ setState }: StateContext<AuthStateModel>, { payload }: Login) {
+    return this._auth.login(payload.email, payload.password).then(response => {
+      if (response) {
+        setState({
+          isLogged: true
+        });
+      }
+    });
   }
 }
