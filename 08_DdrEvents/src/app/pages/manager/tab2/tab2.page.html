@@ -7,5 +7,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-login></app-login>
+  <app-login *ngIf="(isLoggedIn$ | async) === false"></app-login>
+  <app-add-edit-events *ngIf="isLoggedIn$ | async"></app-add-edit-events>
 </ion-content>
