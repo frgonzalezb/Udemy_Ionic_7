@@ -1,3 +1,51 @@
-<p>
-  add-edit-events works!
-</p>
+<form (ngSubmit)="addOrEditEvent()">
+
+  <ion-item>
+    <ion-input [label]="'label.title.event' | translate" type="text" name="title">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>{{ 'label.start.event' | translate }}</ion-label>
+    <ion-datetime-button
+      slot="end"
+      displayFormat="DD MMM yyyy HH:mm" datetime="start">
+    </ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          id="start"
+          name="start"
+          [doneText]="'label.ok.text' | translate"
+          [cancelText]="'label.cancel.text' | translate">
+        </ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+
+  <ion-item>
+    <ion-toggle [checked]="showEnd" name="show-end" (ionChange)="changeShowEnd()">
+      {{ 'label.has.end.event' | translate }}
+    </ion-toggle>
+  </ion-item>
+
+  <ion-item *ngIf="showEnd">
+    <ion-label>{{ 'label.end.event' | translate }}</ion-label>
+    <ion-datetime-button
+      slot="end"
+      displayFormat="DD MMM yyyy HH:mm" datetime="end">
+    </ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          id="end"
+          name="end"
+          [doneText]="'label.ok.text' | translate"
+          [cancelText]="'label.cancel.text' | translate">
+        </ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+
+
+</form>
