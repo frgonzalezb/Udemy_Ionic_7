@@ -17,6 +17,7 @@ Ref: https://www.ngxs.io/deprecations/select-decorator-deprecation
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Logout } from 'src/app/state/auth/auth.actions';
 import { AuthState } from 'src/app/state/auth/auth.state';
 
 @Component({
@@ -28,6 +29,12 @@ export class Tab2Page {
 
   isLoggedIn$: Observable<boolean> = inject(Store).select(state => state.auth.isLoggedIn);
 
-  constructor() {}
+  constructor(
+    private store: Store
+  ) {}
+
+  logout() {
+    this.store.dispatch(new Logout());
+  }
 
 }

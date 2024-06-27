@@ -3,6 +3,14 @@
     <ion-title>
       {{ 'label.manage.events' | translate }}
     </ion-title>
+
+    <ion-buttons
+        *ngIf="isLoggedIn$ | async"
+        slot="end"
+        class="ion-margin-end"
+        (click)="logout()">
+      <ion-icon name="power-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
