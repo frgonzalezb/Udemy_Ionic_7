@@ -14,3 +14,7 @@ export class DeleteEvent {
   static readonly type = '[Events] Delete event';
   constructor(public payload: { id: string }) { }
 }
+
+export class GetFutureEvents {
+  static readonly type = '[Events] Get future events';
+}

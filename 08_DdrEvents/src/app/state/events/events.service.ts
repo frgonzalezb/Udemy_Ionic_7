@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Database, push, ref, remove, set } from '@angular/fire/database';
+import { Database, get, orderByChild, push, query, ref, remove, set, startAt } from '@angular/fire/database';
+import * as moment from 'moment';
 import DDREvent from 'src/app/models/ddr-event';
 
 @Injectable({
@@ -49,5 +50,19 @@ export class EventsService {
         reject(false);
       }
     });
+  }
+
+  getFutureEvents() {
+    /*
+    NOTA: Hay varias formas de implementación, entre ellas el método
+    basado en promesa y el basado en observable. El instructor recomienda
+    usar el de promesa, ya que el observable da muchos fallos.
+    */
+    const queryDB = query(
+      ref(this.database, 'eventos'),
+      orderByChild('dateStart'),
+      startAt(moment().format('YYYY-MM-DDTHH:mm'))
+    );
+    return get(queryDB);
   }
 }
