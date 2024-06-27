@@ -1,4 +1,6 @@
-export class EventsAction {
-  static readonly type = '[Events] Add item';
-  constructor(public payload: string) { }
+import DDREvent from "src/app/models/ddr-event";
+
+export class CreateEvent {
+  static readonly type = '[Events] Create event';
+  constructor(public payload: { event: DDREvent }) { }
 }

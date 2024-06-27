@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { EventsAction } from './events.actions';
+import { CreateEvent } from './events.actions';
 import DDREvent from 'src/app/models/ddr-event';
 import { EventsService } from './events.service';
 
@@ -33,8 +33,19 @@ export class EventsState {
 
   constructor(private _events: EventsService) { }
 
-  @Action(EventsAction)
-  add({ getState, setState }: StateContext<EventsStateModel>, { payload }: EventsAction) {
-
+  @Action(CreateEvent)
+  async createEvent({ patchState }: StateContext<EventsStateModel>, { payload }: CreateEvent) {
+    try {
+      const success = await this._events.createEvent(payload.event);
+      if (success) {
+        patchState({
+          success: true
+        });
+      }
+    } catch (error) {
+      patchState({
+        success: false
+      });
+    }
   }
 }
