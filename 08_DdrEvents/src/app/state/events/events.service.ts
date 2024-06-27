@@ -26,4 +26,18 @@ export class EventsService {
       }
     });
   }
+
+  updateEvent(event: DDREvent) {
+    return new Promise((resolve, reject) => {
+      try {
+        let eventRef = ref(this.database, 'eventos');
+        const newRef = push(eventRef);
+        event.id = newRef.key as string;
+        set(newRef, {...event});
+        resolve(true)
+      } catch (error) {
+        reject(false);
+      }
+    });
+  }
 }
