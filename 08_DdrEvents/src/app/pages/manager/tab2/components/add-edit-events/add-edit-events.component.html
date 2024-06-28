@@ -18,6 +18,7 @@
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
         <ion-datetime
+          [min]="minDate"
           formControlName="start"
           id="start"
           name="start"
@@ -43,6 +44,7 @@
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
         <ion-datetime
+          [min]="minDate"
           formControlName="end"
           id="end"
           name="end"

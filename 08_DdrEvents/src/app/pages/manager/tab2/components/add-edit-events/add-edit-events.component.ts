@@ -14,6 +14,7 @@ export class AddEditEventsComponent implements OnInit {
   public edit: boolean;
   public eventForm!: FormGroup;
   public event!: DDREvent;
+  public minDate!: string;
 
   constructor(
     private fb: FormBuilder
@@ -35,6 +36,9 @@ export class AddEditEventsComponent implements OnInit {
       this.edit = true;
       this.showEnd = (this.event.dateEnd) != null;
     }
+
+    this.minDate = moment().format('YYYY-MM-DDTHH:mm');
+
     this.eventForm = this.fb.group({
       title: new FormControl(this.event.title, [
         Validators.required
@@ -56,7 +60,6 @@ export class AddEditEventsComponent implements OnInit {
 
   addOrEditEvent() {
     console.log(this.eventForm.value); // dbg
-    
   }
 
   newEvent() {
