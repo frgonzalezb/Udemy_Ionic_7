@@ -1,7 +1,11 @@
-<form (ngSubmit)="addOrEditEvent()">
+<form [formGroup]="eventForm" (ngSubmit)="addOrEditEvent()">
 
   <ion-item>
-    <ion-input [label]="'label.title.event' | translate" type="text" name="title">
+    <ion-input
+      formControlName="title"
+      [label]="'label.title.event' | translate"
+      type="text"
+      name="title">
     </ion-input>
   </ion-item>
 
@@ -14,6 +18,7 @@
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
         <ion-datetime
+          formControlName="start"
           id="start"
           name="start"
           [doneText]="'label.ok.text' | translate"
@@ -38,6 +43,7 @@
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
         <ion-datetime
+          formControlName="end"
           id="end"
           name="end"
           [doneText]="'label.ok.text' | translate"
@@ -49,6 +55,7 @@
 
   <ion-item>
     <ion-select
+      formControlName="type"
       [label]="'label.type.event' | translate"
       [okText]="'label.ok.text' | translate"
       [cancelText]="'label.cancel.text' | translate"
@@ -71,12 +78,12 @@
   </ion-item>
 
   <ion-item>
-    <ion-input [label]="'label.url.event' | translate" type="url" name="url">
+    <ion-input formControlName="url" [label]="'label.url.event' | translate" type="url" name="url">
     </ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-textarea [label]="'label.description.event' | translate" name="description"></ion-textarea>
+    <ion-textarea formControlName="description" [label]="'label.description.event' | translate" name="description"></ion-textarea>
   </ion-item>
 
   <ion-button expand="block" type="submit">
