@@ -60,7 +60,17 @@ export class AddEditEventsComponent implements OnInit {
   }
 
   newEvent() {
-
+    this.edit = false;
+    this.showEnd = false;
+    this.event = new DDREvent();
+    this.eventForm.patchValue({
+      title: '',
+      start: moment().format('YYYY-MM-DDTHH:mm'),
+      end: moment().format('YYYY-MM-DDTHH:mm'),
+      type: 'blog',
+      url: '',
+      description: ''
+    });
   }
 
   changeShowEnd() {
