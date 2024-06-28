@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import DDREvent from 'src/app/models/ddr-event';
 import { AlertService } from 'src/app/services/alert.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { CreateEvent } from 'src/app/state/events/events.actions';
+import { CreateEvent, GetFutureEvents } from 'src/app/state/events/events.actions';
 import { EventsState } from 'src/app/state/events/events.state';
 
 @Component({
@@ -91,6 +91,7 @@ export class AddEditEventsComponent implements OnInit {
             if (success) {
               this._toast.showToast(this._translate.instant('label.add.event.success'));
               this.newEvent();
+              this.store.dispatch(new GetFutureEvents());
               this.navCtrl.navigateForward('/tabs/tab1');
             } else {
               this._toast.showToast(this._translate.instant('label.add.event.error'));

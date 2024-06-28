@@ -18,7 +18,6 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Logout } from 'src/app/state/auth/auth.actions';
-import { AuthState } from 'src/app/state/auth/auth.state';
 import { AddEditEventsComponent } from './components/add-edit-events/add-edit-events.component';
 
 @Component({
