@@ -14,11 +14,12 @@ Ref: https://www.ngxs.io/deprecations/select-decorator-deprecation
 */
 
 
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Logout } from 'src/app/state/auth/auth.actions';
 import { AuthState } from 'src/app/state/auth/auth.state';
+import { AddEditEventsComponent } from './components/add-edit-events/add-edit-events.component';
 
 @Component({
   selector: 'app-tab2',
@@ -26,12 +27,20 @@ import { AuthState } from 'src/app/state/auth/auth.state';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  // para resetear el formulario de eventos al cambiar de tab
+  @ViewChild(AddEditEventsComponent, { static: false }) manage!: AddEditEventsComponent;
 
   isLoggedIn$: Observable<boolean> = inject(Store).select(state => state.auth.isLoggedIn);
 
   constructor(
     private store: Store
   ) {}
+
+  ionViewWillEnter() {
+    if (this.manage) {
+      this.manage.initEvent();
+    }
+  }
 
   logout() {
     this.store.dispatch(new Logout());
