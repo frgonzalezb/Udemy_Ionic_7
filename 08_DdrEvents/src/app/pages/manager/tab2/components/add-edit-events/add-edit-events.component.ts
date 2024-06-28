@@ -8,15 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class AddEditEventsComponent implements OnInit {
 
   public showEnd: boolean;
+  public edit: boolean;
 
   constructor() {
     this.showEnd = false;
+    this.edit = false;
   }
 
   ngOnInit() {}
 
   addOrEditEvent() {
 
+  }
+
+  newEvent() {
+    
   }
 
   changeShowEnd() {

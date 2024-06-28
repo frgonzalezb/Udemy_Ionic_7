@@ -47,5 +47,44 @@
     </ion-modal>
   </ion-item>
 
+  <ion-item>
+    <ion-select
+      [label]="'label.type.event' | translate"
+      [okText]="'label.ok.text' | translate"
+      [cancelText]="'label.cancel.text' | translate"
+      name="type">
+
+      <ion-select-option value="blog">
+        {{ 'label.type.post.event' | translate }}
+      </ion-select-option>
+      <ion-select-option value="video">
+        {{ 'label.type.video.event' | translate }}
+      </ion-select-option>
+      <ion-select-option value="streaming">
+        {{ 'label.type.streaming.event' | translate }}
+      </ion-select-option>
+      <ion-select-option value="udemy">
+        {{ 'label.type.udemy.event' | translate }}
+      </ion-select-option>
+
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input [label]="'label.url.event' | translate" type="url" name="url">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea [label]="'label.description.event' | translate" name="description"></ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" type="submit">
+    {{ (edit ? 'label.edit.event' : 'label.add.event') | translate }}
+  </ion-button>
+
+  <ion-button expand="block" type="button" (click)="newEvent()">
+    {{ 'label.new.event' | translate }}
+  </ion-button>
 
 </form>
