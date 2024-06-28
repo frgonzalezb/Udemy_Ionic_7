@@ -23,6 +23,7 @@ export class EventsService {
         set(newRef, {...event});
         resolve(true)
       } catch (error) {
+        console.error(error); // dbg
         reject(false);
       }
     });

@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngxs/store';
 import * as moment from 'moment';
 import DDREvent from 'src/app/models/ddr-event';
 import { AlertService } from 'src/app/services/alert.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { CreateEvent } from 'src/app/state/events/events.actions';
+import { EventsState } from 'src/app/state/events/events.state';
 
 @Component({
   selector: 'app-add-edit-events',
@@ -20,8 +25,11 @@ export class AddEditEventsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private navCtrl: NavController,
+    private store: Store,
     private _alert: AlertService,
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _toast: ToastService
   ) {
     this.edit = false;
     this.showEnd = false;
@@ -66,7 +74,34 @@ export class AddEditEventsComponent implements OnInit {
     console.log(this.eventForm.value); // dbg
 
     if (this.eventForm.valid) {
+      this.event = this.eventForm.value as DDREvent;
 
+      if (!this.showEnd) {
+        this.event.dateEnd = null;
+      }
+
+      if (this.edit) {
+        // TODO
+      } else {
+        this.store.dispatch(new CreateEvent({
+          event: this.event
+        })).subscribe({
+          next: () => {
+            const success = this.store.selectSnapshot(EventsState.success);
+            console.log(success); // dbg
+            if (success) {
+              this._toast.showToast(this._translate.instant('label.add.event.success'));
+              this.newEvent();
+              this.navCtrl.navigateForward('/tabs/tab1');
+            } else {
+              this._toast.showToast(this._translate.instant('label.add.event.error'));
+            }
+          }, error: (error) => {
+            console.error(error); // dbg
+            this._toast.showToast(this._translate.instant('label.add.event.error'));
+          }
+        });
+      }
     } else {
       // Crear lista de errores de validación
       let errors = '<ul>';
