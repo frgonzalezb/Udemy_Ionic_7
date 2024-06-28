@@ -88,7 +88,6 @@ export class AddEditEventsComponent implements OnInit {
         })).subscribe({
           next: () => {
             const success = this.store.selectSnapshot(EventsState.success);
-            console.log(success); // dbg
             if (success) {
               this._toast.showToast(this._translate.instant('label.add.event.success'));
               this.newEvent();
@@ -97,7 +96,6 @@ export class AddEditEventsComponent implements OnInit {
               this._toast.showToast(this._translate.instant('label.add.event.error'));
             }
           }, error: (error) => {
-            console.error(error); // dbg
             this._toast.showToast(this._translate.instant('label.add.event.error'));
           }
         });
