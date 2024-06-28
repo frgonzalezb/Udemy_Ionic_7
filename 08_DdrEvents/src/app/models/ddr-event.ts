@@ -3,7 +3,7 @@ class DDREvent {
   title!: string;
   description!: string;
   dateStart!: string;
-  dateEnd?: string | null;
+  dateEnd!: string | null;
   type!: string;
   url!: string;
 }
