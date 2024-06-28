@@ -27,7 +27,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      innerHTMLTemplatesEnabled: true // para dar formato html al alert!
+    }),
     AppRoutingModule,
     HttpClientModule,
     TranslateModule.forRoot({

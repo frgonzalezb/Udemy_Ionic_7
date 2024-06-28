@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import DDREvent from 'src/app/models/ddr-event';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-add-edit-events',
@@ -17,7 +19,9 @@ export class AddEditEventsComponent implements OnInit {
   public minDate!: string;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _alert: AlertService,
+    private _translate: TranslateService
   ) {
     this.edit = false;
     this.showEnd = false;
@@ -60,6 +64,54 @@ export class AddEditEventsComponent implements OnInit {
 
   addOrEditEvent() {
     console.log(this.eventForm.value); // dbg
+
+    if (this.eventForm.valid) {
+
+    } else {
+      // Crear lista de errores de validación
+      let errors = '<ul>';
+      const fieldsToValidate = ['title', 'url', 'description'];
+
+      for (let index = 0; index < fieldsToValidate.length; index++) {
+        let field = fieldsToValidate[index];
+        let fieldFromForm = this.eventForm.get(field);
+        if (fieldFromForm && fieldFromForm.errors && fieldFromForm.errors['required']) {
+          errors += '<li>' + this._translate.instant('label.error.' + field) + '</li>';
+        }
+        if (field === 'url' && fieldFromForm && fieldFromForm.errors && fieldFromForm.errors['pattern']) {
+          errors += '<li>' + this._translate.instant('label.error.url.pattern') + '</li>';
+        }
+      }
+
+      // PARA MI YO DEL FUTURO: Esto de abajo es el estilo del instructor, pero me pareció mejor
+      // hacer lo de arriba, más conciso y abstracto.
+
+      // let title = this.eventForm.get('title');
+      // if (title && title.errors && title.errors['required']) {
+      //   errors += '<li>' + this._translate.instant('label.error.title') + '</li>';
+      // }
+
+      // let description = this.eventForm.get('description');
+      // if (description && description.errors && description.errors['required']) {
+      //   errors += '<li>' + this._translate.instant('label.error.description') + '</li>';
+      // }
+
+      // let url = this.eventForm.get('url');
+      // if (url && url.errors && url.errors['required']) {
+      //   errors += '<li>' + this._translate.instant('label.error.url.required') + '</li>';
+      // }
+
+      // if (url && url.errors && url.errors['pattern']) {
+      //   errors += '<li>' + this._translate.instant('label.error.url.pattern') + '</li>';
+      // }
+      
+      errors += '</ul>';
+
+      this._alert.alertSuccess(
+        this._translate.instant('label.error'),
+        errors
+      );
+    }
   }
 
   newEvent() {
