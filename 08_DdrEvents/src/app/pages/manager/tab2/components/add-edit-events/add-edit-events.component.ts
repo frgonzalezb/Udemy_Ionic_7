@@ -83,8 +83,8 @@ export class AddEditEventsComponent implements OnInit {
         }
       }
 
-      // PARA MI YO DEL FUTURO: Esto de abajo es el estilo del instructor, pero me pareció mejor
-      // hacer lo de arriba, más conciso y abstracto.
+      // PARA MI YO DEL FUTURO: Esto de abajo es el estilo del instructor,
+      // pero me pareció mejor hacer lo de arriba, más conciso y abstracto.
 
       // let title = this.eventForm.get('title');
       // if (title && title.errors && title.errors['required']) {
