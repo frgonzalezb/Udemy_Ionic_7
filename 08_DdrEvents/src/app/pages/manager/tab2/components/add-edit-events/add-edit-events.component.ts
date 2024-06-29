@@ -55,8 +55,8 @@ export class AddEditEventsComponent implements OnInit {
       title: new FormControl(this.event.title, [
         Validators.required
       ]),
-      start: new FormControl(this.event.dateStart ? this.event.dateStart : moment().format('YYYY-MM-DDTHH:mm')),
-      end: new FormControl(this.event.dateEnd ? this.event.dateEnd : moment().format('YYYY-MM-DDTHH:mm')),
+      dateStart: new FormControl(this.event.dateStart ? this.event.dateStart : moment().format('YYYY-MM-DDTHH:mm')),
+      dateEnd: new FormControl(this.event.dateEnd ? this.event.dateEnd : moment().format('YYYY-MM-DDTHH:mm')),
       type: new FormControl(this.event.type ? this.event.type : 'blog', [
         Validators.required
       ]),
@@ -154,8 +154,8 @@ export class AddEditEventsComponent implements OnInit {
     this.event = new DDREvent();
     this.eventForm.patchValue({
       title: '',
-      start: moment().format('YYYY-MM-DDTHH:mm'),
-      end: moment().format('YYYY-MM-DDTHH:mm'),
+      dateStart: moment().format('YYYY-MM-DDTHH:mm'),
+      dateEnd: moment().format('YYYY-MM-DDTHH:mm'),
       type: 'blog',
       url: '',
       description: ''
@@ -165,9 +165,9 @@ export class AddEditEventsComponent implements OnInit {
   changeShowEnd() {
     this.showEnd = !this.showEnd;
     if (this.showEnd) {
-      this.eventForm.patchValue({ end: moment().format('YYYY-MM-DDTHH:mm') });
+      this.eventForm.patchValue({ dateEnd: moment().format('YYYY-MM-DDTHH:mm') });
     } else {
-      this.eventForm.patchValue({ end: null });
+      this.eventForm.patchValue({ dateEnd: null });
     }
   }
 
