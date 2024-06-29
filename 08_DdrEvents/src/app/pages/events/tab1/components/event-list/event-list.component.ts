@@ -46,6 +46,7 @@ export class EventListComponent  implements OnInit {
         const events = this.store.selectSnapshot(EventsState.events);
         this.events = events;
         console.log(this.events); // dbg
+        
       }
     });
   }

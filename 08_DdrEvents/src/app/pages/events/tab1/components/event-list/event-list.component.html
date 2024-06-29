@@ -1,3 +1,43 @@
-<p>
-  event-list works!
-</p>
+<ion-grid>
+
+  <ion-row *ngIf="events?.length === 0">
+    <ion-col class="ion-text-center ion-margin">
+      {{ 'label.no.events' | translate }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="events!.length > 0">
+    <ion-col size="12" *ngFor="let event of events">
+      <ion-card [ngClass]="event.type">
+        <ion-card-content>
+
+          <ion-item lines="none">
+            <ion-label>
+              <ion-text>{{ 'label.start.event' | translate }}</ion-text>: <ion-text>{{ event.dateStart | date: 'dd-MM-yyyy HH:mm' }}</ion-text>
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none" *ngIf="event.dateEnd">
+            <ion-label>
+              <ion-text>{{ 'label.end.event' | translate }}</ion-text>: <ion-text>{{ event.dateEnd | date: 'dd-MM-yyyy HH:mm' }}</ion-text>
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              <ion-text>{{ event.title }}</ion-text>
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>
+              <ion-text>{{ event.description }}</ion-text>
+            </ion-label>
+          </ion-item>
+
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+</ion-grid>
