@@ -86,7 +86,7 @@ export class EventsState {
   async getFutureEvents({ patchState }: StateContext<EventsStateModel>) {
     const snapshot = await this._events.getFutureEvents();
     const events: DDREvent[] = [];
-    snapshot.forEach((childSnapshot: DataSnapshot) => {
+    snapshot.forEach(childSnapshot => {
       /*
       NOTA: Como nos vienen los eventos ordenados de forma ascendente,
       revertimos el orden y los añadimos al array de forma descendente.
