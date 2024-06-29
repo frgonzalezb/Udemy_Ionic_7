@@ -13,15 +13,15 @@
     <ion-label>{{ 'label.start.event' | translate }}</ion-label>
     <ion-datetime-button
       slot="end"
-      displayFormat="DD MMM yyyy HH:mm" datetime="start">
+      displayFormat="DD MMM yyyy HH:mm" datetime="dateStart">
     </ion-datetime-button>
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
         <ion-datetime
           [min]="minDate"
-          formControlName="start"
-          id="start"
-          name="start"
+          formControlName="dateStart"
+          id="dateStart"
+          name="dateStart"
           [doneText]="'label.ok.text' | translate"
           [cancelText]="'label.cancel.text' | translate">
         </ion-datetime>
@@ -39,15 +39,15 @@
     <ion-label>{{ 'label.end.event' | translate }}</ion-label>
     <ion-datetime-button
       slot="end"
-      displayFormat="DD MMM yyyy HH:mm" datetime="end">
+      displayFormat="DD MMM yyyy HH:mm" datetime="dateEnd">
     </ion-datetime-button>
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
         <ion-datetime
           [min]="minDate"
-          formControlName="end"
-          id="end"
-          name="end"
+          formControlName="dateEnd"
+          id="dateEnd"
+          name="dateEnd"
           [doneText]="'label.ok.text' | translate"
           [cancelText]="'label.cancel.text' | translate">
         </ion-datetime>
