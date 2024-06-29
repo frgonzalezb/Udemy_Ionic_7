@@ -83,20 +83,19 @@ export class EventsState {
   }
 
   @Action(GetFutureEvents)
-  getFutureEvents({ patchState }: StateContext<EventsStateModel>) {
-    return this._events.getFutureEvents().then((snapshot: DataSnapshot) => {
-      const events: DDREvent[] = [];
-      snapshot.forEach((childSnapshot: DataSnapshot) => {
-        /*
-        NOTA: Como nos vienen los eventos ordenados de forma ascendente,
-        revertimos el orden y los añadimos al array de forma descendente.
-        */
-        const data = childSnapshot.val() as DDREvent;
-        events.unshift(data);
-      });
-      patchState({
-        events
-      });
+  async getFutureEvents({ patchState }: StateContext<EventsStateModel>) {
+    const snapshot = await this._events.getFutureEvents();
+    const events: DDREvent[] = [];
+    snapshot.forEach((childSnapshot: DataSnapshot) => {
+      /*
+      NOTA: Como nos vienen los eventos ordenados de forma ascendente,
+      revertimos el orden y los añadimos al array de forma descendente.
+      */
+      const data = childSnapshot.val() as DDREvent;
+      events.unshift(data);
+    });
+    patchState({
+      events
     });
   }
 }
