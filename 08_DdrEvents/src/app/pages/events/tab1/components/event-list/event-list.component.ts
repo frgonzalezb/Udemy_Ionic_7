@@ -13,9 +13,9 @@ class UsersComponent {
 Ref: https://www.ngxs.io/deprecations/select-decorator-deprecation
 */
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Browser } from '@capacitor/browser';
-import { ActionSheetController, NavController, NavParams } from '@ionic/angular';
+import { ActionSheetController, IonSearchbar, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -36,7 +36,10 @@ export class EventListComponent  implements OnInit {
   events$: Observable<DDREvent[]> = inject(Store).select(EventsState.events);
 
   public events: DDREvent[];
+  public eventsOriginal!: DDREvent[];
   public eventSelected!: DDREvent;
+
+  @ViewChild('searchbar', { static: false }) searchbar!: IonSearchbar;
 
   constructor(
     private store: Store,
@@ -60,6 +63,7 @@ export class EventListComponent  implements OnInit {
       next: () => {
         const events = this.store.selectSnapshot(EventsState.events);
         this.events = events;
+        this.eventsOriginal = events;
         console.log(this.events); // dbg
       }
     });
@@ -151,6 +155,16 @@ export class EventListComponent  implements OnInit {
         this._toast.showToast(this._translate.instant('label.remove.event.error'));
       }
     });
+  }
+
+  filterEvents() {
+    this.events = this.eventsOriginal.filter(
+      event => {
+        if (!this.searchbar.value) {
+          return null;
+        }
+        return event.title.toLowerCase().trim().includes(this.searchbar.value.toLowerCase().trim())
+      });
   }
 
 }

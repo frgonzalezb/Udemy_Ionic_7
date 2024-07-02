@@ -1,5 +1,13 @@
 <ion-grid>
 
+  <ion-row>
+    <ion-col>
+      <ion-searchbar #searchbar (ionInput)="filterEvents()">
+
+      </ion-searchbar>
+    </ion-col>
+  </ion-row>
+
   <ion-row *ngIf="events?.length === 0">
     <ion-col class="ion-text-center ion-margin">
       {{ 'label.no.events' | translate }}
