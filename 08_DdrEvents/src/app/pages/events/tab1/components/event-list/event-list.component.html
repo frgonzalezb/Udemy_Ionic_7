@@ -2,9 +2,28 @@
 
   <ion-row>
     <ion-col>
-      <ion-searchbar #searchbar (ionInput)="filterEvents()">
+      <ion-searchbar #searchbar (ionInput)="filterEvents()"></ion-searchbar>
+    </ion-col>
+  </ion-row>
 
-      </ion-searchbar>
+  <ion-row>
+    <ion-col>
+      <ion-chip class="blog">
+        <ion-icon name="desktop-outline"></ion-icon>
+        <ion-label>{{ 'label.type.post.event' | translate }}</ion-label>
+      </ion-chip>
+      <ion-chip class="video">
+        <ion-icon name="caret-forward-circle-outline"></ion-icon>
+        <ion-label>{{ 'label.type.video.event' | translate }}</ion-label>
+      </ion-chip>
+      <ion-chip class="streaming">
+        <ion-icon name="videocam-outline"></ion-icon>
+        <ion-label>{{ 'label.type.streaming.event' | translate }}</ion-label>
+      </ion-chip>
+      <ion-chip class="udemy">
+        <ion-icon name="ticket-outline"></ion-icon>
+        <ion-label>{{ 'label.type.udemy.event' | translate }}</ion-label>
+      </ion-chip>
     </ion-col>
   </ion-row>
 

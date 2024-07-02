@@ -1,3 +1,4 @@
+// Cards
 ion-card.blog {
   border-left: 3px solid #7c7c7c;
 }
@@ -12,4 +13,25 @@ ion-card.streaming {
 
 ion-card.udemy {
   border-left: 3px solid #ea5252;
+}
+
+// Chips
+ion-chip, ion-chip ion-icon {
+  color: #FFF;
+}
+
+ion-chip.blog {
+  background: #7c7c7c ;
+}
+
+ion-chip.video {
+  background: #c4302b ;
+}
+
+ion-chip.streaming {
+  background: #6441a5 ;
+}
+
+ion-chip.udemy {
+  background: #ea5252 ;
 }
