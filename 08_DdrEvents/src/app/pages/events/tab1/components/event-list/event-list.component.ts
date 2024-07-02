@@ -14,6 +14,7 @@ Ref: https://www.ngxs.io/deprecations/select-decorator-deprecation
 */
 
 import { Component, OnInit, inject } from '@angular/core';
+import { Browser } from '@capacitor/browser';
 import { ActionSheetController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
@@ -33,6 +34,7 @@ export class EventListComponent  implements OnInit {
   events$: Observable<DDREvent[]> = inject(Store).select(EventsState.events);
 
   public events: DDREvent[];
+  public eventSelected!: DDREvent;
 
   constructor(
     private store: Store,
@@ -57,10 +59,13 @@ export class EventListComponent  implements OnInit {
     });
   }
 
-  clickEvent() {
+  clickEvent(event: DDREvent) {
+    this.eventSelected = event;
     const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
     if (isLoggedIn) {
       this.presentActions();
+    } else {
+      this.openUrl(this.eventSelected.url);
     }
   }
 
@@ -72,8 +77,8 @@ export class EventListComponent  implements OnInit {
           text: this._translate.instant('label.open.url'),
           icon: 'earth-outline',
           handler: () => {
-            // TODO
             console.log('Open URL clicked!'); // dbg
+            this.openUrl(this.eventSelected.url);
           }
         },
         {
@@ -101,6 +106,12 @@ export class EventListComponent  implements OnInit {
     });
 
     await actionSheet.present();
+  }
+
+  async openUrl(url: string) {
+    if (url) {
+      await Browser.open({ url });
+    }
   }
 
 }
