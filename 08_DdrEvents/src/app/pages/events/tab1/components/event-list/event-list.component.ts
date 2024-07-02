@@ -38,6 +38,7 @@ export class EventListComponent  implements OnInit {
   public events: DDREvent[];
   public eventsOriginal!: DDREvent[];
   public eventSelected!: DDREvent;
+  public typeSearch: string;
 
   @ViewChild('searchbar', { static: false }) searchbar!: IonSearchbar;
 
@@ -51,6 +52,7 @@ export class EventListComponent  implements OnInit {
     private _translate: TranslateService
   ) {
     this.events = [];
+    this.typeSearch = '';
   }
 
   ngOnInit() {
@@ -158,13 +160,22 @@ export class EventListComponent  implements OnInit {
   }
 
   filterEvents() {
-    this.events = this.eventsOriginal.filter(
-      event => {
-        if (!this.searchbar.value) {
-          return null;
-        }
-        return event.title.toLowerCase().trim().includes(this.searchbar.value.toLowerCase().trim())
-      });
+    if (this.typeSearch) {
+      this.events = this.eventsOriginal.filter(
+        event => event.type == this.typeSearch && event.title.toLowerCase().trim().includes(this.searchbar.value!.toLowerCase().trim()));
+    } else {
+      this.events = this.eventsOriginal.filter(
+        event => event.title.toLowerCase().trim().includes(this.searchbar.value!.toLowerCase().trim()));
+    }
+  }
+
+  filterEventsByType(type: string) {
+    if (this.typeSearch === type) {
+      this.typeSearch = '';
+    } else {
+      this.typeSearch = type;
+    }
+    this.filterEvents();
   }
 
 }

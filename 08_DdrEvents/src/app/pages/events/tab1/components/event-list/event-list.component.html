@@ -8,19 +8,19 @@
 
   <ion-row>
     <ion-col>
-      <ion-chip class="blog">
+      <ion-chip class="blog" [ngClass]="{'selected': typeSearch === 'blog'}" (click)="filterEventsByType('blog')">
         <ion-icon name="desktop-outline"></ion-icon>
         <ion-label>{{ 'label.type.post.event' | translate }}</ion-label>
       </ion-chip>
-      <ion-chip class="video">
+      <ion-chip class="video" [ngClass]="{'selected': typeSearch === 'video'}" (click)="filterEventsByType('video')">
         <ion-icon name="caret-forward-circle-outline"></ion-icon>
         <ion-label>{{ 'label.type.video.event' | translate }}</ion-label>
       </ion-chip>
-      <ion-chip class="streaming">
+      <ion-chip class="streaming" [ngClass]="{'selected': typeSearch === 'streaming'}" (click)="filterEventsByType('streaming')">
         <ion-icon name="videocam-outline"></ion-icon>
         <ion-label>{{ 'label.type.streaming.event' | translate }}</ion-label>
       </ion-chip>
-      <ion-chip class="udemy">
+      <ion-chip class="udemy" [ngClass]="{'selected': typeSearch === 'udemy'}" (click)="filterEventsByType('udemy')">
         <ion-icon name="ticket-outline"></ion-icon>
         <ion-label>{{ 'label.type.udemy.event' | translate }}</ion-label>
       </ion-chip>
