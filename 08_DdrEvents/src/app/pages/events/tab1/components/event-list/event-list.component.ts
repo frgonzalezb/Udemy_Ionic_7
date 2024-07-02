@@ -21,8 +21,9 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import DDREvent from 'src/app/models/ddr-event';
 import { AlertService } from 'src/app/services/alert.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { AuthState } from 'src/app/state/auth/auth.state';
-import { GetFutureEvents } from 'src/app/state/events/events.actions';
+import { DeleteEvent, GetFutureEvents } from 'src/app/state/events/events.actions';
 import { EventsState } from 'src/app/state/events/events.state';
 
 @Component({
@@ -43,6 +44,7 @@ export class EventListComponent  implements OnInit {
     private navCtrl: NavController,
     private actionSheetCtrl: ActionSheetController,
     private _alert: AlertService,
+    private _toast: ToastService,
     private _translate: TranslateService
   ) {
     this.events = [];
@@ -134,7 +136,21 @@ export class EventListComponent  implements OnInit {
   }
 
   removeEvent() {
-    // TODO
+    this.store.dispatch(new DeleteEvent({ id: this.eventSelected.id })).subscribe({
+      next: () => {
+        const success = this.store.selectSnapshot(EventsState.success);
+        if (success) {
+          this._toast.showToast(this._translate.instant('label.remove.event.success'));
+          this.store.dispatch(new GetFutureEvents());
+          // this.navCtrl.navigateForward('/tabs/tab1');
+        } else {
+          this._toast.showToast(this._translate.instant('label.remove.event.error'));
+        }
+      }, error: (error) => {
+        console.error(error); // dbg
+        this._toast.showToast(this._translate.instant('label.remove.event.error'));
+      }
+    });
   }
 
 }
