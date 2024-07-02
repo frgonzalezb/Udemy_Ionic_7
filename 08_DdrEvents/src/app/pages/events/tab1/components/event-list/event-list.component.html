@@ -8,7 +8,7 @@
 
   <ion-row *ngIf="events!.length > 0">
     <ion-col size="12" *ngFor="let event of events">
-      <ion-card [ngClass]="event.type">
+      <ion-card [ngClass]="event.type" (click)="clickEvent()">
         <ion-card-content>
 
           <ion-item lines="none">
