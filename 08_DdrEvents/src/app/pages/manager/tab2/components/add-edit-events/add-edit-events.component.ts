@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import * as moment from 'moment';
@@ -26,6 +26,7 @@ export class AddEditEventsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private navCtrl: NavController,
+    private navParams: NavParams,
     private store: Store,
     private _alert: AlertService,
     private _translate: TranslateService,
@@ -40,6 +41,9 @@ export class AddEditEventsComponent implements OnInit {
   }
 
   initEvent() {
+    // this.event = this.navParams.data['event'];
+    this.event = this.navParams.get('event') as DDREvent;
+    
     if (!this.event) {
       this.edit = false;
       this.showEnd = false;

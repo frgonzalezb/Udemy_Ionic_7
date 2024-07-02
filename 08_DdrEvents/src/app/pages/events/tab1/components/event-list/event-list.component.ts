@@ -15,7 +15,7 @@ Ref: https://www.ngxs.io/deprecations/select-decorator-deprecation
 
 import { Component, OnInit, inject } from '@angular/core';
 import { Browser } from '@capacitor/browser';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -38,6 +38,8 @@ export class EventListComponent  implements OnInit {
 
   constructor(
     private store: Store,
+    private navParams: NavParams,
+    private navCtrl: NavController,
     private actionSheetCtrl: ActionSheetController,
     private _translate: TranslateService
   ) {
@@ -77,7 +79,6 @@ export class EventListComponent  implements OnInit {
           text: this._translate.instant('label.open.url'),
           icon: 'earth-outline',
           handler: () => {
-            console.log('Open URL clicked!'); // dbg
             this.openUrl(this.eventSelected.url);
           }
         },
@@ -85,8 +86,7 @@ export class EventListComponent  implements OnInit {
           text: this._translate.instant('label.edit.event'),
           icon: 'pencil-outline',
           handler: () => {
-            // TODO
-            console.log('Edit event clicked!'); // dbg
+            this.passEvent();
           }
         },
         {
@@ -112,6 +112,11 @@ export class EventListComponent  implements OnInit {
     if (url) {
       await Browser.open({ url });
     }
+  }
+
+  passEvent() {
+    this.navParams.data['event'] = this.eventSelected;
+    this.navCtrl.navigateForward('/tabs/tab2', this.navParams.data);
   }
 
 }

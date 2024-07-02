@@ -19,6 +19,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Logout } from 'src/app/state/auth/auth.actions';
 import { AddEditEventsComponent } from './components/add-edit-events/add-edit-events.component';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -32,13 +33,22 @@ export class Tab2Page {
   isLoggedIn$: Observable<boolean> = inject(Store).select(state => state.auth.isLoggedIn);
 
   constructor(
-    private store: Store
+    private store: Store,
+    private navParams: NavParams
   ) {}
 
   ionViewWillEnter() {
     if (this.manage) {
       this.manage.initEvent();
     }
+  }
+
+  ionViewWillLeave() {
+    /*
+    Movido desde el initEvent() de AddEditEventsComponent para solucionar
+    el problema de que hay que entrar dos veces para editar evento.
+    */
+    this.navParams.data['event'] = null;
   }
 
   logout() {
