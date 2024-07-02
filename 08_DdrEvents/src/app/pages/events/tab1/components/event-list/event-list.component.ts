@@ -20,6 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import DDREvent from 'src/app/models/ddr-event';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthState } from 'src/app/state/auth/auth.state';
 import { GetFutureEvents } from 'src/app/state/events/events.actions';
 import { EventsState } from 'src/app/state/events/events.state';
@@ -41,6 +42,7 @@ export class EventListComponent  implements OnInit {
     private navParams: NavParams,
     private navCtrl: NavController,
     private actionSheetCtrl: ActionSheetController,
+    private _alert: AlertService,
     private _translate: TranslateService
   ) {
     this.events = [];
@@ -93,8 +95,8 @@ export class EventListComponent  implements OnInit {
           text: this._translate.instant('label.remove.event'),
           icon: 'trash-outline',
           handler: () => {
-            // TODO
             console.log('Remove event clicked!'); // dbg
+            this.confirmRemoveEvent();
           }
         },
         {
@@ -117,6 +119,22 @@ export class EventListComponent  implements OnInit {
   passEvent() {
     this.navParams.data['event'] = this.eventSelected;
     this.navCtrl.navigateForward('/tabs/tab2', this.navParams.data);
+  }
+
+  confirmRemoveEvent() {
+    const self = this;
+    this._alert.alertConfirm(
+      this._translate.instant('label.confirm'),
+      this._translate.instant('label.remove.event.message'),
+      function () {
+        console.log('Remove event clicked!'); // dbg
+        self.removeEvent();
+      }
+    );
+  }
+
+  removeEvent() {
+    // TODO
   }
 
 }
