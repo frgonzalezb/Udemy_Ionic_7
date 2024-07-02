@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import DDREvent from 'src/app/models/ddr-event';
 import { AlertService } from 'src/app/services/alert.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { CreateEvent, GetFutureEvents } from 'src/app/state/events/events.actions';
+import { CreateEvent, GetFutureEvents, UpdateEvent } from 'src/app/state/events/events.actions';
 import { EventsState } from 'src/app/state/events/events.state';
 
 @Component({
@@ -56,6 +56,7 @@ export class AddEditEventsComponent implements OnInit {
     this.minDate = moment().format('YYYY-MM-DDTHH:mm');
 
     this.eventForm = this.fb.group({
+      id: new FormControl(this.event.id),
       title: new FormControl(this.event.title, [
         Validators.required
       ]),
@@ -85,7 +86,21 @@ export class AddEditEventsComponent implements OnInit {
       }
 
       if (this.edit) {
-        // TODO
+        this.store.dispatch(new UpdateEvent({ event: this.event })).subscribe({
+          next: () => {
+            const success = this.store.selectSnapshot(EventsState.success);
+            if (success) {
+              this._toast.showToast(this._translate.instant('label.edit.event.success'));
+              this.store.dispatch(new GetFutureEvents());
+              this.navCtrl.navigateForward('/tabs/tab1');
+            } else {
+              this._toast.showToast(this._translate.instant('label.edit.event.error'));
+            }
+          }, error: (error) => {
+            console.error(error); // dbg
+            this._toast.showToast(this._translate.instant('label.edit.event.error'));
+          }
+        });
       } else {
         this.store.dispatch(new CreateEvent({
           event: this.event
@@ -157,6 +172,7 @@ export class AddEditEventsComponent implements OnInit {
     this.showEnd = false;
     this.event = new DDREvent();
     this.eventForm.patchValue({
+      id: '',
       title: '',
       dateStart: moment().format('YYYY-MM-DDTHH:mm'),
       dateEnd: moment().format('YYYY-MM-DDTHH:mm'),

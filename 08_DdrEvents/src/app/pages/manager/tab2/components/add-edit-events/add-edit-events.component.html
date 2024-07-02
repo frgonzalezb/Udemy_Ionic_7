@@ -1,4 +1,8 @@
 <form [formGroup]="eventForm" (ngSubmit)="addOrEditEvent()">
+  
+  <!-- NOTA: Para pasar el id del evento a editar sin mostrarlo directamente -->
+  <input type="hidden" formControlName="id" name="id">
+  <!-- /NOTA -->
 
   <ion-item>
     <ion-input
