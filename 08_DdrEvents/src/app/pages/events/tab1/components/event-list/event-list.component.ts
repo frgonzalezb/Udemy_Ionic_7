@@ -184,7 +184,10 @@ export class EventListComponent  implements OnInit {
 
   handleRefresh($event: any) {
     this.store.dispatch(new GetFutureEvents());
-    $event.target.complete();
+    setTimeout(() => {
+      // Any calls to load data go here
+      $event.target.complete();
+    }, 2000);
   }
 
 }
