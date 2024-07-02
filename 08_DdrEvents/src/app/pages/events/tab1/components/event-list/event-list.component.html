@@ -1,5 +1,9 @@
 <ion-grid>
 
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-row>
     <ion-col>
       <ion-searchbar #searchbar (ionInput)="filterEvents()"></ion-searchbar>

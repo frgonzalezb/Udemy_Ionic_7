@@ -66,6 +66,10 @@ export class EventListComponent  implements OnInit {
         const events = this.store.selectSnapshot(EventsState.events);
         this.events = events;
         this.eventsOriginal = events;
+        this.typeSearch = '';
+        if (this.searchbar) {
+          this.searchbar.value = '';
+        }
         console.log(this.events); // dbg
       }
     });
@@ -176,6 +180,11 @@ export class EventListComponent  implements OnInit {
       this.typeSearch = type;
     }
     this.filterEvents();
+  }
+
+  handleRefresh($event: any) {
+    this.store.dispatch(new GetFutureEvents());
+    $event.target.complete();
   }
 
 }
