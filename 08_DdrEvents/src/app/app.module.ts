@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { NgxsModule } from '@ngxs/store';
 import { AuthState } from './state/auth/auth.state';
 import { EventsState } from './state/events/events.state';
+import { NotificationsState } from './state/notifications/notifications.state';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -41,7 +42,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     NgxsModule.forRoot([
       AuthState,
-      EventsState
+      EventsState,
+      NotificationsState
     ])
   ],
   providers: [
