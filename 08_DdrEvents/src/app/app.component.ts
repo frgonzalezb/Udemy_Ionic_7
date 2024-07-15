@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { CheckUserIsLoggedIn } from './state/auth/auth.actions';
 import { FcmService } from './services/fcm.service';
+import config from 'capacitor.config';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,10 @@ export class AppComponent {
       
       if (language.value) {
         this._translate.use(language.value.slice(0, 2));
+      }
+
+      if (config.plugins && config.plugins.CapacitorHttp) {
+        config.plugins.CapacitorHttp.enabled = true;
       }
 
       this._fcm.init();

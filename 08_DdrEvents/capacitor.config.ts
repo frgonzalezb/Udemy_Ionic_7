@@ -5,6 +5,9 @@ const config: CapacitorConfig = {
   appName: '08_DdrEvents',
   webDir: 'www',
   plugins: {
+    CapacitorHttp: {
+      enabled: false, // por las traducciones
+    },
     PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"]
     }
