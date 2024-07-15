@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { CheckUserIsLoggedIn } from './state/auth/auth.actions';
+import { FcmService } from './services/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { CheckUserIsLoggedIn } from './state/auth/auth.actions';
 })
 export class AppComponent {
   constructor(
+    private _fcm: FcmService,
     private _translate: TranslateService,
     private platform: Platform,
     private store: Store
@@ -30,6 +32,7 @@ export class AppComponent {
         this._translate.use(language.value.slice(0, 2));
       }
 
+      this._fcm.init();
       this.store.dispatch(new CheckUserIsLoggedIn());
     });
   }
