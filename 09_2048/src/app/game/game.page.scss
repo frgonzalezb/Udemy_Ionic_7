@@ -9,10 +9,73 @@
       height: 60px;
       border: 4px solid #bbada0;
       border-radius: 4px;
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
     }
 
     .cell-grid {
       background: rgba(238, 228, 218, 0.35);
+    }
+
+
+    .number-2 {
+      color: #776e65;
+      background: #eee4da;
+    }
+
+    .number-4 {
+      color: #776e65;
+      background: #eee1c9;
+    }
+
+    .number-8 {
+      color: #f9f6f2;
+      background: #f3b27a;
+    }
+
+    .number-16 {
+      color: #f9f6f2;
+      background: #f69664;
+    }
+
+    .number-32 {
+      color: #f9f6f2;
+      background: #f77c5f;
+    }
+
+    .number-64 {
+      color: #f9f6f2;
+      background: #f75f3b;
+    }
+
+    .number-128 {
+      color: #f9f6f2;
+      background: #edd073;
+    }
+
+    .number-256 {
+      color: #f9f6f2;
+      background: #edcc62;
+    }
+
+    .number-512 {
+      color: #f9f6f2;
+      background: #edc950;
+    }
+
+    .number-1024 {
+      color: #f9f6f2;
+      background: #edc53f;
+      padding-top: 12px;
+      font-size: 22px;
+    }
+
+    .number-2048 {
+      color: #f9f6f2;
+      background: #edc22e;
+      padding-top: 12px;
+      font-size: 22px;
     }
   }
 }

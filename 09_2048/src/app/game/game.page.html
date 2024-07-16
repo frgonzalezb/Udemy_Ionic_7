@@ -20,6 +20,7 @@
             <ion-col *ngFor="let c of cols; let col = index"
               [attr.id]="row + '' + col"
               [ngClass]="{'cell-grid': board[row][col] === null}"
+              [class]="board[row][col] ? 'number-' + board[row][col]!.value : ''"
             >
               {{ board[row][col] ? board[row][col]!.value : '' }}
             </ion-col>
