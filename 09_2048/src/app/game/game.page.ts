@@ -16,6 +16,13 @@ export class GamePage implements AfterViewInit {
   public rows: number[];
   public cols: number[];
 
+  private DIRECTION_UP = 0;
+  private DIRECTION_DOWN = 1;
+  private DIRECTION_LEFT = 2;
+  private DIRECTION_RIGHT = 3;
+
+  private direction!: number;
+
   constructor(
     private gestureCtrl: GestureController
   ) {
@@ -60,10 +67,26 @@ export class GamePage implements AfterViewInit {
 
   onHSwipe(detail: GestureDetail) {
     console.log('Horizontal swipe: ', detail); // dbg
+
+    if (detail.deltaX < 0) {
+      console.info('¡Has deslizado hacia la izquierda!');
+      this.direction = this.DIRECTION_LEFT;
+    } else {
+      console.info('¡Has deslizado hacia la derecha!');
+      this.direction = this.DIRECTION_RIGHT;
+    }
   }
 
   onVSwipe(detail: GestureDetail) {
     console.log('Vertical swipe: ', detail); // dbg
+
+    if (detail.deltaY < 0) {
+      console.info('¡Has deslizado hacia arriba!');
+      this.direction = this.DIRECTION_UP;
+    } else {
+      console.info('¡Has deslizado hacia abajo!');
+      this.direction = this.DIRECTION_DOWN;
+    }
   }
 
 }
