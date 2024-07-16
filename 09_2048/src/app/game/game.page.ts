@@ -34,6 +34,8 @@ export class GamePage implements AfterViewInit {
     ];
     this.rows = Array(4).fill(0);
     this.cols = Array(4).fill(0);
+    this.generateRandomNumber();
+    this.generateRandomNumber();
   }
 
   ngAfterViewInit(): void {
@@ -86,6 +88,26 @@ export class GamePage implements AfterViewInit {
     } else {
       console.info('¡Has deslizado hacia abajo!');
       this.direction = this.DIRECTION_DOWN;
+    }
+  }
+
+  generateRandomNumber() {
+    let row = 0;
+    let col = 0;
+
+    do {
+      row = Math.floor(Math.random() * this.board.length);
+      col = Math.floor(Math.random() * this.board[0].length);
+    } while (this.board[row][col] !== null);
+
+    this.board[row][col] = new Cell();
+
+    const probNum4 = Math.floor(Math.random() * 100) + 1;
+
+    if (probNum4 <= 25) {
+      this.board[row][col]!.value = 4;
+    } else {
+      this.board[row][col]!.value = 2;
     }
   }
 

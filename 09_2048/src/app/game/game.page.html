@@ -23,7 +23,7 @@
               [attr.id]="row+''+col"
               [ngClass]="{'cell-grid': board[row][col] !== null}"
             >
-              {{ board[row][col] ? board[row][col] !== null : '' }}
+              {{ board[row][col] ? board[row][col]! : '' }}
             </ion-col>
           </ion-row>
         </ion-grid>
