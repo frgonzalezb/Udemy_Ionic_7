@@ -154,9 +154,11 @@ export class GamePage implements AfterViewInit {
   nextFreePosition(ogRow: number, ogCol: number, ogNumber: number) {
     let newRow: number;
     let newCol: number;
-    let found: boolean;
+    let found: boolean = false;
 
     switch(this.direction) {
+      
+      // a Boric
       case this.DIRECTION_LEFT:
         newRow = ogRow;
         for (let j = ogCol - 1; j >= 0 && !found; j--) {
@@ -181,7 +183,31 @@ export class GamePage implements AfterViewInit {
           newCol = 0;
         }
         break;
+
+      // a Milei
       case this.DIRECTION_RIGHT:
+        newRow = ogRow;
+        for (let j = ogCol + 1; j < this.board[ogRow].length && !found; j++) {
+          if (this.board[ogRow][j] !== null) {
+            found = true;
+
+            if (this.board[ogRow][j]!.blocked) {
+              // si la caja está bloqueada
+              newCol = j - 1;
+            } else if (this.board[ogRow][j]!.value === ogNumber) {
+              // si ambas cajas tienen el mismo número
+              newCol = j;
+              
+            } else if ((j - 1) !== ogCol) {
+              // si la nueva caja ya tiene otro número
+              newCol = j - 1;
+            }
+          } 
+          
+        }
+        if (!found) {
+          newCol = this.board[ogRow].length - 1;
+        }
         break;
       case this.DIRECTION_UP:
         break;
