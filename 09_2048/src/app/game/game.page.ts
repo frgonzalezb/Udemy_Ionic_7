@@ -73,9 +73,11 @@ export class GamePage implements AfterViewInit {
     if (detail.deltaX < 0) {
       console.info('¡Has deslizado hacia la izquierda!');
       this.direction = this.DIRECTION_LEFT;
+      this.moveLeft();
     } else {
       console.info('¡Has deslizado hacia la derecha!');
       this.direction = this.DIRECTION_RIGHT;
+      this.moveRight();
     }
   }
 
@@ -85,9 +87,11 @@ export class GamePage implements AfterViewInit {
     if (detail.deltaY < 0) {
       console.info('¡Has deslizado hacia arriba!');
       this.direction = this.DIRECTION_UP;
+      this.moveUp();
     } else {
       console.info('¡Has deslizado hacia abajo!');
       this.direction = this.DIRECTION_DOWN;
+      this.moveDown();
     }
   }
 
@@ -108,6 +112,42 @@ export class GamePage implements AfterViewInit {
       this.board[row][col]!.value = 4;
     } else {
       this.board[row][col]!.value = 2;
+    }
+  }
+
+  moveLeft() {
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 1; j < this.board[i].length; j++) {
+        
+      }
+      
+    }
+  }
+
+  moveRight() {
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = this.board[i].length - 2; j >= 0; j--) {
+        
+      }
+      
+    }
+  }
+
+  moveUp() {
+    for (let i = 1; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+        
+      }
+      
+    }
+  }
+
+  moveDown() {
+    for (let i = this.board.length - 2; i >= 0; i--) {
+      for (let j = 0; j < this.board[i].length; j++) {
+        
+      }
+      
     }
   }
 
