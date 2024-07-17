@@ -23,6 +23,8 @@ export class GamePage implements AfterViewInit {
 
   private direction!: number;
 
+  private hasMovement: boolean;
+
   constructor(
     private gestureCtrl: GestureController
   ) {
@@ -36,6 +38,7 @@ export class GamePage implements AfterViewInit {
     this.cols = Array(4).fill(0);
     this.generateRandomNumber();
     this.generateRandomNumber();
+    this.hasMovement = false;
   }
 
   ngAfterViewInit(): void {
@@ -79,6 +82,8 @@ export class GamePage implements AfterViewInit {
       this.direction = this.DIRECTION_RIGHT;
       this.moveRight();
     }
+
+    this.checkMovement();
   }
 
   onVSwipe(detail: GestureDetail) {
@@ -93,6 +98,8 @@ export class GamePage implements AfterViewInit {
       this.direction = this.DIRECTION_DOWN;
       this.moveDown();
     }
+
+    this.checkMovement();
   }
 
   generateRandomNumber() {
@@ -279,6 +286,7 @@ export class GamePage implements AfterViewInit {
         }
         
         this.board[i][j] = null; // reiniciar la celda actual
+        this.hasMovement = true;
       }
     }
   }
@@ -290,6 +298,14 @@ export class GamePage implements AfterViewInit {
           this.board[i][j]!.blocked = false;
         }
       }
+    }
+  }
+
+  checkMovement() {
+    if (this.hasMovement) {
+      this.generateRandomNumber();
+      this.hasMovement = false; // reiniciar propiedad
+      this.clearBlockedCells();
     }
   }
 
