@@ -151,4 +151,43 @@ export class GamePage implements AfterViewInit {
     }
   }
 
+  nextFreePosition(ogRow: number, ogCol: number, ogNumber: number) {
+    let newRow: number;
+    let newCol: number;
+    let found: boolean;
+
+    switch(this.direction) {
+      case this.DIRECTION_LEFT:
+        newRow = ogRow;
+        for (let j = ogCol - 1; j >= 0 && !found; j--) {
+          if (this.board[ogRow][j] !== null) {
+            found = true;
+
+            if (this.board[ogRow][j]!.blocked) {
+              // si la caja está bloqueada
+              newCol = j + 1;
+            } else if (this.board[ogRow][j]!.value === ogNumber) {
+              // si ambas cajas tienen el mismo número
+              newCol = j;
+              
+            } else if ((j + 1) !== ogCol) {
+              // si la nueva caja ya tiene otro número
+              newCol = j + 1;
+            }
+          } 
+          
+        }
+        if (!found) {
+          newCol = 0;
+        }
+        break;
+      case this.DIRECTION_RIGHT:
+        break;
+      case this.DIRECTION_UP:
+        break;
+      case this.DIRECTION_DOWN:
+        break;
+    }
+  }
+
 }
