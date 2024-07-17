@@ -171,7 +171,6 @@ export class GamePage implements AfterViewInit {
             } else if (this.board[ogRow][j]!.value === ogNumber) {
               // si ambas cajas tienen el mismo número
               newCol = j;
-              
             } else if ((j + 1) !== ogCol) {
               // si la nueva caja ya tiene otro número
               newCol = j + 1;
@@ -197,7 +196,6 @@ export class GamePage implements AfterViewInit {
             } else if (this.board[ogRow][j]!.value === ogNumber) {
               // si ambas cajas tienen el mismo número
               newCol = j;
-              
             } else if ((j - 1) !== ogCol) {
               // si la nueva caja ya tiene otro número
               newCol = j - 1;
@@ -209,8 +207,32 @@ export class GamePage implements AfterViewInit {
           newCol = this.board[ogRow].length - 1;
         }
         break;
+      
+      // a San Pedro
       case this.DIRECTION_UP:
+        newCol = ogCol;
+        for (let i = ogRow - 1; i >= 0 && !found; i--) {
+          if (this.board[i][ogCol] !== null) {
+            found = true;
+
+            if (this.board[i][ogCol]!.blocked) {
+              // si la caja está bloqueada
+              newRow = i + 1;
+            } else if (this.board[i][ogCol]!.value === ogNumber) {
+              // si ambas cajas tienen el mismo número
+              newRow = i;
+            } else if ((i + 1) !== ogRow) {
+              // si la nueva caja ya tiene otro número
+              newRow = i + 1;
+            }
+          }
+        }
+        if (!found) {
+          newRow = 0;
+        }
         break;
+
+      // a don Sata
       case this.DIRECTION_DOWN:
         break;
     }
