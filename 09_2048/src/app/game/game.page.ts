@@ -118,36 +118,32 @@ export class GamePage implements AfterViewInit {
   moveLeft() {
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 1; j < this.board[i].length; j++) {
-        
+        this.processPosition(i, j);
       }
-      
     }
   }
 
   moveRight() {
     for (let i = 0; i < this.board.length; i++) {
       for (let j = this.board[i].length - 2; j >= 0; j--) {
-        
+        this.processPosition(i, j);
       }
-      
     }
   }
 
   moveUp() {
     for (let i = 1; i < this.board.length; i++) {
       for (let j = 0; j < this.board[i].length; j++) {
-        
+        this.processPosition(i, j);
       }
-      
     }
   }
 
   moveDown() {
     for (let i = this.board.length - 2; i >= 0; i--) {
       for (let j = 0; j < this.board[i].length; j++) {
-        
+        this.processPosition(i, j);
       }
-      
     }
   }
 
@@ -235,7 +231,7 @@ export class GamePage implements AfterViewInit {
       // a don Sata
       case this.DIRECTION_DOWN:
         newCol = ogCol;
-        for (let i = ogRow + 1; i < this.board[ogCol].length && !found; i++) {
+        for (let i = ogRow + 1; i < this.board.length && !found; i++) {
           if (this.board[i][ogCol] !== null) {
             found = true;
 
@@ -252,7 +248,7 @@ export class GamePage implements AfterViewInit {
           }
         }
         if (!found) {
-          newRow = 0;
+          newRow = this.board.length - 1;
         }
         break;
     }
@@ -262,6 +258,29 @@ export class GamePage implements AfterViewInit {
     }
 
     return null;
+  }
+
+  processPosition(i: number, j: number) {
+    const cell = this.board[i][j];
+    if (cell !== null) {
+      const nextPosition = this.nextFreePosition(i, j, cell.value);
+      if (nextPosition !== null) {
+        const row = nextPosition[0];
+        const col = nextPosition[1];
+        if (!this.board[row][col]) {
+          this.board[row][col] = new Cell();
+        }
+        if (cell.value === this.board[row][col]!.value) {
+          const points = cell.value * 2;
+          this.board[row][col]!.value = points;
+          this.board[row][col]!.blocked = true; // sólo sumar los 2 primeros
+        } else {
+          this.board[row][col] = cell;
+        }
+        
+        this.board[i][j] = null; // reiniciar la celda actual
+      }
+    }
   }
 
 }
