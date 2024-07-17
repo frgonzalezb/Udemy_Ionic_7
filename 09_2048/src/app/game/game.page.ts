@@ -152,9 +152,9 @@ export class GamePage implements AfterViewInit {
   }
 
   nextFreePosition(ogRow: number, ogCol: number, ogNumber: number) {
-    let newRow: number;
-    let newCol: number;
-    let found: boolean = false;
+    let newRow!: number;
+    let newCol!: number;
+    let found!: boolean;
 
     switch(this.direction) {
       
@@ -256,6 +256,12 @@ export class GamePage implements AfterViewInit {
         }
         break;
     }
+
+    if (newRow !== undefined && newCol !== undefined) {
+      return [newRow, newCol];
+    }
+
+    return null;
   }
 
 }
