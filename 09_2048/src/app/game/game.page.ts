@@ -283,4 +283,14 @@ export class GamePage implements AfterViewInit {
     }
   }
 
+  clearBlockedCells() {
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+        if (this.board[i][j] !== null) {
+          this.board[i][j]!.blocked = false;
+        }
+      }
+    }
+  }
+
 }
