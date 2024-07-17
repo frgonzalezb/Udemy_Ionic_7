@@ -234,6 +234,26 @@ export class GamePage implements AfterViewInit {
 
       // a don Sata
       case this.DIRECTION_DOWN:
+        newCol = ogCol;
+        for (let i = ogRow + 1; i < this.board[ogCol].length && !found; i++) {
+          if (this.board[i][ogCol] !== null) {
+            found = true;
+
+            if (this.board[i][ogCol]!.blocked) {
+              // si la caja está bloqueada
+              newRow = i - 1;
+            } else if (this.board[i][ogCol]!.value === ogNumber) {
+              // si ambas cajas tienen el mismo número
+              newRow = i;
+            } else if ((i - 1) !== ogRow) {
+              // si la nueva caja ya tiene otro número
+              newRow = i - 1;
+            }
+          }
+        }
+        if (!found) {
+          newRow = 0;
+        }
         break;
     }
   }
