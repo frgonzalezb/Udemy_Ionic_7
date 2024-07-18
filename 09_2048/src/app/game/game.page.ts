@@ -13,7 +13,7 @@ export class GamePage implements AfterViewInit {
 
   @ViewChild('gameBoard', { read: ElementRef }) gameBoard!: ElementRef;
 
-  public board: Cell[][] | null[][];
+  public board!: Cell[][] | null[][];
 
   public rows: number[];
   public cols: number[];
@@ -25,29 +25,19 @@ export class GamePage implements AfterViewInit {
 
   private direction!: number;
 
-  private hasMovement: boolean;
+  private hasMovement!: boolean;
 
-  public points: number;
-  private roundPoints: number;
+  public points!: number;
+  private roundPoints!: number;
 
   constructor(
     private gestureCtrl: GestureController,
     private _alert: AlertService,
     private _translate: TranslateService
   ) {
-    this.board = [
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null]
-    ];
     this.rows = Array(4).fill(0);
     this.cols = Array(4).fill(0);
-    this.generateRandomNumber();
-    this.generateRandomNumber();
-    this.hasMovement = false;
-    this.points = 0;
-    this.roundPoints = 0;
+    this.startNewGame();
   }
 
   ngAfterViewInit(): void {
@@ -320,7 +310,7 @@ export class GamePage implements AfterViewInit {
         {
           text: this._translate.instant('label.new.game'),
           handler: () => {
-            // this.newGame();
+            this.startNewGame();
           }
         },
         {
@@ -347,7 +337,7 @@ export class GamePage implements AfterViewInit {
         {
           text: this._translate.instant('label.new.game'),
           handler: () => {
-            // this.newGame();
+            this.startNewGame();
           }
         },
         {
@@ -419,5 +409,19 @@ export class GamePage implements AfterViewInit {
       }
     }
     return true; // se ha perdido el juego 😞
+  }
+
+  startNewGame(): void {
+    this.board = [
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null]
+    ];
+    this.generateRandomNumber();
+    this.generateRandomNumber();
+    this.hasMovement = false;
+    this.points = 0;
+    this.roundPoints = 0;
   }
 }
