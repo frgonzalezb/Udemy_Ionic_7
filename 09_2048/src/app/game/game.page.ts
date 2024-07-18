@@ -125,9 +125,9 @@ export class GamePage implements AfterViewInit {
     const probNum4 = Math.floor(Math.random() * 100) + 1;
 
     if (probNum4 <= 25) {
-      this.board[row][col]!.value = 1024; // 4, en caso de modificar por dbg
+      this.board[row][col]!.value = 4; // 4, en caso de modificar por dbg
     } else {
-      this.board[row][col]!.value = 1024; // 2, en caso de modificar por dbg
+      this.board[row][col]!.value = 2; // 2, en caso de modificar por dbg
     }
   }
 
@@ -339,6 +339,34 @@ export class GamePage implements AfterViewInit {
         buttons,
         backdropDismiss
       );
+
+    } else if (this.checkPlayerHasLoseGame()) {
+      console.info('¡Has perdido la partida!')
+
+      const buttons = [
+        {
+          text: this._translate.instant('label.new.game'),
+          handler: () => {
+            // this.newGame();
+          }
+        },
+        {
+          text: this._translate.instant('label.share'),
+          handler: () => {
+            // this.share();
+          }
+        },
+      ];
+
+      const backdropDismiss = false;
+
+      this._alert.alertCustomButtons(
+        this._translate.instant('label.lose.game.title'),
+        this._translate.instant('label.game.content', { points: this.points }),
+        buttons,
+        backdropDismiss
+      );
+
     } else if (this.hasMovement) {
       this.generateRandomNumber();
       this.hasMovement = false; // reiniciar propiedad
@@ -352,12 +380,44 @@ export class GamePage implements AfterViewInit {
       for (let j = 0; j < this.board[i].length; j++) {
         if (this.board[i][j] !== null && this.board[i][j]!.value === 2048) {
           return true;
-        } else {
-          
         }
       }
     }
     return false;
   }
 
+  checkPlayerHasLoseGame(): boolean {
+    /*
+    Hay dos situaciones importantes que chequear antes de declarar el game over:
+    1. No hay más celdas libres en el tablero.
+    2. No hay posibilidades de mover una celda para liberar espacio.
+    */
+
+    // 1. Revisar si el tablero está lleno
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+
+        if (this.board[i][j] === null) {
+          return false;
+        }
+      }
+    }
+
+    // 2. Si el tablero ya esta lleno, revisar cada una de las celdas
+    // y comprobar si hay posibilidades de moverse a alguno de los lados
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+
+        let upIsAvailable = this.board[i - 1] && this.board[i - 1][j]!.value === this.board[i][j]!.value;
+        let downIsAvailable = this.board[i + 1] && this.board[i + 1][j]!.value === this.board[i][j]!.value;
+        let leftIsAvailable = this.board[i][j - 1] && this.board[i][j - 1]!.value === this.board[i][j]!.value;
+        let rightIsAvailable = this.board[i][j + 1] && this.board[i][j + 1]!.value === this.board[i][j]!.value;
+
+        if (upIsAvailable || downIsAvailable || leftIsAvailable || rightIsAvailable) {
+          return false;
+        }
+      }
+    }
+    return true; // se ha perdido el juego 😞
+  }
 }
