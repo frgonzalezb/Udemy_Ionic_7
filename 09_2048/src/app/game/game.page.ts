@@ -25,6 +25,9 @@ export class GamePage implements AfterViewInit {
 
   private hasMovement: boolean;
 
+  public points: number;
+  private roundPoints: number;
+
   constructor(
     private gestureCtrl: GestureController
   ) {
@@ -39,6 +42,8 @@ export class GamePage implements AfterViewInit {
     this.generateRandomNumber();
     this.generateRandomNumber();
     this.hasMovement = false;
+    this.points = 0;
+    this.roundPoints = 0;
   }
 
   ngAfterViewInit(): void {
@@ -281,6 +286,8 @@ export class GamePage implements AfterViewInit {
           const points = cell.value * 2;
           this.board[row][col]!.value = points;
           this.board[row][col]!.blocked = true; // sólo sumar los 2 primeros
+          this.points += points;
+          this.roundPoints += points;
         } else {
           this.board[row][col] = cell;
         }
@@ -305,6 +312,7 @@ export class GamePage implements AfterViewInit {
     if (this.hasMovement) {
       this.generateRandomNumber();
       this.hasMovement = false; // reiniciar propiedad
+      this.roundPoints = 0;
       this.clearBlockedCells();
     }
   }
