@@ -75,7 +75,7 @@ export class GamePage implements AfterViewInit {
     horizontalSwipe.enable();
   }
 
-  onHSwipe(detail: GestureDetail) {
+  onHSwipe(detail: GestureDetail): void {
     console.log('Horizontal swipe: ', detail); // dbg
 
     if (detail.deltaX < 0) {
@@ -91,7 +91,7 @@ export class GamePage implements AfterViewInit {
     this.checkMovement();
   }
 
-  onVSwipe(detail: GestureDetail) {
+  onVSwipe(detail: GestureDetail): void {
     console.log('Vertical swipe: ', detail); // dbg
 
     if (detail.deltaY < 0) {
@@ -107,7 +107,7 @@ export class GamePage implements AfterViewInit {
     this.checkMovement();
   }
 
-  generateRandomNumber() {
+  generateRandomNumber(): void {
     let row = 0;
     let col = 0;
 
@@ -121,13 +121,13 @@ export class GamePage implements AfterViewInit {
     const probNum4 = Math.floor(Math.random() * 100) + 1;
 
     if (probNum4 <= 25) {
-      this.board[row][col]!.value = 4;
+      this.board[row][col]!.value = 4; // 4, en caso de modificar por dbg
     } else {
-      this.board[row][col]!.value = 2;
+      this.board[row][col]!.value = 2; // 2, en caso de modificar por dbg
     }
   }
 
-  moveLeft() {
+  moveLeft(): void {
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 1; j < this.board[i].length; j++) {
         this.processPosition(i, j);
@@ -135,7 +135,7 @@ export class GamePage implements AfterViewInit {
     }
   }
 
-  moveRight() {
+  moveRight(): void {
     for (let i = 0; i < this.board.length; i++) {
       for (let j = this.board[i].length - 2; j >= 0; j--) {
         this.processPosition(i, j);
@@ -143,7 +143,7 @@ export class GamePage implements AfterViewInit {
     }
   }
 
-  moveUp() {
+  moveUp(): void {
     for (let i = 1; i < this.board.length; i++) {
       for (let j = 0; j < this.board[i].length; j++) {
         this.processPosition(i, j);
@@ -151,7 +151,7 @@ export class GamePage implements AfterViewInit {
     }
   }
 
-  moveDown() {
+  moveDown(): void {
     for (let i = this.board.length - 2; i >= 0; i--) {
       for (let j = 0; j < this.board[i].length; j++) {
         this.processPosition(i, j);
@@ -159,7 +159,7 @@ export class GamePage implements AfterViewInit {
     }
   }
 
-  nextFreePosition(ogRow: number, ogCol: number, ogNumber: number) {
+  nextFreePosition(ogRow: number, ogCol: number, ogNumber: number): number[] | null {
     let newRow!: number;
     let newCol!: number;
     let found!: boolean;
@@ -272,7 +272,7 @@ export class GamePage implements AfterViewInit {
     return null;
   }
 
-  processPosition(i: number, j: number) {
+  processPosition(i: number, j: number): void {
     const cell = this.board[i][j];
     if (cell !== null) {
       const nextPosition = this.nextFreePosition(i, j, cell.value);
@@ -298,7 +298,7 @@ export class GamePage implements AfterViewInit {
     }
   }
 
-  clearBlockedCells() {
+  clearBlockedCells(): void {
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 0; j < this.board[i].length; j++) {
         if (this.board[i][j] !== null) {
@@ -308,13 +308,28 @@ export class GamePage implements AfterViewInit {
     }
   }
 
-  checkMovement() {
-    if (this.hasMovement) {
+  checkMovement(): void {
+    if (this.checkPlayerHasWonGame()) {
+      console.info('¡Has ganado la partida!');
+    } else if (this.hasMovement) {
       this.generateRandomNumber();
       this.hasMovement = false; // reiniciar propiedad
       this.roundPoints = 0;
       this.clearBlockedCells();
     }
+  }
+
+  checkPlayerHasWonGame(): boolean {
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+        if (this.board[i][j] !== null && this.board[i][j]!.value === 2048) {
+          return true;
+        } else {
+          
+        }
+      }
+    }
+    return false;
   }
 
 }
