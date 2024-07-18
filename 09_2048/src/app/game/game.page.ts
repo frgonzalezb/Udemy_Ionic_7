@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Cell } from '../models/cell';
 import { GestureController, GestureDetail } from '@ionic/angular';
+import { AlertService } from '../services/alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game',
@@ -29,7 +31,9 @@ export class GamePage implements AfterViewInit {
   private roundPoints: number;
 
   constructor(
-    private gestureCtrl: GestureController
+    private gestureCtrl: GestureController,
+    private _alert: AlertService,
+    private _translate: TranslateService
   ) {
     this.board = [
       [null, null, null, null],
@@ -121,9 +125,9 @@ export class GamePage implements AfterViewInit {
     const probNum4 = Math.floor(Math.random() * 100) + 1;
 
     if (probNum4 <= 25) {
-      this.board[row][col]!.value = 4; // 4, en caso de modificar por dbg
+      this.board[row][col]!.value = 1024; // 4, en caso de modificar por dbg
     } else {
-      this.board[row][col]!.value = 2; // 2, en caso de modificar por dbg
+      this.board[row][col]!.value = 1024; // 2, en caso de modificar por dbg
     }
   }
 
@@ -311,6 +315,30 @@ export class GamePage implements AfterViewInit {
   checkMovement(): void {
     if (this.checkPlayerHasWonGame()) {
       console.info('¡Has ganado la partida!');
+
+      const buttons = [
+        {
+          text: this._translate.instant('label.new.game'),
+          handler: () => {
+            // this.newGame();
+          }
+        },
+        {
+          text: this._translate.instant('label.share'),
+          handler: () => {
+            // this.share();
+          }
+        },
+      ];
+
+      const backdropDismiss = false;
+
+      this._alert.alertCustomButtons(
+        this._translate.instant('label.win.game.title'),
+        this._translate.instant('label.game.content', { points: this.points }),
+        buttons,
+        backdropDismiss
+      );
     } else if (this.hasMovement) {
       this.generateRandomNumber();
       this.hasMovement = false; // reiniciar propiedad
