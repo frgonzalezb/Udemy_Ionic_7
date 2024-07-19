@@ -32,6 +32,8 @@ export class GamePage implements AfterViewInit {
 
   private animations: Animation[];
 
+  private isMoving: boolean;
+
   constructor(
     private animationCtrl: AnimationController,
     private gestureCtrl: GestureController,
@@ -42,6 +44,7 @@ export class GamePage implements AfterViewInit {
     this.cols = Array(4).fill(0);
     this.startNewGame();
     this.animations = [];
+    this.isMoving = false;
   }
 
   ngAfterViewInit(): void {
@@ -74,7 +77,11 @@ export class GamePage implements AfterViewInit {
   }
 
   onHSwipe(detail: GestureDetail): void {
-    console.log('Horizontal swipe: ', detail); // dbg
+    if (this.isMoving) {
+      return
+    }
+
+    this.isMoving = true;
 
     if (detail.deltaX < 0) {
       console.info('¡Has deslizado hacia la izquierda!');
@@ -90,7 +97,11 @@ export class GamePage implements AfterViewInit {
   }
 
   onVSwipe(detail: GestureDetail): void {
-    console.log('Vertical swipe: ', detail); // dbg
+    if (this.isMoving) {
+      return
+    }
+
+    this.isMoving = true;
 
     if (detail.deltaY < 0) {
       console.info('¡Has deslizado hacia arriba!');
@@ -418,8 +429,15 @@ export class GamePage implements AfterViewInit {
         animationGroup.destroy();
         this.animations = [];
       }, 100);
+
+      setTimeout(() => {
+        this.isMoving = false;
+      }, 500);
       
       this.clearBlockedCells();
+    
+    } else {
+      this.isMoving = false;
     }
   }
 
@@ -481,6 +499,7 @@ export class GamePage implements AfterViewInit {
     this.hasMovement = false;
     this.points = 0;
     this.roundPoints = 0;
+    this.isMoving = false;
   }
 
   showAnimationForPoints() {
