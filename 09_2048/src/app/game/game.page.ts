@@ -378,7 +378,10 @@ export class GamePage implements AfterViewInit {
     } else if (this.hasMovement) {
       this.generateRandomNumber();
       this.hasMovement = false; // reiniciar propiedad
-      this.roundPoints = 0;
+      if (this.roundPoints > 0) {
+        this.showAnimationForPoints();
+        this.roundPoints = 0;
+      }
       this.clearBlockedCells();
     }
   }
@@ -442,4 +445,27 @@ export class GamePage implements AfterViewInit {
     this.points = 0;
     this.roundPoints = 0;
   }
+
+  showAnimationForPoints() {
+    const pointsElement = document.getElementById('scored-points');
+    if (pointsElement === null) {
+      return;
+    }
+    pointsElement.innerHTML = '+' + this.roundPoints.toString();
+
+    const animation = this.animationCtrl.create()
+      .addElement(pointsElement)
+      .duration(1000)
+      .iterations(1)
+      .fromTo('transform', 'translateY(0px)', 'translateY(-60px)')
+      .fromTo('opacity', '1', '0');
+
+    animation.play();
+
+    setTimeout(() => {
+      animation.stop();
+      pointsElement.innerHTML = '';
+    }, 1000);
+  }
+
 }
