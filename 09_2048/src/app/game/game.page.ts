@@ -176,7 +176,7 @@ export class GamePage implements AfterViewInit {
     let newCol!: number;
     let found!: boolean;
 
-    switch(this.direction) {
+    switch (this.direction) {
       
       // a Boric
       case this.DIRECTION_LEFT:
@@ -275,6 +275,10 @@ export class GamePage implements AfterViewInit {
           newRow = this.board.length - 1;
         }
         break;
+      
+      // nadie, absolutamente nadie
+      default:
+          break;
     }
 
     if (newRow !== undefined && newCol !== undefined) {
@@ -306,6 +310,23 @@ export class GamePage implements AfterViewInit {
         
         this.board[i][j] = null; // reiniciar la celda actual
         this.hasMovement = true;
+
+        // animaciones celdas
+        // esto requiere contar las celdas que se han movido
+        let numberOfCells: number;
+        switch (this.direction) {
+          case this.DIRECTION_LEFT || this.DIRECTION_RIGHT:
+            numberOfCells = col - j;
+            break;
+          case this.DIRECTION_UP || this.DIRECTION_DOWN:
+            numberOfCells = row - i;
+            break;
+        
+          default:
+            numberOfCells = 0;
+            break;
+        }
+        this.showAnimationForMovements(i, j, numberOfCells);
       }
     }
   }
@@ -466,6 +487,34 @@ export class GamePage implements AfterViewInit {
       animation.stop();
       pointsElement.innerHTML = '';
     }, 1000);
+  }
+
+  showAnimationForMovements(row: number, col: number, cellQuantity: number) {
+    const cellElement = document.getElementById(row + '' + col);
+    if (cellElement === null) {
+      return;
+    }
+    let animation = this.animationCtrl.create()
+      .addElement(cellElement)
+      .duration(100);
+
+    switch (this.direction) {
+      case this.DIRECTION_LEFT || this.DIRECTION_RIGHT:
+        animation = animation.fromTo('transform', 'translateX(0px)', `translateX(${cellQuantity * 60}px)`);
+        break;
+      case this.DIRECTION_UP || this.DIRECTION_DOWN:
+        animation = animation.fromTo('transform', 'translateY(0px)', `translateY(${cellQuantity * 60}px)`);
+        break;
+    
+      default:
+        break;
+    }
+
+    animation.play();
+
+    setTimeout(() => {
+      animation.stop();
+    }, 100);
   }
 
 }
