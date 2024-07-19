@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Cell } from '../models/cell';
-import { AnimationController, GestureController, GestureDetail } from '@ionic/angular';
+import { Animation, AnimationController, GestureController, GestureDetail } from '@ionic/angular';
 import { AlertService } from '../services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -30,6 +30,8 @@ export class GamePage implements AfterViewInit {
   public points!: number;
   private roundPoints!: number;
 
+  private animations: Animation[];
+
   constructor(
     private animationCtrl: AnimationController,
     private gestureCtrl: GestureController,
@@ -39,6 +41,7 @@ export class GamePage implements AfterViewInit {
     this.rows = Array(4).fill(0);
     this.cols = Array(4).fill(0);
     this.startNewGame();
+    this.animations = [];
   }
 
   ngAfterViewInit(): void {
@@ -399,10 +402,23 @@ export class GamePage implements AfterViewInit {
     } else if (this.hasMovement) {
       this.generateRandomNumber();
       this.hasMovement = false; // reiniciar propiedad
+      
       if (this.roundPoints > 0) {
         this.showAnimationForPoints();
         this.roundPoints = 0;
       }
+      
+      const animationGroup = this.animationCtrl.create()
+        .addAnimation(this.animations)
+        .duration(100);
+      
+      animationGroup.play();
+
+      setTimeout(() => {
+        animationGroup.destroy();
+        this.animations = [];
+      }, 100);
+      
       this.clearBlockedCells();
     }
   }
@@ -496,7 +512,6 @@ export class GamePage implements AfterViewInit {
     }
     let animation = this.animationCtrl.create()
       .addElement(cellElement)
-      .duration(100);
 
     switch (this.direction) {
       case this.DIRECTION_LEFT || this.DIRECTION_RIGHT:
@@ -510,11 +525,13 @@ export class GamePage implements AfterViewInit {
         break;
     }
 
-    animation.play();
+    this.animations.push(animation);
 
-    setTimeout(() => {
-      animation.stop();
-    }, 100);
+    // animation.play();
+
+    // setTimeout(() => {
+    //   animation.stop();
+    // }, 100);
   }
 
 }
