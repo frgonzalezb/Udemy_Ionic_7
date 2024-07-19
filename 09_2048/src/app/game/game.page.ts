@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Cell } from '../models/cell';
-import { GestureController, GestureDetail } from '@ionic/angular';
+import { AnimationController, GestureController, GestureDetail } from '@ionic/angular';
 import { AlertService } from '../services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -31,6 +31,7 @@ export class GamePage implements AfterViewInit {
   private roundPoints!: number;
 
   constructor(
+    private animationCtrl: AnimationController,
     private gestureCtrl: GestureController,
     private _alert: AlertService,
     private _translate: TranslateService
@@ -113,11 +114,28 @@ export class GamePage implements AfterViewInit {
     this.board[row][col] = new Cell();
 
     const probNum4 = Math.floor(Math.random() * 100) + 1;
+    let background;
 
     if (probNum4 <= 25) {
       this.board[row][col]!.value = 4; // 4, en caso de modificar por dbg
+      background = '#eee1c9';
     } else {
       this.board[row][col]!.value = 2; // 2, en caso de modificar por dbg
+      background = '#eee4da';
+    }
+
+    let attrId = document.getElementById(row + '' + col);
+    if (attrId !== null) {
+      const animation = this.animationCtrl.create()
+        .addElement(attrId)
+        .duration(500)
+        .fromTo('background', 'rgba(238, 228, 218, 0.35)', background);
+      
+      animation.play();
+
+      setTimeout(() => {
+        animation.stop();
+      }, 500);
     }
   }
 
