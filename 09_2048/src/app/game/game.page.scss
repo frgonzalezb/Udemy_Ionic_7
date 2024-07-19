@@ -1,4 +1,19 @@
 .game {
+
+  --background: #faf8ef;
+
+  .game-center {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .points {
+    font-size: 45px;
+    font-weight: 700;
+    color: #776e65;
+  }
+
   #game-board {
     width: 360px;
     height: 360px;
