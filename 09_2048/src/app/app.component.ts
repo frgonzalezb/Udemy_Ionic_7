@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Device } from '@capacitor/device';
 import { AdMob, AdmobConsentStatus, AdmobConsentDebugGeography } from '@capacitor-community/admob';
 import { Preferences } from '@capacitor/preferences';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,7 @@ export class AppComponent {
   
     // @capacitor-community/admob
     AdMob.initialize({
-      testingDevices: [],
+      testingDevices: [environment.deviceId],
       initializeForTesting: true
     });
 
@@ -41,9 +42,10 @@ export class AppComponent {
   }
 
   async showConsent() {
+    // @capacitor-community/admob
     const consentInfo = await AdMob.requestConsentInfo({
       debugGeography: AdmobConsentDebugGeography.EEA,
-      testDeviceIdentifiers: ['YOUR_DEVICE_ID']
+      testDeviceIdentifiers: [environment.deviceId]
     });
   
     if (consentInfo.isConsentFormAvailable && consentInfo.status === AdmobConsentStatus.REQUIRED) {
