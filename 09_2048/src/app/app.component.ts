@@ -33,12 +33,13 @@ export class AppComponent {
     });
   
     // @capacitor-community/admob
-    AdMob.initialize({
-      testingDevices: [environment.deviceId],
-      initializeForTesting: true
-    });
+    // Habilitar esto cuando todo esté listo
+    // AdMob.initialize({
+    //   testingDevices: [environment.deviceId],
+    //   initializeForTesting: true
+    // });
 
-    await this.showConsent();
+    // await this.showConsent();
   }
 
   async showConsent() {
