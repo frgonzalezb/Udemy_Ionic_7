@@ -30,7 +30,10 @@ export class AppComponent {
       }
     });
   
-    AdMob.initialize({});
+    AdMob.initialize({
+      testingDevices: [],
+      initializeForTesting: true
+    });
   }
 
 }
