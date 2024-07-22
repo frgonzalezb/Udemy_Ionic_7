@@ -5,6 +5,8 @@ import { Device } from '@capacitor/device';
 import { AdMob, AdmobConsentStatus, AdmobConsentDebugGeography } from '@capacitor-community/admob';
 import { Preferences } from '@capacitor/preferences';
 import { environment } from 'src/environments/environment.prod';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+
 
 @Component({
   selector: 'app-root',
@@ -16,8 +18,10 @@ export class AppComponent {
   constructor(
     private _translate: TranslateService,
     private platform: Platform,
+    private screenOrientation: ScreenOrientation
   ) {
     this._translate.setDefaultLang('es');
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.initApp();
   }
 
