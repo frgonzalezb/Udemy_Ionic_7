@@ -4,6 +4,9 @@ import { Animation, AnimationController, GestureController, GestureDetail, Platf
 import { AlertService } from '../services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Share, ShareOptions } from '@capacitor/share';
+import { AdMob, AdmobConsentStatus, BannerAdOptions, BannerAdSize, BannerAdPosition, BannerAdPluginEvents, AdMobBannerSize } from '@capacitor-community/admob';
+import { environment } from 'src/environments/environment.prod';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-game',
@@ -47,6 +50,7 @@ export class GamePage implements AfterViewInit {
     this.startNewGame();
     this.animations = [];
     this.isMoving = false;
+    // this.showAdBanner(); // for AdMob
   }
 
   ngAfterViewInit(): void {
@@ -572,5 +576,45 @@ export class GamePage implements AfterViewInit {
 
     await Share.share(shareOptions).catch(console.error);
   }
+
+  async showAdBanner(): Promise<void> {
+    // @capacitor-community/admob
+    const statusBanner = await Preferences.get({ key: 'statusBanner' });
+
+    if (statusBanner.value !== AdmobConsentStatus.OBTAINED) {
+      return;
+    }
+
+    AdMob.addListener(BannerAdPluginEvents.Loaded, () => {
+      // Subscribe Banner Event Listener
+      console.info('¡AdMob Banner cargado!'); // dbg
+    });
+
+    AdMob.addListener(BannerAdPluginEvents.SizeChanged, (size: AdMobBannerSize) => {
+      // Subscribe Change Banner Size
+      console.info('¡AdMob Banner redimensionado!: ', size); // dbg
+    });
+
+    if (this.platform.is('android')) {
+      const options: BannerAdOptions = {
+        adId: environment.adIdAndroid,
+        adSize: BannerAdSize.BANNER,
+        position: BannerAdPosition.BOTTOM_CENTER,
+        margin: 0,
+        isTesting: true // true: test, false: production
+      };
+      AdMob.showBanner(options);
+    } else if (this.platform.is('ios')) {
+      const options: BannerAdOptions = {
+        adId: environment.adIdIos,
+        adSize: BannerAdSize.BANNER,
+        position: BannerAdPosition.BOTTOM_CENTER,
+        margin: 0,
+        isTesting: true // true: test, false: production
+      };
+      AdMob.showBanner(options);
+    }
+
+}
 
 }
