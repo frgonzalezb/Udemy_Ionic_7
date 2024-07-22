@@ -2,6 +2,7 @@ import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Device } from '@capacitor/device';
+import { AdMob } from '@capacitor-community/admob';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,8 @@ export class AppComponent {
         this._translate.use(language.value.slice(0, 2));
       }
     });
+  
+    AdMob.initialize({});
   }
 
 }
