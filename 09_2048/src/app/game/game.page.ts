@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Cell } from '../models/cell';
-import { Animation, AnimationController, GestureController, GestureDetail } from '@ionic/angular';
+import { Animation, AnimationController, GestureController, GestureDetail, Platform } from '@ionic/angular';
 import { AlertService } from '../services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Share, ShareOptions } from '@capacitor/share';
 
 @Component({
   selector: 'app-game',
@@ -37,6 +38,7 @@ export class GamePage implements AfterViewInit {
   constructor(
     private animationCtrl: AnimationController,
     private gestureCtrl: GestureController,
+    private platform: Platform,
     private _alert: AlertService,
     private _translate: TranslateService
   ) {
@@ -369,7 +371,8 @@ export class GamePage implements AfterViewInit {
         {
           text: this._translate.instant('label.share'),
           handler: () => {
-            // this.share();
+            this.sharePuntuation();
+            this.startNewGame();
           }
         },
       ];
@@ -396,7 +399,8 @@ export class GamePage implements AfterViewInit {
         {
           text: this._translate.instant('label.share'),
           handler: () => {
-            // this.share();
+            this.sharePuntuation();
+            this.startNewGame();
           }
         },
       ];
@@ -502,7 +506,7 @@ export class GamePage implements AfterViewInit {
     this.isMoving = false;
   }
 
-  showAnimationForPoints() {
+  showAnimationForPoints(): void {
     const pointsElement = document.getElementById('scored-points');
     if (pointsElement === null) {
       return;
@@ -524,7 +528,7 @@ export class GamePage implements AfterViewInit {
     }, 1000);
   }
 
-  showAnimationForMovements(row: number, col: number, cellQuantity: number) {
+  showAnimationForMovements(row: number, col: number, cellQuantity: number): void {
     const cellElement = document.getElementById(row + '' + col);
     if (cellElement === null) {
       return;
@@ -551,6 +555,22 @@ export class GamePage implements AfterViewInit {
     // setTimeout(() => {
     //   animation.stop();
     // }, 100);
+  }
+
+  async sharePuntuation(): Promise<void> {
+    const shareOptions: ShareOptions = {
+      title: '2048',
+      text: this._translate.instant('label.share.dialog.title', { points: this.points }),
+      dialogTitle: this._translate.instant('label.share.dialog.title', { points: this.points })
+    }
+
+    if (this.platform.is('android')) {
+      shareOptions.url = 'https://play.google.com/';
+    } else if (this.platform.is('ios')) {
+      shareOptions.url = 'https://www.apple.com/cl/app-store/';
+    }
+
+    await Share.share(shareOptions).catch(console.error);
   }
 
 }
