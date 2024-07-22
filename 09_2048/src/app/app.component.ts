@@ -2,7 +2,8 @@ import { Platform } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Device } from '@capacitor/device';
-import { AdMob } from '@capacitor-community/admob';
+import { AdMob, AdmobConsentStatus, AdmobConsentDebugGeography } from '@capacitor-community/admob';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent {
     this.initApp();
   }
 
-  initApp() {
+  async initApp() {
     this.platform.ready().then(async () => {
       
       const language = await Device.getLanguageCode();
@@ -30,10 +31,29 @@ export class AppComponent {
       }
     });
   
+    // @capacitor-community/admob
     AdMob.initialize({
       testingDevices: [],
       initializeForTesting: true
     });
+
+    await this.showConsent();
+  }
+
+  async showConsent() {
+    const consentInfo = await AdMob.requestConsentInfo({
+      debugGeography: AdmobConsentDebugGeography.EEA,
+      testDeviceIdentifiers: ['YOUR_DEVICE_ID']
+    });
+  
+    if (consentInfo.isConsentFormAvailable && consentInfo.status === AdmobConsentStatus.REQUIRED) {
+      const {status} = await AdMob.showConsentForm();
+      // @capacitor/preferences
+      await Preferences.set({
+        key: 'statusBanner',
+        value: status,
+      });
+    }
   }
 
 }
